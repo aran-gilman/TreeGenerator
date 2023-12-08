@@ -1,7 +1,9 @@
 ﻿# CMakeList.txt : Top-level CMake project file, do global configuration
 # and include sub-projects here.
 #
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.14)
+
+include(FetchContent)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -10,6 +12,17 @@ if (POLICY CMP0141)
 endif()
 
 project ("TreeGenerator")
+
+# Download and set up dependencies
+FetchContent_Declare(
+	glad
+	GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+)
+FetchContent_Declare(
+	glfw
+	GIT_REPOSITORY https://github.com/glfw/glfw.git
+)
+FetchContent_MakeAvailable(glad glfw)
 
 # Include sub-projects.
 add_subdirectory ("TreeGenerator")
