@@ -22,7 +22,13 @@ FetchContent_Declare(
 	glfw
 	GIT_REPOSITORY https://github.com/glfw/glfw.git
 )
-FetchContent_MakeAvailable(glad glfw)
+FetchContent_Declare(
+	googletest
+	GIT_REPOSITORY https://github.com/google/googletest.git
+	GIT_TAG main
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(glad glfw googletest)
 
 # Include sub-projects.
 add_subdirectory ("TreeGenerator")

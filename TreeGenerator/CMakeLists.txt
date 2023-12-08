@@ -10,3 +10,12 @@ if (CMAKE_VERSION VERSION_GREATER 3.12)
 endif()
 
 target_link_libraries(TreeGenerator PRIVATE glad glfw)
+
+# Set up tests
+enable_testing()
+
+add_executable(example_test example_test.cpp)
+target_link_libraries(example_test GTest::gtest_main)
+
+include(GoogleTest)
+gtest_discover_tests(example_test)
