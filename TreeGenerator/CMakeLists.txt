@@ -2,20 +2,22 @@
 # project specific logic here.
 #
 
+add_library(lsystem lsystem.cpp)
+set_property(TARGET lsystem PROPERTY CXX_STANDARD 20)
+
 # Add source to this project's executable.
 add_executable (TreeGenerator "main.cpp"  "Window.cpp")
+set_property(TARGET TreeGenerator PROPERTY CXX_STANDARD 20)
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET TreeGenerator PROPERTY CXX_STANDARD 20)
-endif()
-
-target_link_libraries(TreeGenerator PRIVATE glad glfw)
+target_link_libraries(TreeGenerator PRIVATE glad glfw lsystem)
 
 # Set up tests
 enable_testing()
 
-add_executable(example_test example_test.cpp)
-target_link_libraries(example_test GTest::gtest_main)
+add_executable(TreeGeneratorTest lsystem_test.cpp)
+set_property(TARGET TreeGeneratorTest PROPERTY CXX_STANDARD 20)
+
+target_link_libraries(TreeGeneratorTest GTest::gtest GTest::gmock GTest::gtest_main lsystem)
 
 include(GoogleTest)
-gtest_discover_tests(example_test)
+gtest_discover_tests(TreeGeneratorTest)
