@@ -7,9 +7,14 @@ add_subdirectory(graphics)
 add_library(lsystem lsystem.cpp)
 
 # Add source to this project's executable.
-add_executable (TreeGenerator "main.cpp"  "window.cpp")
+add_executable (TreeGenerator "main.cpp")
 
-target_link_libraries(TreeGenerator PRIVATE glad glfw glm lsystem mesh graphics_opengl)
+target_link_libraries(TreeGenerator
+	PRIVATE
+		lsystem
+		graphics_common
+		graphics_opengl
+)
 
 # Set up tests
 enable_testing()

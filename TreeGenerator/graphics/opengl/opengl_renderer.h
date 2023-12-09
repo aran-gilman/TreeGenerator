@@ -1,8 +1,8 @@
 #ifndef TREE_GENERATOR_OPENGL_RENDERER_H_
 #define TREE_GENERATOR_OPENGL_RENDERER_H_
 
-#include "../mesh_data.h"
-#include "../renderer.h"
+#include "../common/mesh_data.h"
+#include "../common/renderer.h"
 
 namespace tree_generator
 {

@@ -2,16 +2,15 @@
 #include <iostream>
 #include <memory>
 
-#include "graphics/mesh_data.h"
-#include "graphics/renderer.h"
+#include "graphics/common/mesh_data.h"
+#include "graphics/common/renderer.h"
+#include "graphics/common/window.h"
 #include "graphics/opengl/opengl_renderer.h"
-#include "window.h"
 
 namespace tree_generator
 {
 	void Run()
 	{
-
 		std::unique_ptr<Window> window = Window::Create(800, 600, "TreeGenerator");
 		std::unique_ptr<Renderer> renderer = std::make_unique<opengl::OpenGLRenderer>();
 
