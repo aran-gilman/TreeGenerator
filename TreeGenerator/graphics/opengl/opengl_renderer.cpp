@@ -89,7 +89,7 @@ void main()
 			meshRenderData.push_back({});
 			MeshRenderData& mesh = meshRenderData.back();
 
-			mesh.meshData = ::tree_generator::CreateQuad();
+			mesh.meshData = meshData;
 			glGenBuffers(1, &mesh.vbo);
 			glGenBuffers(1, &mesh.ebo);
 			glGenVertexArrays(1, &mesh.vao);
