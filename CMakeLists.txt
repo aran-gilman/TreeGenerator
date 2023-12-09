@@ -23,12 +23,17 @@ FetchContent_Declare(
 	GIT_REPOSITORY https://github.com/glfw/glfw.git
 )
 FetchContent_Declare(
+	glm
+	GIT_REPOSITORY https://github.com/g-truc/glm.git
+	EXCLUDE_FROM_ALL
+)
+FetchContent_Declare(
 	googletest
 	GIT_REPOSITORY https://github.com/google/googletest.git
 	GIT_TAG main
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(glad glfw googletest)
+FetchContent_MakeAvailable(glad glfw glm googletest)
 
 # Include sub-projects.
 add_subdirectory ("TreeGenerator")

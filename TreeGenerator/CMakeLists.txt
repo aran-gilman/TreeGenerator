@@ -9,7 +9,7 @@ set_property(TARGET lsystem PROPERTY CXX_STANDARD 20)
 add_executable (TreeGenerator "main.cpp"  "Window.cpp")
 set_property(TARGET TreeGenerator PROPERTY CXX_STANDARD 20)
 
-target_link_libraries(TreeGenerator PRIVATE glad glfw lsystem)
+target_link_libraries(TreeGenerator PRIVATE glad glfw glm lsystem)
 
 # Set up tests
 enable_testing()
