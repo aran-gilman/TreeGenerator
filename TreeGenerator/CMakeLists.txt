@@ -2,12 +2,10 @@
 # project specific logic here.
 #
 
+add_subdirectory(graphics)
+
 add_library(lsystem lsystem.cpp)
 set_property(TARGET lsystem PROPERTY CXX_STANDARD 20)
-
-add_library(mesh mesh_data.cpp)
-set_property(TARGET mesh PROPERTY CXX_STANDARD 20)
-target_link_libraries(mesh PRIVATE glm)
 
 # Add source to this project's executable.
 add_executable (TreeGenerator "main.cpp"  "window.cpp")
