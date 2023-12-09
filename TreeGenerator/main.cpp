@@ -6,7 +6,7 @@
 #include <glad/glad.h>
 
 #include "graphics/mesh_data.h"
-#include "Window.h"
+#include "window.h"
 
 using ::tree_generator::MeshData;
 using ::tree_generator::Window;
