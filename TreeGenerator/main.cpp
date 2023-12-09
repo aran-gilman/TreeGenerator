@@ -4,10 +4,11 @@
 #include <vector>
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
 
+#include "mesh_data.h"
 #include "Window.h"
 
+using ::tree_generator::MeshData;
 using ::tree_generator::Window;
 
 namespace
@@ -31,12 +32,6 @@ void main()
 	FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 })s";
 
-	struct MeshData
-	{
-		std::vector<glm::vec3> vertices;
-		std::vector<unsigned int> indices;
-	};
-
 	struct MeshRenderData
 	{
 		MeshData meshData;
@@ -44,22 +39,6 @@ void main()
 		unsigned int ebo;
 		unsigned int vao;
 	};
-
-	MeshData CreateQuad()
-	{
-		MeshData quad;
-		quad.vertices = {
-			{0.5f, 0.5f, 0.0f},
-			{0.5f, -0.5f, 0.0f},
-			{-0.5f, -0.5f, 0.0f},
-			{-0.5f, 0.5f, 0.0f}
-		};
-		quad.indices = {
-			0, 1, 3,
-			1, 2, 3
-		};
-		return quad;
-	}
 }
 
 int main()
@@ -69,7 +48,7 @@ int main()
 		std::unique_ptr<Window> window = Window::Create(800, 600, "TreeGenerator");
 
 		MeshRenderData quad;
-		quad.meshData = CreateQuad();
+		quad.meshData = ::tree_generator::CreateQuad();
 		glGenBuffers(1, &quad.vbo);
 		glGenBuffers(1, &quad.ebo);
 		glGenVertexArrays(1, &quad.vao);
