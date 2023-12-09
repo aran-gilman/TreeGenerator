@@ -10,7 +10,7 @@ namespace tree_generator
 	public:
 		virtual ~Renderer() = default;
 
-		virtual void AddMesh() = 0;
+		virtual void AddMesh(const MeshData& meshData) = 0;
 		virtual void Render() = 0;
 
 	protected:

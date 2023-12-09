@@ -1,18 +1,35 @@
 #ifndef TREE_GENERATOR_OPENGL_RENDERER_H_
 #define TREE_GENERATOR_OPENGL_RENDERER_H_
 
+#include "../mesh_data.h"
 #include "../renderer.h"
 
 namespace tree_generator
 {
-	class OpenGLRenderer : public Renderer
+	namespace opengl
 	{
-	public:
-		~OpenGLRenderer() override;
+		struct MeshRenderData
+		{
+			MeshData meshData;
+			unsigned int vbo;
+			unsigned int ebo;
+			unsigned int vao;
+		};
 
-		void AddMesh() override;
-		void Render() override;
-	};
+		class OpenGLRenderer : public Renderer
+		{
+		public:
+			OpenGLRenderer();
+			~OpenGLRenderer() override;
+
+			void AddMesh(const MeshData& meshData) override;
+			void Render() override;
+
+		private:
+			unsigned int shader;
+			std::vector<MeshRenderData> meshRenderData;
+		};
+	}
 }
 
 #endif  // !TREE_GENERATOR_OPENGL_RENDERER_H_
