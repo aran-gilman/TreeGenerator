@@ -9,7 +9,7 @@ add_library(lsystem lsystem.cpp)
 # Add source to this project's executable.
 add_executable (TreeGenerator "main.cpp"  "window.cpp")
 
-target_link_libraries(TreeGenerator PRIVATE glad glfw glm lsystem mesh)
+target_link_libraries(TreeGenerator PRIVATE glad glfw glm lsystem mesh graphics_opengl)
 
 # Set up tests
 enable_testing()

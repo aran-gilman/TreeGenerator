@@ -3,7 +3,7 @@
 
 #include "mesh_data.h"
 
-namespace
+namespace tree_generator
 {
 	class Renderer
 	{
