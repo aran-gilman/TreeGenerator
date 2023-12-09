@@ -7,9 +7,16 @@
 
 namespace tree_generator
 {
+	struct Vertex
+	{
+		glm::vec3 position;
+		glm::vec3 normal;
+		glm::vec3 uv;
+	};
+
 	struct MeshData
 	{
-		std::vector<glm::vec3> vertices;
+		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
 	};
 

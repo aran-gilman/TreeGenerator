@@ -6,10 +6,10 @@ namespace tree_generator
 	{
 		MeshData quad;
 		quad.vertices = {
-			{0.5f, 0.5f, 0.0f},
-			{0.5f, -0.5f, 0.0f},
-			{-0.5f, -0.5f, 0.0f},
-			{-0.5f, 0.5f, 0.0f}
+			{{  0.5f,  0.5f, 0.0f}},
+			{{  0.5f, -0.5f, 0.0f}},
+			{{ -0.5f, -0.5f, 0.0f}},
+			{{ -0.5f,  0.5f, 0.0f}}
 		};
 		quad.indices = {
 			0, 1, 3,

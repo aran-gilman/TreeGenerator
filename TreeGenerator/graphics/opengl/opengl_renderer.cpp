@@ -99,7 +99,7 @@ void main()
 			glBindBuffer(GL_ARRAY_BUFFER, mesh.vbo);
 			glBufferData(
 				GL_ARRAY_BUFFER,
-				sizeof(glm::vec3) * mesh.meshData.vertices.size(),
+				sizeof(Vertex) * mesh.meshData.vertices.size(),
 				mesh.meshData.vertices.data(),
 				GL_STATIC_DRAW);
 
@@ -110,7 +110,10 @@ void main()
 				mesh.meshData.indices.data(),
 				GL_STATIC_DRAW);
 
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+			glVertexAttribPointer(
+				0, 3,
+				GL_FLOAT, GL_FALSE,
+				sizeof(Vertex), (void*)offsetof(Vertex, position));
 			glEnableVertexAttribArray(0);
 		}
 
