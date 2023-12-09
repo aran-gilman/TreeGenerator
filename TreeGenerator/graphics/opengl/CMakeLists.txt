@@ -1,2 +1,10 @@
 add_library(graphics_opengl opengl_renderer.cpp)
-target_link_libraries(graphics_opengl PRIVATE glad glm)
+
+target_link_libraries(graphics_opengl
+	PUBLIC
+		glm
+
+	PRIVATE
+		glad
+		glfw
+)

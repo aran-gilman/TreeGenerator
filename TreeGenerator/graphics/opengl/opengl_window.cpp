@@ -1,4 +1,4 @@
-#include "window.h"
+#include "opengl_window.h"
 
 #include <stdexcept>
 
@@ -7,22 +7,9 @@
 
 namespace tree_generator
 {
-	namespace
+	namespace opengl
 	{
-		// TODO: Separate Window and graphics library into their own classes
-		class WindowGlfwGlad : public Window
-		{
-		public:
-			WindowGlfwGlad(int width, int height, const std::string& title);
-			~WindowGlfwGlad() override;
-
-			void Display(RenderCallback renderCallback) override;
-
-		private:
-			GLFWwindow* internalWindow_;
-		};
-
-		WindowGlfwGlad::WindowGlfwGlad(int width, int height, const std::string& title) :
+		OpenGLWindow::OpenGLWindow(int width, int height, const std::string& title) :
 			internalWindow_(nullptr)
 		{
 			glfwInit();
@@ -50,13 +37,13 @@ namespace tree_generator
 			glViewport(0, 0, width, height);
 		}
 
-		WindowGlfwGlad::~WindowGlfwGlad()
+		OpenGLWindow::~OpenGLWindow()
 		{
 			glfwDestroyWindow(internalWindow_);
 			glfwTerminate();
 		}
 
-		void WindowGlfwGlad::Display(RenderCallback renderCallback)
+		void OpenGLWindow::Display(RenderCallback renderCallback)
 		{
 			while (!glfwWindowShouldClose(internalWindow_))
 			{
@@ -65,10 +52,5 @@ namespace tree_generator
 				glfwPollEvents();
 			}
 		}
-	}  // namespace
-
-	std::unique_ptr<Window> Window::Create(int width, int height, const std::string& title)
-	{
-		return std::make_unique<WindowGlfwGlad>(width, height, title);
 	}
-}  // namespace tree_generator
+}
