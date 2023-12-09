@@ -16,7 +16,7 @@ namespace tree_generator
 			WindowGlfwGlad(int width, int height, const std::string& title);
 			~WindowGlfwGlad() override;
 
-			void Display() override;
+			void Display(RenderCallback renderCallback) override;
 
 		private:
 			GLFWwindow* internalWindow_;
@@ -56,12 +56,11 @@ namespace tree_generator
 			glfwTerminate();
 		}
 
-		void WindowGlfwGlad::Display()
+		void WindowGlfwGlad::Display(RenderCallback renderCallback)
 		{
 			while (!glfwWindowShouldClose(internalWindow_))
 			{
-				glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-				glClear(GL_COLOR_BUFFER_BIT);
+				renderCallback();
 				glfwSwapBuffers(internalWindow_);
 				glfwPollEvents();
 			}
