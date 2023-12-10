@@ -48,6 +48,7 @@ void main()
 			}
 
 			glViewport(0, 0, window->Width(), window->Height());
+			glEnable(GL_DEPTH_TEST);
 
 			int success;
 			char infoLog[512];
@@ -172,7 +173,7 @@ void main()
 		void OpenGLRenderer::Render()
 		{
 			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
