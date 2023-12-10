@@ -17,7 +17,7 @@ namespace tree_generator
 		virtual int Width() const = 0;
 		virtual int Height() const = 0;
 
-		using RenderCallback = std::function<void()>;
+		using RenderCallback = std::function<void(double elapsedTime)>;
 		virtual void Display(RenderCallback renderCallback) = 0;
 
 		using KeyboardCallback = std::function<void(KeyToken, KeyAction)>;

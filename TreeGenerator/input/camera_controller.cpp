@@ -4,7 +4,8 @@
 
 namespace tree_generator
 {
-	CameraController::CameraController(Renderer* renderer)
+	CameraController::CameraController(Renderer* renderer) :
+		renderer_(renderer)
 	{
 	}
 }

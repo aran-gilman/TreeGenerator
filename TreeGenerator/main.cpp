@@ -29,7 +29,7 @@ namespace tree_generator
 			std::cout << "Received input" << std::endl;
 			});
 
-		window->Display([&]() {
+		window->Display([&](double elapsedTime) {
 			renderer->Render();
 			});
 	}

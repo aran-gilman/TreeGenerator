@@ -56,11 +56,15 @@ namespace tree_generator
 
 		void OpenGLWindow::Display(RenderCallback renderCallback)
 		{
+			double currentTime = 0;
+			double previousTime = glfwGetTime();
 			while (!glfwWindowShouldClose(internalWindow_))
 			{
-				renderCallback();
+				currentTime = glfwGetTime();
+				renderCallback(currentTime - previousTime);
 				glfwSwapBuffers(internalWindow_);
 				glfwPollEvents();
+				previousTime = currentTime;
 			}
 		}
 		
