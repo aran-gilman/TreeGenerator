@@ -13,6 +13,59 @@
 
 namespace tree_generator
 {
+	void HandleCameraInput(CameraController* camera, KeyToken keyToken, KeyAction action)
+	{
+		CameraController::Movement& movement = camera->GetCurrentMovement();
+		CameraController::MovementSettings& settings = camera->GetMovementSettings();
+
+		if (action == KeyAction::Press)
+		{
+			if (keyToken == KeyToken::A)
+			{
+				movement.horizontalRotationVelocity +=
+					settings.maxHorizontalRotationPerSecond;
+			}
+			else if (keyToken == KeyToken::D)
+			{
+				movement.horizontalRotationVelocity -=
+					settings.maxHorizontalRotationPerSecond;
+			}
+			else if (keyToken == KeyToken::S)
+			{
+				movement.verticalRotationVelocity -=
+					settings.maxVerticalRotationPerSecond;
+			}
+			else if (keyToken == KeyToken::W)
+			{
+				movement.verticalRotationVelocity +=
+					settings.maxVerticalRotationPerSecond;
+			}
+		}
+		else if (action == KeyAction::Release)
+		{
+			if (keyToken == KeyToken::A)
+			{
+				movement.horizontalRotationVelocity -=
+					settings.maxHorizontalRotationPerSecond;
+			}
+			else if (keyToken == KeyToken::D)
+			{
+				movement.horizontalRotationVelocity +=
+					settings.maxHorizontalRotationPerSecond;
+			}
+			else if (keyToken == KeyToken::S)
+			{
+				movement.verticalRotationVelocity +=
+					settings.maxVerticalRotationPerSecond;
+			}
+			else if (keyToken == KeyToken::W)
+			{
+				movement.verticalRotationVelocity -=
+					settings.maxVerticalRotationPerSecond;
+			}
+		}
+	}
+
 	void Run()
 	{
 		std::unique_ptr<Window> window =
@@ -25,8 +78,8 @@ namespace tree_generator
 		renderer->SetCameraPosition(glm::vec3(1.0f, 1.0f, -5.0f));
 		renderer->AddMesh(CreateQuad());
 
-		window->SetKeyboardCallback([](KeyToken token, KeyAction action) {
-			std::cout << "Received input" << std::endl;
+		window->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
+			HandleCameraInput(&cameraController, keyToken, action);
 			});
 
 		window->Display([&](double elapsedTime) {

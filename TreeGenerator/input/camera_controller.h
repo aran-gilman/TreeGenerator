@@ -20,8 +20,8 @@ namespace tree_generator
 
 		struct Movement
 		{
-			float horizontalRotationSpeed = 0.0f;
-			float verticalRotationSpeed = 0.0f;
+			float horizontalRotationVelocity = 0.0f;
+			float verticalRotationVelocity = 0.0f;
 			float remainingDistanceChange = 0.0f;
 		};
 
