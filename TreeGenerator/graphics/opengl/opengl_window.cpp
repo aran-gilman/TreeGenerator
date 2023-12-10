@@ -10,6 +10,8 @@ namespace tree_generator
 	namespace opengl
 	{
 		OpenGLWindow::OpenGLWindow(int width, int height, const std::string& title) :
+			width_(width),
+			height_(height),
 			internalWindow_(nullptr)
 		{
 			glfwInit();

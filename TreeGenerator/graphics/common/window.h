@@ -13,6 +13,9 @@ namespace tree_generator
 
 		virtual ~Window() {}
 
+		virtual int Width() const = 0;
+		virtual int Height() const = 0;
+
 		virtual void Display(RenderCallback renderCallback) = 0;
 
 		// Disallow copy and move
