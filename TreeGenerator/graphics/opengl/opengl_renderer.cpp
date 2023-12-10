@@ -19,6 +19,12 @@ namespace tree_generator
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
 
+// Model matrix (per instance)
+layout (location = 3) in vec4 aModel0;
+layout (location = 4) in vec4 aModel1;
+layout (location = 5) in vec4 aModel2;
+layout (location = 6) in vec4 aModel3;
+
 layout (std140) uniform Camera
 {
 	mat4 view;
@@ -32,7 +38,8 @@ out VS_OUT
 
 void main()
 {
-	gl_Position = camera.projection * camera.view * vec4(aPos, 1.0f);
+	mat4 model = mat4(aModel0, aModel1, aModel2, aModel3);
+	gl_Position = camera.projection * camera.view * model * vec4(aPos, 1.0f);
 	vs_out.normal = aNormal;
 })s";
 
@@ -209,33 +216,65 @@ void main()
 				sizeof(Vertex), (void*)offsetof(Vertex, uv));
 			glEnableVertexAttribArray(2);
 
+			// Calculate the model matrices based on the provided transforms.
+			// Sending the entire model matrix for each instance over VBO seems
+			// feels a bit expensive (4 vec4s, each taking up a binding point).
+			// The main alternative would be to calculate the model matrix from
+			// the transform within the shader itself, but those calculations
+			// are moderately expensive and repeating them every frame feels
+			// wasteful.
+			std::vector<glm::mat4> modelMatrices;
+			modelMatrices.reserve(instances.size());
+			for (int i = 0; i < instances.size(); ++i)
+			{
+				glm::mat4 matrix = glm::mat4(1.0f);
+
+				matrix = glm::translate(matrix, instances[i].position);
+				matrix = glm::rotate(
+					matrix, instances[i].rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+				matrix = glm::rotate(
+					matrix, instances[i].rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+				matrix = glm::rotate(
+					matrix, instances[i].rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+				matrix = glm::scale(matrix, glm::vec3(instances[i].scale));
+
+				modelMatrices.push_back(matrix);
+			}
+
 			glBindBuffer(GL_ARRAY_BUFFER, mesh.instanceTransformBuffer);
 			glBufferData(
 				GL_ARRAY_BUFFER,
-				sizeof(Transform) * mesh.instanceCount,
-				instances.data(),
+				sizeof(glm::mat4) * mesh.instanceCount,
+				modelMatrices.data(),
 				GL_STATIC_DRAW);
 
 			glVertexAttribPointer(
-				3, 3,
+				3, 4,
 				GL_FLOAT, GL_FALSE,
-				sizeof(Transform), (void*)offsetof(Transform, position));
+				sizeof(glm::mat4), (void*)0);
 			glEnableVertexAttribArray(3);
 			glVertexAttribDivisor(3, 1);
 
 			glVertexAttribPointer(
-				4, 3,
+				4, 4,
 				GL_FLOAT, GL_FALSE,
-				sizeof(Transform), (void*)offsetof(Transform, rotation));
+				sizeof(glm::mat4), (void*)sizeof(glm::vec4));
 			glEnableVertexAttribArray(4);
 			glVertexAttribDivisor(4, 1);
 
 			glVertexAttribPointer(
-				5, 1,
+				5, 4,
 				GL_FLOAT, GL_FALSE,
-				sizeof(Transform), (void*)offsetof(Transform, scale));
+				sizeof(glm::mat4), (void*)(sizeof(glm::vec4) * 2));
 			glEnableVertexAttribArray(5);
 			glVertexAttribDivisor(5, 1);
+
+			glVertexAttribPointer(
+				6, 4,
+				GL_FLOAT, GL_FALSE,
+				sizeof(glm::mat4), (void*)(sizeof(glm::vec4) * 3));
+			glEnableVertexAttribArray(6);
+			glVertexAttribDivisor(6, 1);
 		}
 
 		void OpenGLRenderer::Render()
