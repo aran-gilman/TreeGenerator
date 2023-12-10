@@ -292,6 +292,7 @@ void main()
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
+				glBindVertexArray(mesh.vertexArray);
 				glDrawElementsInstanced(
 					GL_TRIANGLES,
 					mesh.meshData.indices.size(),
