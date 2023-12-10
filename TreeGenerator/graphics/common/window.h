@@ -4,19 +4,24 @@
 #include <functional>
 #include <string>
 
+#include "key_action.h"
+#include "key_token.h"
+
 namespace tree_generator
 {
 	class Window
 	{
 	public:
-		using RenderCallback = std::function<void()>;
-
 		virtual ~Window() {}
 
 		virtual int Width() const = 0;
 		virtual int Height() const = 0;
 
+		using RenderCallback = std::function<void()>;
 		virtual void Display(RenderCallback renderCallback) = 0;
+
+		using KeyboardCallback = std::function<void(KeyToken, KeyAction)>;
+		virtual void SetKeyboardCallback(KeyboardCallback keyboardCallback) = 0;
 
 		// Disallow copy and move
 		Window(const Window&) = delete;

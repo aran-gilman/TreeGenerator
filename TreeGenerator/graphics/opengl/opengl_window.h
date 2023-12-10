@@ -1,6 +1,7 @@
 #ifndef TREE_GENERATOR_OPENGL_WINDOW_H_
 #define TREE_GENERATOR_OPENGL_WINDOW_H_
 
+#include <functional>
 #include <tuple>
 
 #include "../common/key_action.h"
@@ -23,6 +24,7 @@ namespace tree_generator
 			int Height() const override { return height_; }
 
 			void Display(RenderCallback renderCallback) override;
+			void SetKeyboardCallback(KeyboardCallback keyboardCallback) override;
 
 			void SendKeyboardEvent(KeyToken token, KeyAction action);
 
@@ -31,6 +33,7 @@ namespace tree_generator
 			int height_;
 
 			GLFWwindow* internalWindow_;
+			KeyboardCallback keyboardCallback_;
 		};
 	}
 }

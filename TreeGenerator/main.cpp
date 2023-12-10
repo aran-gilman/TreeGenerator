@@ -25,6 +25,10 @@ namespace tree_generator
 		renderer->SetCameraPosition(glm::vec3(1.0f, 1.0f, -5.0f));
 		renderer->AddMesh(CreateQuad());
 
+		window->SetKeyboardCallback([](KeyToken token, KeyAction action) {
+			std::cout << "Received input" << std::endl;
+			});
+
 		window->Display([&]() {
 			renderer->Render();
 			});

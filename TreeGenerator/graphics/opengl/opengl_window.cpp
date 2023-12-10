@@ -26,7 +26,8 @@ namespace tree_generator
 		OpenGLWindow::OpenGLWindow(int width, int height, const std::string& title) :
 			width_(width),
 			height_(height),
-			internalWindow_(nullptr)
+			internalWindow_(nullptr),
+			keyboardCallback_([](KeyToken, KeyAction) {})
 		{
 			glfwInit();
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -62,9 +63,15 @@ namespace tree_generator
 				glfwPollEvents();
 			}
 		}
+		
+		void OpenGLWindow::SetKeyboardCallback(KeyboardCallback keyboardCallback)
+		{
+			keyboardCallback_ = keyboardCallback;
+		}
 
 		void OpenGLWindow::SendKeyboardEvent(KeyToken token, KeyAction action)
 		{
+			keyboardCallback_(token, action);
 		}
 	}
 }
