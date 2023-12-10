@@ -230,12 +230,20 @@ void main()
 				glm::mat4 matrix = glm::mat4(1.0f);
 
 				matrix = glm::translate(matrix, instances[i].position);
+
 				matrix = glm::rotate(
-					matrix, instances[i].rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+					matrix,
+					glm::radians(instances[i].rotation.z),
+					glm::vec3(0.0f, 0.0f, 1.0f));
 				matrix = glm::rotate(
-					matrix, instances[i].rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+					matrix,
+					glm::radians(instances[i].rotation.y),
+					glm::vec3(0.0f, 1.0f, 0.0f));
 				matrix = glm::rotate(
-					matrix, instances[i].rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+					matrix,
+					glm::radians(instances[i].rotation.x),
+					glm::vec3(1.0f, 0.0f, 0.0f));
+
 				matrix = glm::scale(matrix, glm::vec3(instances[i].scale));
 
 				modelMatrices.push_back(matrix);

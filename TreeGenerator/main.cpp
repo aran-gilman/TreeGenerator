@@ -80,6 +80,8 @@ namespace tree_generator
 		instances.push_back({ glm::vec3(3), glm::vec3(0), 1.0f });
 
 		renderer->AddMesh(CreateCylinder(3), instances);
+		renderer->AddMesh(CreateQuad(),
+			{ glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(90.0f, 0.0f, 0.0f), 10.0f });
 
 		window->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
 			HandleCameraInput(&cameraController, keyToken, action);
