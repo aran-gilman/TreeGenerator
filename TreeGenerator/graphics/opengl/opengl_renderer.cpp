@@ -4,6 +4,7 @@
 
 #include <glad/glad.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "../common/camera_data.h"
@@ -150,8 +151,21 @@ void main()
 
 		void OpenGLRenderer::AddMesh(const MeshData& meshData)
 		{
+			AddMesh(meshData, { glm::zero<glm::vec3>(), glm::zero<glm::vec3>(), 1.0f });
+		}
+
+		void OpenGLRenderer::AddMesh(
+			const MeshData& meshData, const Transform& transform)
+		{
+			AddMesh(meshData, std::vector<Transform>({ transform }));
+		}
+
+		void OpenGLRenderer::AddMesh(
+			const MeshData& meshData, const std::vector<Transform>& instances)
+		{
 			meshRenderData.push_back({});
 			MeshRenderData& mesh = meshRenderData.back();
+			mesh.instances = instances.size();
 
 			mesh.meshData = meshData;
 			glGenBuffers(1, &mesh.vbo);
@@ -221,8 +235,12 @@ void main()
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
-				glDrawElements(
-					GL_TRIANGLES, mesh.meshData.indices.size(), GL_UNSIGNED_INT, 0);
+				glDrawElementsInstanced(
+					GL_TRIANGLES,
+					mesh.meshData.indices.size(),
+					GL_UNSIGNED_INT,
+					0,
+					mesh.instances);
 			}
 		}
 	}

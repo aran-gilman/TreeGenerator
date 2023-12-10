@@ -1,9 +1,12 @@
 #ifndef TREE_GENERATOR_RENDERER_H_
 #define TREE_GENERATOR_RENDERER_H_
 
+#include <vector>
+
 #include <glm/glm.hpp>
 
 #include "mesh_data.h"
+#include "transform.h"
 
 namespace tree_generator
 {
@@ -13,7 +16,12 @@ namespace tree_generator
 		virtual ~Renderer() = default;
 
 		virtual void SetCameraPosition(glm::vec3 position) = 0;
+
 		virtual void AddMesh(const MeshData& meshData) = 0;
+		virtual void AddMesh(const MeshData& meshData, const Transform& transform) = 0;
+		virtual void AddMesh(
+			const MeshData& meshData, const std::vector<Transform>& instances) = 0;
+
 		virtual void Render() = 0;
 
 	protected:

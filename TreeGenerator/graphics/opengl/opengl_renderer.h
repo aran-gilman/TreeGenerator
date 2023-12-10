@@ -19,6 +19,7 @@ namespace tree_generator
 			unsigned int vbo;
 			unsigned int ebo;
 			unsigned int vao;
+			int instances;
 		};
 
 		class OpenGLRenderer : public Renderer
@@ -28,7 +29,12 @@ namespace tree_generator
 			~OpenGLRenderer() override;
 
 			void SetCameraPosition(glm::vec3 position) override;
+
 			void AddMesh(const MeshData& meshData) override;
+			void AddMesh(const MeshData& meshData, const Transform& transform) override;
+			void AddMesh(
+				const MeshData& meshData, const std::vector<Transform>& instances) override;
+
 			void Render() override;
 
 		private:
