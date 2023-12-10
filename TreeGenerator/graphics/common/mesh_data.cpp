@@ -22,12 +22,14 @@ namespace tree_generator
 
 	MeshData CreateQuad()
 	{
+		glm::vec3 normal(0.0f, 0.0f, -1.0f);
+
 		MeshData quad;
 		quad.vertices = {
-			{{  0.5f,  0.5f, 0.0f}},
-			{{  0.5f, -0.5f, 0.0f}},
-			{{ -0.5f, -0.5f, 0.0f}},
-			{{ -0.5f,  0.5f, 0.0f}}
+			{{  0.5f,  0.5f, 0.0f}, normal},
+			{{  0.5f, -0.5f, 0.0f}, normal},
+			{{ -0.5f, -0.5f, 0.0f}, normal},
+			{{ -0.5f,  0.5f, 0.0f}, normal}
 		};
 		quad.indices = {
 			0, 1, 3,
