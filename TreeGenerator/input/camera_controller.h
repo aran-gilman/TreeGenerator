@@ -5,16 +5,28 @@ namespace tree_generator
 {
 	class Renderer;
 
+	// Rotates the renderer's camera around the origin of the scene.
+	// 
+	// The camera can rotate all the way around on the horizontal plane.
+	// Movement along the vertical plane is restricted to less than 90 degrees
+	// in either direction to keep the camera from going upside-down.
+	// 
+	// All angles are in degrees
 	class CameraController
 	{
 	public:
+		// Configures how far and how much the camera can move
 		struct MovementSettings
 		{
+			// The camera's movement along the horizontal plane
 			float maxHorizontalRotationPerSecond = 180.0f;
+
+			// The camera's movmeent along the vertical plane
 			float maxVerticalRotationPerSecond = 180.0f;
 
 			float minDistance = 1.0f;
 			float maxDistance = 10.0f;
+
 			float maxDistanceChangePerSecond = 5.0f;
 		};
 
@@ -27,9 +39,13 @@ namespace tree_generator
 
 		struct Position
 		{
+			// Range: 0 to 360
 			float horizontalAngle = 0.0f;
+
+			// Range: -90 to 90
 			float verticalAngle = 0.0f;
-			float distance = 0.0f;
+
+			float distance = 5.0f;
 		};
 
 		CameraController(Renderer* renderer);
@@ -47,6 +63,8 @@ namespace tree_generator
 		MovementSettings movementSettings_;
 		Movement currentMovement_;
 		Position currentPosition_;
+
+		void UpdateCameraPosition();
 	};
 }
 

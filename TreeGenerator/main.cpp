@@ -75,7 +75,6 @@ namespace tree_generator
 
 		CameraController cameraController(renderer.get());
 
-		renderer->SetCameraPosition(glm::vec3(1.0f, 1.0f, -5.0f));
 		renderer->AddMesh(CreateQuad());
 
 		window->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
