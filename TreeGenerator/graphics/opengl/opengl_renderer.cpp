@@ -191,6 +191,27 @@ void main()
 				GL_FLOAT, GL_FALSE,
 				sizeof(Vertex), (void*)offsetof(Vertex, uv));
 			glEnableVertexAttribArray(2);
+
+			glVertexAttribPointer(
+				3, 3,
+				GL_FLOAT, GL_FALSE,
+				sizeof(Transform), (void*)offsetof(Transform, position));
+			glEnableVertexAttribArray(3);
+			glVertexAttribDivisor(3, 1);
+
+			glVertexAttribPointer(
+				4, 3,
+				GL_FLOAT, GL_FALSE,
+				sizeof(Transform), (void*)offsetof(Transform, rotation));
+			glEnableVertexAttribArray(4);
+			glVertexAttribDivisor(4, 1);
+
+			glVertexAttribPointer(
+				5, 1,
+				GL_FLOAT, GL_FALSE,
+				sizeof(Transform), (void*)offsetof(Transform, scale));
+			glEnableVertexAttribArray(5);
+			glVertexAttribDivisor(5, 1);
 		}
 
 		void OpenGLRenderer::Render()

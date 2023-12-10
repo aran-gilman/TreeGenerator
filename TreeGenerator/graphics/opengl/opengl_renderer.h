@@ -5,6 +5,7 @@
 
 #include "../common/mesh_data.h"
 #include "../common/renderer.h"
+#include "../common/transform.h"
 
 namespace tree_generator
 {
