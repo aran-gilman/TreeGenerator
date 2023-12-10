@@ -75,6 +75,10 @@ namespace tree_generator
 
 		CameraController cameraController(renderer.get());
 
+		std::vector<Transform> instances;
+		instances.push_back({ glm::vec3(0), glm::vec3(0), 1.0f});
+		instances.push_back({ glm::vec3(3), glm::vec3(0), 1.0f });
+
 		renderer->AddMesh(CreateCylinder(3), std::vector<Transform>(10));
 
 		window->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {

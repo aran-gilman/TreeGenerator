@@ -134,6 +134,7 @@ void main()
 				glDeleteVertexArrays(1, &mesh.vertexArray);
 				glDeleteBuffers(1, &mesh.vertexBuffer);
 				glDeleteBuffers(1, &mesh.indexBuffer);
+				glDeleteBuffers(1, &mesh.instanceTransformBuffer);
 			}
 		}
 
@@ -168,10 +169,12 @@ void main()
 			mesh.instanceCount = instances.size();
 
 			mesh.meshData = meshData;
+
 			glGenBuffers(1, &mesh.vertexBuffer);
 			glGenBuffers(1, &mesh.indexBuffer);
-			glGenVertexArrays(1, &mesh.vertexArray);
+			glGenBuffers(1, &mesh.instanceTransformBuffer);
 
+			glGenVertexArrays(1, &mesh.vertexArray);
 			glBindVertexArray(mesh.vertexArray);
 
 			glBindBuffer(GL_ARRAY_BUFFER, mesh.vertexBuffer);
@@ -205,6 +208,13 @@ void main()
 				GL_FLOAT, GL_FALSE,
 				sizeof(Vertex), (void*)offsetof(Vertex, uv));
 			glEnableVertexAttribArray(2);
+
+			glBindBuffer(GL_ARRAY_BUFFER, mesh.instanceTransformBuffer);
+			glBufferData(
+				GL_ARRAY_BUFFER,
+				sizeof(Transform) * mesh.instanceCount,
+				instances.data(),
+				GL_STATIC_DRAW);
 
 			glVertexAttribPointer(
 				3, 3,
