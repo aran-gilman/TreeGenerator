@@ -5,8 +5,16 @@
 namespace tree_generator
 {
 	CameraController::CameraController(Renderer* renderer) :
-		renderer_(renderer)
+		CameraController(renderer, MovementSettings())
 	{
+	}
+	
+	CameraController::CameraController(
+		Renderer* renderer, MovementSettings movementSettings) :
+		renderer_(renderer),
+		movementSettings_(movementSettings)
+	{
+
 	}
 
 	void CameraController::Update(double elapsedTime)
