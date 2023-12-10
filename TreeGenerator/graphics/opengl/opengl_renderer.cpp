@@ -185,6 +185,12 @@ void main()
 				GL_FLOAT, GL_FALSE,
 				sizeof(Vertex), (void*)offsetof(Vertex, normal));
 			glEnableVertexAttribArray(1);
+
+			glVertexAttribPointer(
+				2, 2,
+				GL_FLOAT, GL_FALSE,
+				sizeof(Vertex), (void*)offsetof(Vertex, uv));
+			glEnableVertexAttribArray(2);
 		}
 
 		void OpenGLRenderer::Render()
