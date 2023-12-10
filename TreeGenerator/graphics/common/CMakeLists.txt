@@ -7,6 +7,7 @@ target_sources(graphics_common
 		key_token.h
 		mesh_data.h
 		renderer.h
+		transform.h
 		window.h
 
 	PRIVATE
