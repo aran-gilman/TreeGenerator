@@ -10,6 +10,8 @@ namespace tree_generator
 	public:
 		CameraController(Renderer* renderer);
 
+		void Update(double elapsedTime);
+
 	private:
 		Renderer* renderer_;
 	};

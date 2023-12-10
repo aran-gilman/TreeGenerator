@@ -30,6 +30,7 @@ namespace tree_generator
 			});
 
 		window->Display([&](double elapsedTime) {
+			cameraController.Update(elapsedTime);
 			renderer->Render();
 			});
 	}

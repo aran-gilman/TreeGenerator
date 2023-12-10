@@ -8,4 +8,9 @@ namespace tree_generator
 		renderer_(renderer)
 	{
 	}
+
+	void CameraController::Update(double elapsedTime)
+	{
+
+	}
 }
