@@ -1,5 +1,4 @@
 #include "opengl_renderer.h"
-#include "opengl_renderer.h"
 
 #include <iostream>
 
