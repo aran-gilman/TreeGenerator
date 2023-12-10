@@ -4,6 +4,8 @@
 
 #include <glad/glad.h>
 
+#include "../common/window.h"
+
 namespace tree_generator
 {
 	namespace opengl
@@ -27,8 +29,16 @@ void main()
 	FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 })s";
 
-		OpenGLRenderer::OpenGLRenderer()
+		OpenGLRenderer::OpenGLRenderer(Window* window)
 		{
+			int version = gladLoadGL();
+			if (version == 0)
+			{
+				throw std::runtime_error("Failed to load OpenGL");
+			}
+
+			glViewport(0, 0, window->Width(), window->Height());
+
 			int success;
 			char infoLog[512];
 

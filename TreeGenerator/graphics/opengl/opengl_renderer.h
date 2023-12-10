@@ -6,6 +6,8 @@
 
 namespace tree_generator
 {
+	class Window;
+
 	namespace opengl
 	{
 		struct MeshRenderData
@@ -19,7 +21,7 @@ namespace tree_generator
 		class OpenGLRenderer : public Renderer
 		{
 		public:
-			OpenGLRenderer();
+			OpenGLRenderer(Window* window);
 			~OpenGLRenderer() override;
 
 			void AddMesh(const MeshData& meshData) override;

@@ -14,7 +14,8 @@ namespace tree_generator
 	{
 		std::unique_ptr<Window> window =
 			std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator");
-		std::unique_ptr<Renderer> renderer = std::make_unique<opengl::OpenGLRenderer>();
+		std::unique_ptr<Renderer> renderer =
+			std::make_unique<opengl::OpenGLRenderer>(window.get());
 
 		renderer->AddMesh(::tree_generator::CreateQuad());
 

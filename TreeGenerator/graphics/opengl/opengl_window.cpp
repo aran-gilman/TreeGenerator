@@ -27,16 +27,6 @@ namespace tree_generator
 				throw std::runtime_error("Failed to create GLFW window");
 			}
 			glfwMakeContextCurrent(internalWindow_);
-
-			int version = gladLoadGL();
-			if (version == 0)
-			{
-				glfwDestroyWindow(internalWindow_);
-				glfwTerminate();
-				throw std::runtime_error("Failed to load OpenGL");
-			}
-
-			glViewport(0, 0, width, height);
 		}
 
 		OpenGLWindow::~OpenGLWindow()
