@@ -9,6 +9,7 @@
 
 #include "../common/camera_data.h"
 #include "../common/window.h"
+#include "typed_shader.h"
 
 namespace tree_generator
 {
@@ -69,45 +70,27 @@ void main()
 			glViewport(0, 0, window->Width(), window->Height());
 			glEnable(GL_DEPTH_TEST);
 
-			int success;
-			char infoLog[512];
+			auto vertexShader = VertexShader::Create(vertexShaderSource);
+			auto fragmentShader = FragmentShader::Create(fragmentShaderSource);
 
-			unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-			glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-			glCompileShader(vertexShader);
-
-			glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-			if (!success)
+			if (vertexShader == nullptr || fragmentShader == nullptr)
 			{
-				glGetShaderInfoLog(vertexShader, 512, nullptr, infoLog);
-				std::cerr << "Vertex shader compilation failed: " << infoLog << std::endl;
-			}
-
-			unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
-			glCompileShader(fragmentShader);
-
-			glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-			if (!success)
-			{
-				glGetShaderInfoLog(fragmentShader, 512, nullptr, infoLog);
-				std::cerr << "Fragment shader compilation failed: " << infoLog << std::endl;
+				throw std::runtime_error("Failed to initialize shaders");
 			}
 
 			shader = glCreateProgram();
-			glAttachShader(shader, vertexShader);
-			glAttachShader(shader, fragmentShader);
+			glAttachShader(shader, vertexShader->Name());
+			glAttachShader(shader, fragmentShader->Name());
 			glLinkProgram(shader);
 
+			int success = 0;
+			char infoLog[512];
 			glGetProgramiv(shader, GL_LINK_STATUS, &success);
 			if (!success)
 			{
 				glGetProgramInfoLog(shader, 512, nullptr, infoLog);
 				std::cerr << "Shader program linking failed: " << infoLog << std::endl;
 			}
-
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
 
 			glUseProgram(shader);
 

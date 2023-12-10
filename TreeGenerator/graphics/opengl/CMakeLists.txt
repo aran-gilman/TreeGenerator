@@ -4,6 +4,7 @@ target_sources(graphics_opengl
 	PUBLIC
 		opengl_renderer.h
 		opengl_window.h
+		typed_shader.h
 
 	PRIVATE
 		opengl_renderer.cpp
@@ -13,8 +14,8 @@ target_sources(graphics_opengl
 target_link_libraries(graphics_opengl
 	PUBLIC
 		glm
+		glad
 
 	PRIVATE
-		glad
 		glfw
 )
