@@ -131,9 +131,9 @@ void main()
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
-				glDeleteVertexArrays(1, &mesh.vao);
-				glDeleteBuffers(1, &mesh.vbo);
-				glDeleteBuffers(1, &mesh.ebo);
+				glDeleteVertexArrays(1, &mesh.vertexArray);
+				glDeleteBuffers(1, &mesh.vertexBuffer);
+				glDeleteBuffers(1, &mesh.indexBuffer);
 			}
 		}
 
@@ -165,23 +165,23 @@ void main()
 		{
 			meshRenderData.push_back({});
 			MeshRenderData& mesh = meshRenderData.back();
-			mesh.instances = instances.size();
+			mesh.instanceCount = instances.size();
 
 			mesh.meshData = meshData;
-			glGenBuffers(1, &mesh.vbo);
-			glGenBuffers(1, &mesh.ebo);
-			glGenVertexArrays(1, &mesh.vao);
+			glGenBuffers(1, &mesh.vertexBuffer);
+			glGenBuffers(1, &mesh.indexBuffer);
+			glGenVertexArrays(1, &mesh.vertexArray);
 
-			glBindVertexArray(mesh.vao);
+			glBindVertexArray(mesh.vertexArray);
 
-			glBindBuffer(GL_ARRAY_BUFFER, mesh.vbo);
+			glBindBuffer(GL_ARRAY_BUFFER, mesh.vertexBuffer);
 			glBufferData(
 				GL_ARRAY_BUFFER,
 				sizeof(Vertex) * mesh.meshData.vertices.size(),
 				mesh.meshData.vertices.data(),
 				GL_STATIC_DRAW);
 
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.ebo);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.indexBuffer);
 			glBufferData(
 				GL_ELEMENT_ARRAY_BUFFER,
 				sizeof(unsigned int) * mesh.meshData.indices.size(),
@@ -240,7 +240,7 @@ void main()
 					mesh.meshData.indices.size(),
 					GL_UNSIGNED_INT,
 					0,
-					mesh.instances);
+					mesh.instanceCount);
 			}
 		}
 	}

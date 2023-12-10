@@ -16,10 +16,13 @@ namespace tree_generator
 		struct MeshRenderData
 		{
 			MeshData meshData;
-			unsigned int vbo;
-			unsigned int ebo;
-			unsigned int vao;
-			int instances;
+
+			unsigned int vertexArray;
+			unsigned int vertexBuffer;
+			unsigned int indexBuffer;
+
+			unsigned int instanceTransformBuffer;
+			int instanceCount;
 		};
 
 		class OpenGLRenderer : public Renderer
