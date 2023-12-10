@@ -1,12 +1,12 @@
-﻿# CMakeList.txt : CMake project for TreeGenerator, include source and define
-# project specific logic here.
-#
-
-add_subdirectory(graphics)
+﻿add_subdirectory(graphics)
 add_subdirectory(lsystem)
 
-# Add source to this project's executable.
-add_executable (TreeGenerator "main.cpp")
+add_executable (TreeGenerator)
+
+target_sources(TreeGenerator
+	PRIVATE
+		main.cpp
+)
 
 target_link_libraries(TreeGenerator
 	PRIVATE
