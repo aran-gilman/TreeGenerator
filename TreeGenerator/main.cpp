@@ -20,7 +20,7 @@ namespace tree_generator
 			std::make_unique<opengl::OpenGLRenderer>(window.get());
 
 		renderer->SetCameraPosition(glm::vec3(1.0f, 1.0f, -5.0f));
-		renderer->AddMesh(::tree_generator::CreateQuad());
+		renderer->AddMesh(::tree_generator::CreateCylinder(3));
 
 		window->Display([&]() {
 			renderer->Render();
