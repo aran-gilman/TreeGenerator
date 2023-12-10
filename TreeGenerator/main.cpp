@@ -75,7 +75,7 @@ namespace tree_generator
 
 		CameraController cameraController(renderer.get());
 
-		renderer->AddMesh(CreateQuad());
+		renderer->AddMesh(CreateCylinder(3));
 
 		window->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
 			HandleCameraInput(&cameraController, keyToken, action);
