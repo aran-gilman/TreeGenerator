@@ -78,21 +78,7 @@ void main()
 				throw std::runtime_error("Failed to initialize shaders");
 			}
 
-			shader = glCreateProgram();
-			glAttachShader(shader, vertexShader->Name());
-			glAttachShader(shader, fragmentShader->Name());
-			glLinkProgram(shader);
-
-			int success = 0;
-			char infoLog[512];
-			glGetProgramiv(shader, GL_LINK_STATUS, &success);
-			if (!success)
-			{
-				glGetProgramInfoLog(shader, 512, nullptr, infoLog);
-				std::cerr << "Shader program linking failed: " << infoLog << std::endl;
-			}
-
-			glUseProgram(shader);
+			shader = ShaderProgram::Create(*vertexShader, *fragmentShader);
 
 			CameraData camera{
 				glm::lookAt(
@@ -110,14 +96,12 @@ void main()
 			glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraData), &camera, GL_STATIC_DRAW);
 			glBindBufferBase(GL_UNIFORM_BUFFER, 1, cameraBuffer);
 
-			unsigned int cameraIndex = glGetUniformBlockIndex(shader, "Camera");
-			glUniformBlockBinding(shader, cameraIndex, 1);
+			shader->BindUniformBlock("Camera", 1);
 		}
 
 		OpenGLRenderer::~OpenGLRenderer()
 		{
 			glDeleteBuffers(1, &cameraBuffer);
-			glDeleteProgram(shader);
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
@@ -273,6 +257,7 @@ void main()
 			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+			shader->Bind();
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
 				glBindVertexArray(mesh.vertexArray);

@@ -1,6 +1,7 @@
 #ifndef TREE_GENERATOR_TYPED_SHADER_H_
 #define TREE_GENERATOR_TYPED_SHADER_H_
 
+#include <iostream>
 #include <memory>
 #include <string>
 
