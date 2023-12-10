@@ -39,11 +39,16 @@ void main()
 		const char* fragmentShaderSource = R"s(
 #version 330 core
 
+in VS_OUT
+{
+	vec3 normal;
+} vs_out;
+
 out vec4 FragColor;
 
 void main()
 {
-	FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+	FragColor = vec4(vs_out.normal, 1.0f);
 })s";
 
 		OpenGLRenderer::OpenGLRenderer(Window* window)
