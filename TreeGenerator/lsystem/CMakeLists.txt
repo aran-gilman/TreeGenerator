@@ -1,4 +1,12 @@
-add_library(lsystem lsystem.cpp)
+add_library(lsystem)
+
+target_sources(lsystem
+	PUBLIC
+		lsystem.h
+
+	PRIVATE
+		lsystem.cpp
+)
 
 enable_testing()
 
