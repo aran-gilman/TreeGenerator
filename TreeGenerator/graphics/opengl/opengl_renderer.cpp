@@ -48,7 +48,7 @@ out vec4 FragColor;
 
 void main()
 {
-	FragColor = vec4(vs_out.normal, 1.0f);
+	FragColor = vec4(abs(vs_out.normal), 1.0f);
 })s";
 
 		OpenGLRenderer::OpenGLRenderer(Window* window)
