@@ -57,23 +57,23 @@ namespace tree_generator
 
 			if (i < circle.size() - 1)
 			{
-				mesh.indices.push_back(i + 2);
-				mesh.indices.push_back(i + 3);
-				mesh.indices.push_back(i + 1);
+				mesh.indices.push_back(2 * i + 3);
+				mesh.indices.push_back(2 * i + 2);
+				mesh.indices.push_back(2 * i + 1);
 
-				mesh.indices.push_back(i + 3);
-				mesh.indices.push_back(i);
-				mesh.indices.push_back(i + 1);
+				mesh.indices.push_back(2 * i + 2);
+				mesh.indices.push_back(2 * i);
+				mesh.indices.push_back(2 * i + 1);
 			}
 			else
 			{
 				mesh.indices.push_back(0);
 				mesh.indices.push_back(1);
-				mesh.indices.push_back(i + 1);
+				mesh.indices.push_back(2 * i + 1);
 
 				mesh.indices.push_back(0);
-				mesh.indices.push_back(i);
-				mesh.indices.push_back(i + 1);
+				mesh.indices.push_back(2 * i);
+				mesh.indices.push_back(2 * i + 1);
 			}
 		}
 		return mesh;
