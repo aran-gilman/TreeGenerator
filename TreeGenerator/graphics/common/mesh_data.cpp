@@ -52,8 +52,8 @@ namespace tree_generator
 		for (int i = 0; i < circle.size(); ++i)
 		{
 			glm::vec3 normal = glm::vec3(circle[i], 0.0f);
-			mesh.vertices.push_back({ glm::vec3(circle[i], -0.5f), normal });
-			mesh.vertices.push_back({ glm::vec3(circle[i], 0.5f), normal });
+			mesh.vertices.push_back({ glm::vec3(circle[i] * 0.5f, -0.5f), normal });
+			mesh.vertices.push_back({ glm::vec3(circle[i] * 0.5f, 0.5f), normal });
 
 			if (i < circle.size() - 1)
 			{
