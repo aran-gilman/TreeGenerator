@@ -9,6 +9,7 @@
 #include "graphics/common/window.h"
 #include "graphics/opengl/opengl_renderer.h"
 #include "graphics/opengl/opengl_window.h"
+#include "input/camera_controller.h"
 
 namespace tree_generator
 {
@@ -18,6 +19,8 @@ namespace tree_generator
 			std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator");
 		std::unique_ptr<Renderer> renderer =
 			std::make_unique<opengl::OpenGLRenderer>(window.get());
+
+		CameraController cameraController(renderer.get());
 
 		renderer->SetCameraPosition(glm::vec3(1.0f, 1.0f, -5.0f));
 		renderer->AddMesh(CreateQuad());

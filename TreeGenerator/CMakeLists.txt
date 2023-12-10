@@ -16,4 +16,5 @@ target_link_libraries(TreeGenerator
 		lsystem
 		graphics_common
 		graphics_opengl
+		input
 )
