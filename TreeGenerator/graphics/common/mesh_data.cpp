@@ -49,11 +49,12 @@ namespace tree_generator
 
 		std::vector<glm::vec2> circle = CalculateCirclePositions(sideCount);
 		MeshData mesh;
+		glm::vec3 offset(0.0f, 0.5f, 0.0f);
 		for (int i = 0; i < circle.size(); ++i)
 		{
-			glm::vec3 normal = glm::vec3(circle[i], 0.0f);
-			mesh.vertices.push_back({ glm::vec3(circle[i] * 0.5f, -0.5f), normal });
-			mesh.vertices.push_back({ glm::vec3(circle[i] * 0.5f, 0.5f), normal });
+			glm::vec3 normal = glm::vec3(circle[i].x, 0, circle[i].y);
+			mesh.vertices.push_back({ normal - offset, normal });
+			mesh.vertices.push_back({ normal + offset, normal });
 
 			if (i < circle.size() - 1)
 			{
