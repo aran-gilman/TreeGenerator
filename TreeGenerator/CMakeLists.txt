@@ -1,5 +1,6 @@
 ﻿add_subdirectory(graphics)
 add_subdirectory(lsystem)
+add_subdirectory(input)
 
 add_executable (TreeGenerator)
 
