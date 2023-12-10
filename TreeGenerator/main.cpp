@@ -22,12 +22,12 @@ namespace tree_generator
 		{
 			if (keyToken == KeyToken::A)
 			{
-				movement.horizontalRotationVelocity +=
+				movement.horizontalRotationVelocity -=
 					settings.maxHorizontalRotationPerSecond;
 			}
 			else if (keyToken == KeyToken::D)
 			{
-				movement.horizontalRotationVelocity -=
+				movement.horizontalRotationVelocity +=
 					settings.maxHorizontalRotationPerSecond;
 			}
 			else if (keyToken == KeyToken::S)
@@ -45,12 +45,12 @@ namespace tree_generator
 		{
 			if (keyToken == KeyToken::A)
 			{
-				movement.horizontalRotationVelocity -=
+				movement.horizontalRotationVelocity +=
 					settings.maxHorizontalRotationPerSecond;
 			}
 			else if (keyToken == KeyToken::D)
 			{
-				movement.horizontalRotationVelocity +=
+				movement.horizontalRotationVelocity -=
 					settings.maxHorizontalRotationPerSecond;
 			}
 			else if (keyToken == KeyToken::S)
