@@ -3,7 +3,10 @@
 #include <iostream>
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
+#include "../common/camera_data.h"
 #include "../common/window.h"
 
 namespace tree_generator
@@ -86,10 +89,30 @@ void main()
 			glDeleteShader(fragmentShader);
 
 			glUseProgram(shader);
+
+			CameraData camera{
+				glm::lookAt(
+					glm::vec3(0.0f, 0.0f, -3.0f),
+					glm::vec3(0.0f),
+					glm::vec3(0.0f, 1.0f, 0.0f)),
+				glm::perspective(
+					glm::radians(45.0f),
+					(float)window->Width() / window->Height(),
+					0.1f, 100.0f)
+			};
+
+			glGenBuffers(1, &cameraBuffer);
+			glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
+			glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraData), &camera, GL_STATIC_DRAW);
+			glBindBufferBase(GL_UNIFORM_BUFFER, 1, cameraBuffer);
+
+			unsigned int cameraIndex = glGetUniformBlockIndex(shader, "Camera");
+			glUniformBlockBinding(shader, cameraIndex, 1);
 		}
 
 		OpenGLRenderer::~OpenGLRenderer()
 		{
+			glDeleteBuffers(1, &cameraBuffer);
 			glDeleteProgram(shader);
 
 			for (const MeshRenderData& mesh : meshRenderData)

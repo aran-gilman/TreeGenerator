@@ -29,6 +29,7 @@ namespace tree_generator
 
 		private:
 			unsigned int shader;
+			unsigned int cameraBuffer;
 			std::vector<MeshRenderData> meshRenderData;
 		};
 	}
