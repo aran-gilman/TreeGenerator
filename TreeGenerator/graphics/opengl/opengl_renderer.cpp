@@ -25,7 +25,7 @@ layout (std140) uniform Camera
 
 void main()
 {
-	gl_Position = vec4(aPos, 1.0f);
+	gl_Position = camera.projection * camera.view * vec4(aPos, 1.0f);
 })s";
 
 		const char* fragmentShaderSource = R"s(
