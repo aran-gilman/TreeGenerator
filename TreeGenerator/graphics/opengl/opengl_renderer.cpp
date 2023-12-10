@@ -1,4 +1,5 @@
 #include "opengl_renderer.h"
+#include "opengl_renderer.h"
 
 #include <iostream>
 
@@ -121,6 +122,18 @@ void main()
 				glDeleteBuffers(1, &mesh.vbo);
 				glDeleteBuffers(1, &mesh.ebo);
 			}
+		}
+
+		void OpenGLRenderer::SetCameraPosition(glm::vec3 position)
+		{
+			glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
+			glm::mat4 view =
+				glm::lookAt(position, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+			glBufferSubData(
+				GL_UNIFORM_BUFFER,
+				offsetof(CameraData, view),
+				sizeof(glm::mat4),
+				&view);
 		}
 
 		void OpenGLRenderer::AddMesh(const MeshData& meshData)

@@ -1,6 +1,8 @@
 #ifndef TREE_GENERATOR_OPENGL_RENDERER_H_
 #define TREE_GENERATOR_OPENGL_RENDERER_H_
 
+#include <glm/glm.hpp>
+
 #include "../common/mesh_data.h"
 #include "../common/renderer.h"
 
@@ -24,6 +26,7 @@ namespace tree_generator
 			OpenGLRenderer(Window* window);
 			~OpenGLRenderer() override;
 
+			void SetCameraPosition(glm::vec3 position) override;
 			void AddMesh(const MeshData& meshData) override;
 			void Render() override;
 

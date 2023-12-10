@@ -10,6 +10,8 @@ target_sources(TreeGenerator
 
 target_link_libraries(TreeGenerator
 	PRIVATE
+		glm
+
 		lsystem
 		graphics_common
 		graphics_opengl

@@ -2,6 +2,8 @@
 #include <iostream>
 #include <memory>
 
+#include <glm/glm.hpp>
+
 #include "graphics/common/mesh_data.h"
 #include "graphics/common/renderer.h"
 #include "graphics/common/window.h"
@@ -17,6 +19,7 @@ namespace tree_generator
 		std::unique_ptr<Renderer> renderer =
 			std::make_unique<opengl::OpenGLRenderer>(window.get());
 
+		renderer->SetCameraPosition(glm::vec3(1.0f, 1.0f, -5.0f));
 		renderer->AddMesh(::tree_generator::CreateQuad());
 
 		window->Display([&]() {
