@@ -3,6 +3,7 @@ add_library(graphics_common)
 target_sources(graphics_common
 	PUBLIC
 		camera_data.h
+		key_action.h
 		key_token.h
 		mesh_data.h
 		renderer.h
