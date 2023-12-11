@@ -38,6 +38,8 @@ namespace tree_generator
 			void AddMesh(
 				const MeshData& meshData, const std::vector<Transform>& instances) override;
 
+			void ClearAllMeshes() override;
+
 			void Render() override;
 
 		private:

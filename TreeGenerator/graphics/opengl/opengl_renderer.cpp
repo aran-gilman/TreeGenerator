@@ -283,6 +283,18 @@ void main()
 			glVertexAttribDivisor(6, 1);
 		}
 
+		void OpenGLRenderer::ClearAllMeshes()
+		{
+			for (const MeshRenderData& mesh : meshRenderData)
+			{
+				glDeleteVertexArrays(1, &mesh.vertexArray);
+				glDeleteBuffers(1, &mesh.vertexBuffer);
+				glDeleteBuffers(1, &mesh.indexBuffer);
+				glDeleteBuffers(1, &mesh.instanceTransformBuffer);
+			}
+			meshRenderData.clear();
+		}
+
 		void OpenGLRenderer::Render()
 		{
 			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);

@@ -23,6 +23,8 @@ namespace tree_generator
 		virtual void AddMesh(
 			const MeshData& meshData, const std::vector<Transform>& instances) = 0;
 
+		virtual void ClearAllMeshes() = 0;
+
 		virtual void Render() = 0;
 
 	protected:
