@@ -34,11 +34,14 @@ namespace tree_generator::lsystem
 		const std::vector<Symbol>& symbols) const
 	{
 		MeshGeneratorState state;
+		state.positionStack.push_back(glm::vec3(0.0f));
+		state.rotationStack.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+
 		for (const Symbol& symbol : symbols)
 		{
 			if (auto iter = actions_.find(symbol); iter != actions_.end())
 			{
-				iter->second->PerformAction(&state);
+				iter->second->PerformAction(symbol, &state);
 			}
 		}
 		return state.meshes;

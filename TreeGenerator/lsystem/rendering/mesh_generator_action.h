@@ -40,7 +40,7 @@ namespace tree_generator::lsystem
 	{
 	public:
 		virtual ~MeshGeneratorAction() {}
-		virtual void PerformAction(MeshGeneratorState* state) = 0;
+		virtual void PerformAction(const Symbol& symbol, MeshGeneratorState* state) = 0;
 	};
 
 	// Render a mesh to the screen.
@@ -48,7 +48,7 @@ namespace tree_generator::lsystem
 	{
 	public:
 		DrawAction(MeshData meshData);
-		void PerformAction(MeshGeneratorState* state) override;
+		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 
 	private:
 		MeshData meshData_;
@@ -58,7 +58,7 @@ namespace tree_generator::lsystem
 	class MoveAction : public MeshGeneratorAction
 	{
 	public:
-		void PerformAction(MeshGeneratorState* state) override;
+		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 	};
 
 	// Rotate the model and change the turtle's direction.
@@ -66,7 +66,7 @@ namespace tree_generator::lsystem
 	{
 	public:
 		RotateAction(glm::vec3 rotation);
-		void PerformAction(MeshGeneratorState* state) override;
+		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 
 	private:
 		glm::vec3 rotation_;
@@ -76,14 +76,14 @@ namespace tree_generator::lsystem
 	class SaveAction : public MeshGeneratorAction
 	{
 	public:
-		void PerformAction(MeshGeneratorState* state) override;
+		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 	};
 
 	// Pop the current state from the stack, returning to the previous one.
 	class RestoreAction : public MeshGeneratorAction
 	{
 	public:
-		void PerformAction(MeshGeneratorState* state) override;
+		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 	};
 }
 
