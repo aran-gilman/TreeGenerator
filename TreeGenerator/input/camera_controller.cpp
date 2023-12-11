@@ -153,6 +153,19 @@ namespace tree_generator
 
 	bool CameraController::UpdateHeight(double elapsedTime)
 	{
+		if (glm::abs(currentMovement_.heightVelocity) > kMinUpdateSpeed)
+		{
+			currentPosition_.height += (currentMovement_.heightVelocity * elapsedTime);
+			if (currentPosition_.height > movementSettings_.maxHeight)
+			{
+				currentPosition_.height = movementSettings_.maxHeight;
+			}
+			else if (currentPosition_.height < movementSettings_.minHeight)
+			{
+				currentPosition_.height = movementSettings_.minHeight;
+			}
+			return true;
+		}
 		return false;
 	}
 }
