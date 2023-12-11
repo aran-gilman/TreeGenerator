@@ -23,8 +23,8 @@ using ::testing::SizeIs;
 
 namespace glm
 {
-	// These function must not be in an anonymous namespace in order for
-	// GoogleTest to be able to use it!
+	// These functions are not in an anonymous namespace because GoogleTest
+	// cannot find them otherwise.
 	void PrintTo(const glm::vec3& vec, std::ostream* os)
 	{
 		*os << "(x: " << vec.x << ", y: " << vec.y << ", z: " << vec.z << ")";
