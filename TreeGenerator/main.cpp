@@ -93,15 +93,8 @@ namespace tree_generator
 			camera->GetCurrentMovement().remainingDistanceChange -= yOffset;
 		}
 
-		void Run()
+		struct DisplaySymbols
 		{
-			std::unique_ptr<Window> window =
-				std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator");
-			std::unique_ptr<Renderer> renderer =
-				std::make_unique<opengl::OpenGLRenderer>(window.get());
-
-			CameraController cameraController(renderer.get());
-
 			lsystem::Symbol trunk{ '1' };
 			lsystem::Symbol leaf{ '0' };
 
@@ -111,44 +104,66 @@ namespace tree_generator
 			lsystem::Symbol rotateRight{ 'R' };
 			lsystem::Symbol rotateLeft{ 'L' };
 			lsystem::Symbol advance{ 'A' };
+		};
+
+		std::vector<lsystem::Symbol> CreateSimpleBinaryTree(
+			const DisplaySymbols& symbols,
+			int iterations)
+		{
+			lsystem::RuleMap rules = {
+				{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
+				{ symbols.leaf, {
+					symbols.trunk,
+					symbols.push,
+					symbols.rotateRight, symbols.advance, symbols.leaf,
+					symbols.pop,
+					symbols.rotateLeft, symbols.advance, symbols.leaf
+			}} };
+
+			std::vector<lsystem::Symbol> output = { symbols.leaf };
+			for (int i = 0; i < iterations; i++)
+			{
+				output = Iterate(output, rules);
+			}
+			return output;
+		}
+
+		void Run()
+		{
+			std::unique_ptr<Window> window =
+				std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator");
+			std::unique_ptr<Renderer> renderer =
+				std::make_unique<opengl::OpenGLRenderer>(window.get());
+
+			CameraController cameraController(renderer.get());
+
+			DisplaySymbols symbols;
+			std::vector<lsystem::Symbol> tree = CreateSimpleBinaryTree(symbols, 5);
 
 			lsystem::MeshGenerator generator;
-			generator.Define(trunk, std::make_unique<lsystem::DrawAction>(CreateCylinder(8)));
-			generator.Define(leaf, std::make_unique<lsystem::DrawAction>(CreateQuad()));
+			generator.Define(symbols.trunk, std::make_unique<lsystem::DrawAction>(CreateCylinder(8)));
+			generator.Define(symbols.leaf, std::make_unique<lsystem::DrawAction>(CreateQuad()));
 
-			generator.Define(push, std::make_unique<lsystem::SaveAction>());
-			generator.Define(pop, std::make_unique<lsystem::RestoreAction>());
+			generator.Define(symbols.push, std::make_unique<lsystem::SaveAction>());
+			generator.Define(symbols.pop, std::make_unique<lsystem::RestoreAction>());
 
 			glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 45.0f);
-			generator.Define(rotateRight, std::make_unique<lsystem::RotateAction>(-rotation));
-			generator.Define(rotateLeft, std::make_unique<lsystem::RotateAction>(rotation));
-			generator.Define(advance, std::make_unique<lsystem::MoveAction>());
+			generator.Define(symbols.rotateRight, std::make_unique<lsystem::RotateAction>(-rotation));
+			generator.Define(symbols.rotateLeft, std::make_unique<lsystem::RotateAction>(rotation));
+			generator.Define(symbols.advance, std::make_unique<lsystem::MoveAction>());
 
 			lsystem::StringGenerator stringGenerator;
-			stringGenerator.Define(trunk, "1");
-			stringGenerator.Define(leaf, "0");
-			stringGenerator.Define(push, "[");
-			stringGenerator.Define(pop, "]");
-			stringGenerator.Define(rotateRight, "R");
-			stringGenerator.Define(rotateLeft, "L");
-			stringGenerator.Define(advance, "A");
+			stringGenerator.Define(symbols.trunk, "1");
+			stringGenerator.Define(symbols.leaf, "0");
+			stringGenerator.Define(symbols.push, "[");
+			stringGenerator.Define(symbols.pop, "]");
+			stringGenerator.Define(symbols.rotateRight, "R");
+			stringGenerator.Define(symbols.rotateLeft, "L");
+			stringGenerator.Define(symbols.advance, "A");
 
-			lsystem::RuleMap rules = {
-				{ trunk, { trunk, advance, trunk }},
-				{ leaf, {
-					trunk,
-					push, rotateRight, advance, leaf, pop,
-					rotateLeft, advance, leaf
-			}} };
-			std::vector<lsystem::Symbol> symbols = { leaf };
-			for (int i = 0; i < 5; i++)
-			{
-				symbols = Iterate(symbols, rules);
-			}
+			std::cout << "Generated tree: " << stringGenerator.Generate(tree) << std::endl;
 
-			std::cout << "Generated tree: " << stringGenerator.Generate(symbols) << std::endl;
-
-			std::vector<lsystem::MeshGroup> meshes = generator.Generate(symbols);
+			std::vector<lsystem::MeshGroup> meshes = generator.Generate(tree);
 			for (const lsystem::MeshGroup& group : meshes)
 			{
 				renderer->AddMesh(group.mesh, group.instances);
