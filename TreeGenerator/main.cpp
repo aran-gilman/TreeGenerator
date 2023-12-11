@@ -74,7 +74,7 @@ namespace tree_generator
 
 		void HandleScrollInput(CameraController* camera, double xOffset, double yOffset)
 		{
-			std::cout << "Scroll (x: " << xOffset << ", y: " << yOffset << ")" << std::endl;
+			camera->GetCurrentMovement().remainingDistanceChange -= yOffset;
 		}
 
 		void Run()

@@ -66,6 +66,47 @@ namespace tree_generator
 			wasPositionUpdated = true;
 		}
 
+		if (currentMovement_.remainingDistanceChange > kMinUpdateSpeed)
+		{
+			float diff = movementSettings_.maxDistanceChangePerSecond * elapsedTime;
+			float newRemainingDistance = currentMovement_.remainingDistanceChange - diff;
+			if (newRemainingDistance - diff < 0.0f)
+			{
+				diff = currentMovement_.remainingDistanceChange;
+				currentMovement_.remainingDistanceChange = 0;
+			}
+			else
+			{
+				currentMovement_.remainingDistanceChange = newRemainingDistance;
+			}
+			currentPosition_.distance += diff;
+			if (currentPosition_.distance > movementSettings_.maxDistance)
+			{
+				currentPosition_.distance = movementSettings_.maxDistance;
+			}
+			wasPositionUpdated = true;
+		}
+		else if (currentMovement_.remainingDistanceChange < -kMinUpdateSpeed)
+		{
+			float diff = -movementSettings_.maxDistanceChangePerSecond * elapsedTime;
+			float newRemainingDistance = currentMovement_.remainingDistanceChange - diff;
+			if (newRemainingDistance - diff > 0.0f)
+			{
+				diff = currentMovement_.remainingDistanceChange;
+				currentMovement_.remainingDistanceChange = 0;
+			}
+			else
+			{
+				currentMovement_.remainingDistanceChange = newRemainingDistance;
+			}
+			currentPosition_.distance += diff;
+			if (currentPosition_.distance < movementSettings_.minDistance)
+			{
+				currentPosition_.distance = movementSettings_.minDistance;
+			}
+			wasPositionUpdated = true;
+		}
+
 		if (wasPositionUpdated)
 		{
 			UpdateCameraPosition();

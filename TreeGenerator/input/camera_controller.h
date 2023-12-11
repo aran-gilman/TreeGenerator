@@ -25,9 +25,9 @@ namespace tree_generator
 			float maxVerticalRotationPerSecond = 180.0f;
 
 			float minDistance = 1.0f;
-			float maxDistance = 10.0f;
+			float maxDistance = 100.0f;
 
-			float maxDistanceChangePerSecond = 5.0f;
+			float maxDistanceChangePerSecond = 10.0f;
 		};
 
 		struct Movement
