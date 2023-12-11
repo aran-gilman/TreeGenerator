@@ -58,11 +58,13 @@ namespace tree_generator::lsystem
 
 	void SaveAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
 	{
-
+		state->positionStack.push_back(state->positionStack.back());
+		state->rotationStack.push_back(state->rotationStack.back());
 	}
 
 	void RestoreAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
 	{
-
+		state->positionStack.pop_back();
+		state->rotationStack.pop_back();
 	}
 }

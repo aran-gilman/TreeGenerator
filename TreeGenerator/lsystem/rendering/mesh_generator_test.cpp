@@ -214,7 +214,7 @@ namespace tree_generator::lsystem
 						ElementsAre(
 							Field(&Transform::position, Eq(glm::vec3(0))),
 							Field(&Transform::position, Eq(glm::vec3(
-								glm::sin(glm::radians(30.0f)),
+								-glm::sin(glm::radians(30.0f)),
 								glm::cos(glm::radians(30.0f)),
 								0.0f))),
 							Field(&Transform::position, Eq(glm::vec3(0)))
