@@ -15,13 +15,13 @@ namespace tree_generator
 			{
 				Symbol a{ 'a' };
 				StringGenerator generator;
-				EXPECT_THAT(generator.GenerateView({ a }), testing::IsEmpty());
+				EXPECT_THAT(generator.Generate({ a }), testing::IsEmpty());
 			}
 
 			TEST(LSystemStringGeneratorTest, NoSymbolsGeneratesEmptyString)
 			{
 				StringGenerator generator;
-				EXPECT_THAT(generator.GenerateView({}), testing::IsEmpty());
+				EXPECT_THAT(generator.Generate({}), testing::IsEmpty());
 			}
 
 			TEST(LSystemStringGeneratorTest, SymbolGeneratesDefinitionString)
@@ -30,7 +30,7 @@ namespace tree_generator
 
 				StringGenerator generator;
 				generator.Define(a, "A");
-				EXPECT_EQ(generator.GenerateView({ a }), "A");
+				EXPECT_EQ(generator.Generate({ a }), "A");
 			}
 
 			TEST(LSystemStringGeneratorTest, RepeatedSymbolGeneratesRepeatedString)
@@ -39,7 +39,7 @@ namespace tree_generator
 
 				StringGenerator generator;
 				generator.Define(a, "A");
-				EXPECT_EQ(generator.GenerateView({ a, a, a }), "AAA");
+				EXPECT_EQ(generator.Generate({ a, a, a }), "AAA");
 			}
 
 			TEST(LSystemGeneratorTest, DifferentSymbolDefinitionsGenerateDifferentStrings)
@@ -50,7 +50,7 @@ namespace tree_generator
 				StringGenerator generator;
 				generator.Define(a, "A");
 				generator.Define(b, "B");
-				EXPECT_EQ(generator.GenerateView({ b, a, b }), "BAB");
+				EXPECT_EQ(generator.Generate({ b, a, b }), "BAB");
 			}
 
 			TEST(LSystemGeneratorTest, SymbolsWithoutDefinitionAreIgnored)
@@ -60,7 +60,7 @@ namespace tree_generator
 
 				StringGenerator generator;
 				generator.Define(b, "B");
-				EXPECT_EQ(generator.GenerateView({ b, a, b }), "BB");
+				EXPECT_EQ(generator.Generate({ b, a, b }), "BB");
 			}
 
 			TEST(LSystemGeneratorTest, SymbolRedefinitionUsesMostRecent)
@@ -71,7 +71,7 @@ namespace tree_generator
 				generator.Define(a, "A");
 				generator.Define(a, "B");
 
-				EXPECT_EQ(generator.GenerateView({ a }), "B");
+				EXPECT_EQ(generator.Generate({ a }), "B");
 			}
 		}
 	}

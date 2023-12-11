@@ -14,7 +14,7 @@ namespace tree_generator
 		{
 		public:
 			void Define(const Symbol& symbol, const std::string& representation);
-			std::string GenerateView(const std::vector<Symbol>& symbols) const;
+			std::string Generate(const std::vector<Symbol>& symbols) const;
 		};
 	}
 }

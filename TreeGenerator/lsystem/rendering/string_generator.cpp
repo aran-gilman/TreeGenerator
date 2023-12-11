@@ -9,7 +9,7 @@ namespace tree_generator
 
 		}
 
-		std::string StringGenerator::GenerateView(const std::vector<Symbol>& symbols) const
+		std::string StringGenerator::Generate(const std::vector<Symbol>& symbols) const
 		{
 			return "";
 		}
