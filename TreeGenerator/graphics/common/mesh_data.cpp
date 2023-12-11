@@ -39,7 +39,7 @@ namespace tree_generator
 	}
 
 	// Reference: http://www.songho.ca/opengl/gl_cylinder.html
-	MeshData CreateCylinder(int sideCount)
+	MeshData CreateCylinder(int sideCount, float height, float radius)
 	{
 		if (sideCount < 3)
 		{
@@ -49,12 +49,13 @@ namespace tree_generator
 
 		std::vector<glm::vec2> circle = CalculateCirclePositions(sideCount);
 		MeshData mesh;
-		glm::vec3 offset(0.0f, 0.5f, 0.0f);
+		glm::vec3 offset(0.0f, height / 2, 0.0f);
 		for (int i = 0; i < circle.size(); ++i)
 		{
 			glm::vec3 normal = glm::vec3(circle[i].x, 0, circle[i].y);
-			mesh.vertices.push_back({ normal - offset, normal });
-			mesh.vertices.push_back({ normal + offset, normal });
+			glm::vec3 basePosition = normal * radius;
+			mesh.vertices.push_back({ basePosition - offset, normal });
+			mesh.vertices.push_back({ basePosition + offset, normal });
 
 			if (i < circle.size() - 1)
 			{

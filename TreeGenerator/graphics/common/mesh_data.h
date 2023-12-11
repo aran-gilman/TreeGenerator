@@ -21,7 +21,7 @@ namespace tree_generator
 	};
 
 	MeshData CreateQuad();
-	MeshData CreateCylinder(int sideCount);
+	MeshData CreateCylinder(int sideCount, float height = 1.0f, float radius = 1.0f);
 }
 
 #endif  // !TREE_GENERATOR_MESH_DATA_H_

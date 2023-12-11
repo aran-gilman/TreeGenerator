@@ -171,7 +171,7 @@ namespace tree_generator
 			lsystem::MeshGenerator generator;
 			generator.Define(
 				symbols.trunk,
-				std::make_unique<lsystem::DrawAction>(CreateCylinder(8)));
+				std::make_unique<lsystem::DrawAction>(CreateCylinder(8, 0.5f, 0.5f)));
 			generator.Define(
 				symbols.leaf,
 				std::make_unique<lsystem::DrawAction>(CreateQuad()));
