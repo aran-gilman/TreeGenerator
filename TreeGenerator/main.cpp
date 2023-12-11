@@ -231,9 +231,6 @@ namespace tree_generator
 				renderer->AddMesh(group.mesh, group.instances);
 			}
 
-			renderer->AddMesh(CreateQuad(),
-				{ glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(90.0f, 0.0f, 0.0f), 10.0f });
-
 			window->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
 				HandleCameraInput(&cameraController, keyToken, action);
 				});
