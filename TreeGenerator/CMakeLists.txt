@@ -13,7 +13,7 @@ target_link_libraries(TreeGenerator
 	PRIVATE
 		glm
 
-		lsystem
+		lsystem_core
 		graphics_common
 		graphics_opengl
 		input
