@@ -31,7 +31,7 @@ namespace tree_generator
 			OpenGLRenderer(Window* window);
 			~OpenGLRenderer() override;
 
-			void SetCameraPosition(glm::vec3 position) override;
+			void SetCameraView(glm::mat4 view) override;
 
 			void AddMesh(const MeshData& meshData) override;
 			void AddMesh(const MeshData& meshData, const Transform& transform) override;

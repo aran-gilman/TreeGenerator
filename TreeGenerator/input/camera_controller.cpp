@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtx/common.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "../graphics/common/renderer.h"
 
@@ -123,8 +124,10 @@ namespace tree_generator
 		float z = verticalMultiplier * glm::cos(
 			glm::radians(currentPosition_.horizontalAngle));
 
-		glm::vec3 newPosition{ x, y, z };
+		glm::vec3 newPosition = glm::vec3(x, y, z ) * currentPosition_.distance;
 
-		renderer_->SetCameraPosition(newPosition * currentPosition_.distance);
+		glm::mat4 view =
+			glm::lookAt(newPosition, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		renderer_->SetCameraView(view);
 	}
 }

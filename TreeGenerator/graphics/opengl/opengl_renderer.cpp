@@ -145,11 +145,9 @@ void main()
 			}
 		}
 
-		void OpenGLRenderer::SetCameraPosition(glm::vec3 position)
+		void OpenGLRenderer::SetCameraView(glm::mat4 view)
 		{
 			glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
-			glm::mat4 view =
-				glm::lookAt(position, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			glBufferSubData(
 				GL_UNIFORM_BUFFER,
 				offsetof(CameraData, view),

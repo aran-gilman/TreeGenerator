@@ -10,12 +10,13 @@
 
 namespace tree_generator
 {
+	// Draws objects to the screen
 	class Renderer
 	{
 	public:
 		virtual ~Renderer() = default;
 
-		virtual void SetCameraPosition(glm::vec3 position) = 0;
+		virtual void SetCameraView(glm::mat4 view) = 0;
 
 		virtual void AddMesh(const MeshData& meshData) = 0;
 		virtual void AddMesh(const MeshData& meshData, const Transform& transform) = 0;
