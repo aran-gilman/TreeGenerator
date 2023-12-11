@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include <glm/glm.hpp>
+
 #include "../core/lsystem.h"
 #include "../../graphics/common/mesh_data.h"
 #include "../../graphics/common/transform.h"
@@ -14,6 +16,9 @@ namespace tree_generator::lsystem
 	public:
 		void DefineDraw(const Symbol& symbol, MeshData meshData);
 		void DefineMove(const Symbol& symbol);
+		void DefineRotate(const Symbol& symbol, glm::vec3 rotation);
+		void DefineSave(const Symbol& symbol);
+		void DefineRestore(const Symbol& symbol);
 
 		struct MeshGroup
 		{
