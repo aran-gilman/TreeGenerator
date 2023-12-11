@@ -9,28 +9,6 @@ namespace tree_generator
 {
 	namespace opengl
 	{
-		namespace
-		{
-			void HandleKeyboardInput(
-				GLFWwindow* window,
-				int keyToken, int scancode, int action, int mods)
-			{
-				OpenGLWindow* user = static_cast<OpenGLWindow*>(
-					glfwGetWindowUserPointer(window));
-				user->SendKeyboardEvent(
-					static_cast<KeyToken>(keyToken),
-					static_cast<KeyAction>(action));
-			}
-
-			void HandleScrollInput(
-				GLFWwindow* window, double xOffset, double yOffset)
-			{
-				OpenGLWindow* user = static_cast<OpenGLWindow*>(
-					glfwGetWindowUserPointer(window));
-				user->SendScrollEvent(xOffset, yOffset);
-			}
-		}
-
 		OpenGLWindow::OpenGLWindow(int width, int height, const std::string& title) :
 			width_(width),
 			height_(height),
@@ -54,8 +32,8 @@ namespace tree_generator
 			glfwMakeContextCurrent(internalWindow_);
 			glfwSetWindowUserPointer(internalWindow_, this);
 
-			glfwSetKeyCallback(internalWindow_, HandleKeyboardInput);
-			glfwSetScrollCallback(internalWindow_, HandleScrollInput);
+			glfwSetKeyCallback(internalWindow_, ReceiveKeyboardEvent);
+			glfwSetScrollCallback(internalWindow_, ReceiveScrollEvent);
 		}
 
 		OpenGLWindow::~OpenGLWindow()
@@ -77,7 +55,7 @@ namespace tree_generator
 				previousTime = currentTime;
 			}
 		}
-		
+
 		void OpenGLWindow::SetKeyboardCallback(KeyboardCallback keyboardCallback)
 		{
 			keyboardCallback_ = keyboardCallback;
@@ -86,6 +64,25 @@ namespace tree_generator
 		void OpenGLWindow::SetScrollCallback(ScrollCallback scrollCallback)
 		{
 			scrollCallback_ = scrollCallback;
+		}
+
+		void OpenGLWindow::ReceiveKeyboardEvent(
+			GLFWwindow* window,
+			int keyToken, int scancode, int action, int mods)
+		{
+			OpenGLWindow* user = static_cast<OpenGLWindow*>(
+				glfwGetWindowUserPointer(window));
+			user->SendKeyboardEvent(
+				static_cast<KeyToken>(keyToken),
+				static_cast<KeyAction>(action));
+		}
+
+		void OpenGLWindow::ReceiveScrollEvent(
+			GLFWwindow* window, double xOffset, double yOffset)
+		{
+			OpenGLWindow* user = static_cast<OpenGLWindow*>(
+				glfwGetWindowUserPointer(window));
+			user->SendScrollEvent(xOffset, yOffset);
 		}
 
 		void OpenGLWindow::SendKeyboardEvent(KeyToken token, KeyAction action)
