@@ -21,13 +21,22 @@ namespace tree_generator
 					static_cast<KeyToken>(keyToken),
 					static_cast<KeyAction>(action));
 			}
+
+			void HandleScrollInput(
+				GLFWwindow* window, double xOffset, double yOffset)
+			{
+				OpenGLWindow* user = static_cast<OpenGLWindow*>(
+					glfwGetWindowUserPointer(window));
+				user->SendScrollEvent(xOffset, yOffset);
+			}
 		}
 
 		OpenGLWindow::OpenGLWindow(int width, int height, const std::string& title) :
 			width_(width),
 			height_(height),
 			internalWindow_(nullptr),
-			keyboardCallback_([](KeyToken, KeyAction) {})
+			keyboardCallback_([](KeyToken, KeyAction) {}),
+			scrollCallback_([](double, double) {})
 		{
 			glfwInit();
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -46,6 +55,7 @@ namespace tree_generator
 			glfwSetWindowUserPointer(internalWindow_, this);
 
 			glfwSetKeyCallback(internalWindow_, HandleKeyboardInput);
+			glfwSetScrollCallback(internalWindow_, HandleScrollInput);
 		}
 
 		OpenGLWindow::~OpenGLWindow()
@@ -73,9 +83,19 @@ namespace tree_generator
 			keyboardCallback_ = keyboardCallback;
 		}
 
+		void OpenGLWindow::SetScrollCallback(ScrollCallback scrollCallback)
+		{
+			scrollCallback_ = scrollCallback;
+		}
+
 		void OpenGLWindow::SendKeyboardEvent(KeyToken token, KeyAction action)
 		{
 			keyboardCallback_(token, action);
+		}
+
+		void OpenGLWindow::SendScrollEvent(double xOffset, double yOffset)
+		{
+			scrollCallback_(xOffset, yOffset);
 		}
 	}
 }

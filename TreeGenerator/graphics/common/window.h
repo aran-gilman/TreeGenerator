@@ -23,6 +23,9 @@ namespace tree_generator
 		using KeyboardCallback = std::function<void(KeyToken, KeyAction)>;
 		virtual void SetKeyboardCallback(KeyboardCallback keyboardCallback) = 0;
 
+		using ScrollCallback = std::function<void(double xOffset, double yOffset)>;
+		virtual void SetScrollCallback(ScrollCallback scrollCallback) = 0;
+
 		// Disallow copy and move
 		Window(const Window&) = delete;
 		Window& operator&(const Window&) = delete;

@@ -24,9 +24,11 @@ namespace tree_generator
 			int Height() const override { return height_; }
 
 			void Display(RenderCallback renderCallback) override;
-			void SetKeyboardCallback(KeyboardCallback keyboardCallback) override;
+			void SetKeyboardCallback(KeyboardCallback keyboardCallback) override; 
+			void SetScrollCallback(ScrollCallback scrollCallback) override;
 
 			void SendKeyboardEvent(KeyToken token, KeyAction action);
+			void SendScrollEvent(double xOffset, double yOffset);
 
 		private:
 			int width_;
@@ -34,6 +36,7 @@ namespace tree_generator
 
 			GLFWwindow* internalWindow_;
 			KeyboardCallback keyboardCallback_;
+			ScrollCallback scrollCallback_;
 		};
 	}
 }

@@ -70,6 +70,11 @@ namespace tree_generator
 		}
 	}
 
+	void HandleScrollInput(CameraController* camera, double xOffset, double yOffset)
+	{
+		std::cout << "Scroll (x: " << xOffset << ", y: " << yOffset << ")" << std::endl;
+	}
+
 	void Run()
 	{
 		std::unique_ptr<Window> window =
@@ -136,6 +141,10 @@ namespace tree_generator
 
 		window->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
 			HandleCameraInput(&cameraController, keyToken, action);
+			});
+
+		window->SetScrollCallback([&](double xOffset, double yOffset) {
+			HandleScrollInput(&cameraController, xOffset, yOffset);
 			});
 
 		window->Display([&](double elapsedTime) {
