@@ -46,6 +46,14 @@ namespace tree_generator
 					movement.verticalRotationVelocity +=
 						settings.maxVerticalRotationPerSecond;
 				}
+				else if (keyToken == KeyToken::Comma)
+				{
+					movement.heightVelocity -= settings.maxHeightChangePerSecond;
+				}
+				else if (keyToken == KeyToken::Period)
+				{
+					movement.heightVelocity += settings.maxHeightChangePerSecond;
+				}
 			}
 			else if (action == KeyAction::Release)
 			{
@@ -68,6 +76,14 @@ namespace tree_generator
 				{
 					movement.verticalRotationVelocity -=
 						settings.maxVerticalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::Comma)
+				{
+					movement.heightVelocity += settings.maxHeightChangePerSecond;
+				}
+				else if (keyToken == KeyToken::Period)
+				{
+					movement.heightVelocity -= settings.maxHeightChangePerSecond;
 				}
 			}
 		}

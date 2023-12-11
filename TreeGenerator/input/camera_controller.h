@@ -37,8 +37,8 @@ namespace tree_generator
 		{
 			float horizontalRotationVelocity = 0.0f;
 			float verticalRotationVelocity = 0.0f;
+			float heightVelocity = 0.0f;
 			float remainingDistanceChange = 0.0f;
-			float remainingHeightChange = 0.0f;
 		};
 
 		struct Position
