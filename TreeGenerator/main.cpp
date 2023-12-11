@@ -128,6 +128,35 @@ namespace tree_generator
 			return output;
 		}
 
+		lsystem::MeshGenerator CreateBinaryTreeMeshGenerator(
+			const DisplaySymbols& symbols,
+			glm::vec3 rotation)
+		{
+			lsystem::MeshGenerator generator;
+			generator.Define(
+				symbols.trunk,
+				std::make_unique<lsystem::DrawAction>(CreateCylinder(8)));
+			generator.Define(
+				symbols.leaf,
+				std::make_unique<lsystem::DrawAction>(CreateQuad()));
+			generator.Define(
+				symbols.push,
+				std::make_unique<lsystem::SaveAction>());
+			generator.Define(
+				symbols.pop,
+				std::make_unique<lsystem::RestoreAction>());
+			generator.Define(
+				symbols.rotateRight,
+				std::make_unique<lsystem::RotateAction>(-rotation));
+			generator.Define(
+				symbols.rotateLeft,
+				std::make_unique<lsystem::RotateAction>(rotation));
+			generator.Define(
+				symbols.advance,
+				std::make_unique<lsystem::MoveAction>());
+			return generator;
+		}
+
 		void Run()
 		{
 			std::unique_ptr<Window> window =
@@ -140,17 +169,8 @@ namespace tree_generator
 			DisplaySymbols symbols;
 			std::vector<lsystem::Symbol> tree = CreateSimpleBinaryTree(symbols, 5);
 
-			lsystem::MeshGenerator generator;
-			generator.Define(symbols.trunk, std::make_unique<lsystem::DrawAction>(CreateCylinder(8)));
-			generator.Define(symbols.leaf, std::make_unique<lsystem::DrawAction>(CreateQuad()));
-
-			generator.Define(symbols.push, std::make_unique<lsystem::SaveAction>());
-			generator.Define(symbols.pop, std::make_unique<lsystem::RestoreAction>());
-
-			glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 45.0f);
-			generator.Define(symbols.rotateRight, std::make_unique<lsystem::RotateAction>(-rotation));
-			generator.Define(symbols.rotateLeft, std::make_unique<lsystem::RotateAction>(rotation));
-			generator.Define(symbols.advance, std::make_unique<lsystem::MoveAction>());
+			lsystem::MeshGenerator generator =
+				CreateBinaryTreeMeshGenerator(symbols, glm::vec3(0.0f, 0.0f, 45.0f));
 
 			lsystem::StringGenerator stringGenerator;
 			stringGenerator.Define(symbols.trunk, "1");
