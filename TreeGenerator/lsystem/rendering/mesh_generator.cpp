@@ -2,7 +2,12 @@
 
 namespace tree_generator::lsystem
 {
-	void MeshGenerator::Define(const Symbol& symbol, MeshData meshData)
+	void MeshGenerator::DefineDraw(const Symbol& symbol, MeshData meshData)
+	{
+
+	}
+
+	void MeshGenerator::DefineMove(const Symbol& symbol)
 	{
 
 	}

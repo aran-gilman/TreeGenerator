@@ -12,7 +12,8 @@ namespace tree_generator::lsystem
 	class MeshGenerator
 	{
 	public:
-		void Define(const Symbol& symbol, MeshData meshData);
+		void DefineDraw(const Symbol& symbol, MeshData meshData);
+		void DefineMove(const Symbol& symbol);
 
 		struct MeshGroup
 		{
