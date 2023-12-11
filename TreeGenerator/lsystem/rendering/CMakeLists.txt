@@ -19,6 +19,8 @@ target_sources(lsystem_mesh_generator
 )
 target_link_libraries(lsystem_mesh_generator
 	PUBLIC
+		glm
+
 		graphics_common
 		lsystem_core
 )
@@ -54,6 +56,8 @@ target_link_libraries(lsystem_mesh_generator_test
 		GTest::gtest
 		GTest::gmock
 		GTest::gtest_main
+
+		glm
 		
 		lsystem_core
 		lsystem_mesh_generator
