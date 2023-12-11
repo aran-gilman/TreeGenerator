@@ -125,9 +125,12 @@ namespace tree_generator
 			glm::radians(currentPosition_.horizontalAngle));
 
 		glm::vec3 newPosition = glm::vec3(x, y, z ) * currentPosition_.distance;
+		newPosition += glm::vec3(0.0f, currentPosition_.height, 0.0f);
 
-		glm::mat4 view =
-			glm::lookAt(newPosition, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 view = glm::lookAt(
+			newPosition,
+			glm::vec3(0.0f, currentPosition_.height, 0.0f),
+			glm::vec3(0.0f, 1.0f, 0.0f));
 		renderer_->SetCameraView(view);
 	}
 }

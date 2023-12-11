@@ -26,8 +26,11 @@ namespace tree_generator
 
 			float minDistance = 1.0f;
 			float maxDistance = 100.0f;
-
 			float maxDistanceChangePerSecond = 10.0f;
+
+			float minHeight = 0.0f;
+			float maxHeight = 100.0f;
+			float maxHeightChangePerSecond = 10.0f;
 		};
 
 		struct Movement
@@ -35,6 +38,7 @@ namespace tree_generator
 			float horizontalRotationVelocity = 0.0f;
 			float verticalRotationVelocity = 0.0f;
 			float remainingDistanceChange = 0.0f;
+			float remainingHeightChange = 0.0f;
 		};
 
 		struct Position
@@ -46,6 +50,7 @@ namespace tree_generator
 			float verticalAngle = 0.0f;
 
 			float distance = 50.0f;
+			float height = 1.0f;
 		};
 
 		CameraController(Renderer* renderer);
