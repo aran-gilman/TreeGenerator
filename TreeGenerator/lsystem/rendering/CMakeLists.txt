@@ -14,8 +14,11 @@ add_library(lsystem_mesh_generator)
 target_sources(lsystem_mesh_generator
 	PUBLIC
 		mesh_generator.h
+		mesh_generator_action.h
+
 	PRIVATE
 		mesh_generator.cpp
+		mesh_generator_action.cpp
 )
 target_link_libraries(lsystem_mesh_generator
 	PUBLIC

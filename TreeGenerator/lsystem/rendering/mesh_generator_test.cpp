@@ -49,7 +49,7 @@ namespace tree_generator::lsystem
 			EXPECT_THAT(
 				generator.Generate({ a }),
 				ElementsAre(
-					Field(&MeshGenerator::MeshGroup::mesh,
+					Field(&MeshGroup::mesh,
 						AllOf(
 							Field(&MeshData::indices, ElementsAreArray(quad.indices)),
 							Field(&MeshData::vertices, SizeIs(quad.vertices.size()))
@@ -67,7 +67,7 @@ namespace tree_generator::lsystem
 			EXPECT_THAT(
 				generator.Generate({ a, a }),
 				ElementsAre(
-					Field(&MeshGenerator::MeshGroup::instances, SizeIs(2))
+					Field(&MeshGroup::instances, SizeIs(2))
 				));
 		}
 
@@ -83,7 +83,7 @@ namespace tree_generator::lsystem
 			EXPECT_THAT(
 				generator.Generate({ symbolDraw, symbolMove, symbolDraw }),
 				ElementsAre(
-					Field(&MeshGenerator::MeshGroup::instances,
+					Field(&MeshGroup::instances,
 						ElementsAre(
 							Field(&Transform::position, Eq(glm::vec3(0))),
 							Field(&Transform::position, Eq(glm::vec3(0.0f, 1.0f, 0.0f)))
@@ -103,7 +103,7 @@ namespace tree_generator::lsystem
 				generator.Generate(
 					{ symbolDraw, symbolRotate, symbolDraw, symbolRotate, symbolDraw }),
 				ElementsAre(
-					Field(&MeshGenerator::MeshGroup::instances,
+					Field(&MeshGroup::instances,
 						ElementsAre(
 							Field(&Transform::rotation, Eq(glm::vec3(0))),
 							Field(&Transform::rotation, Eq(glm::vec3(0.0f, 0.0f, 45.0f))),
@@ -125,7 +125,7 @@ namespace tree_generator::lsystem
 			EXPECT_THAT(
 				generator.Generate({ symbolDraw, symbolRotate, symbolMove, symbolDraw }),
 				ElementsAre(
-					Field(&MeshGenerator::MeshGroup::instances,
+					Field(&MeshGroup::instances,
 						ElementsAre(
 							Field(&Transform::position, Eq(glm::vec3(0))),
 							Field(&Transform::position, Eq(glm::vec3(
@@ -156,7 +156,7 @@ namespace tree_generator::lsystem
 					symbolRotate, symbolMove, symbolDraw,
 					symbolRestore, symbolDraw }),
 				ElementsAre(
-					Field(&MeshGenerator::MeshGroup::instances,
+					Field(&MeshGroup::instances,
 						ElementsAre(
 							Field(&Transform::position, Eq(glm::vec3(0))),
 							Field(&Transform::position, Eq(glm::vec3(
