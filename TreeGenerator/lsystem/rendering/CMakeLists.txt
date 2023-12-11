@@ -19,6 +19,7 @@ target_sources(lsystem_mesh_generator
 )
 target_link_libraries(lsystem_mesh_generator
 	PUBLIC
+		graphics_common
 		lsystem_core
 )
 
