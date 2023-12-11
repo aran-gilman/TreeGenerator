@@ -1,4 +1,4 @@
-#include "text_renderer.h"
+#include "string_generator.h"
 
 namespace tree_generator
 {

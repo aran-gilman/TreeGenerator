@@ -2,10 +2,10 @@ add_library(lsystem_rendering)
 
 target_sources(lsystem_rendering
 	PUBLIC
-		text_renderer.h
+		string_generator.h
 
 	PRIVATE
-		text_renderer.cpp
+		string_generator.cpp
 )
 
 target_link_libraries(lsystem_rendering
@@ -18,7 +18,7 @@ add_executable(lsystem_rendering_test)
 
 target_sources(lsystem_rendering_test
 	PRIVATE
-		text_renderer_test.cpp
+		string_generator_test.cpp
 )
 
 target_link_libraries(lsystem_rendering_test

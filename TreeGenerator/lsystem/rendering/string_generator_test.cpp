@@ -1,7 +1,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "text_renderer.h"
+#include "string_generator.h"
 
 #include "../core/lsystem.h"
 
