@@ -69,7 +69,13 @@ namespace tree_generator
 		Movement currentMovement_;
 		Position currentPosition_;
 
-		void UpdateCameraPosition();
+		void UpdateRendererCamera();
+
+		// Returns whether the associated value actually changed.
+		bool UpdateHorizontalPosition(double elapsedTime);
+		bool UpdateVerticalPosition(double elapsedTime);
+		bool UpdateDistance(double elapsedTime);
+		bool UpdateHeight(double elapsedTime);
 	};
 }
 

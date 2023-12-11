@@ -27,18 +27,51 @@ namespace tree_generator
 		CameraController(renderer, MovementSettings())
 	{
 	}
-	
+
 	CameraController::CameraController(
 		Renderer* renderer, MovementSettings movementSettings) :
 		renderer_(renderer),
 		movementSettings_(movementSettings)
 	{
-		UpdateCameraPosition();
+		UpdateRendererCamera();
 	}
 
 	void CameraController::Update(double elapsedTime)
 	{
 		bool wasPositionUpdated = false;
+		wasPositionUpdated |= UpdateHorizontalPosition(elapsedTime);
+		wasPositionUpdated |= UpdateVerticalPosition(elapsedTime);
+		wasPositionUpdated |= UpdateDistance(elapsedTime);
+		wasPositionUpdated |= UpdateHeight(elapsedTime);
+
+		if (wasPositionUpdated)
+		{
+			UpdateRendererCamera();
+		}
+	}
+
+	void CameraController::UpdateRendererCamera()
+	{
+		float verticalMultiplier = glm::cos(glm::radians(currentPosition_.verticalAngle));
+
+		float x = verticalMultiplier * glm::sin(
+			glm::radians(currentPosition_.horizontalAngle));
+		float y = glm::sin(glm::radians(currentPosition_.verticalAngle));
+		float z = verticalMultiplier * glm::cos(
+			glm::radians(currentPosition_.horizontalAngle));
+
+		glm::vec3 newPosition = glm::vec3(x, y, z) * currentPosition_.distance;
+		newPosition += glm::vec3(0.0f, currentPosition_.height, 0.0f);
+
+		glm::mat4 view = glm::lookAt(
+			newPosition,
+			glm::vec3(0.0f, currentPosition_.height, 0.0f),
+			glm::vec3(0.0f, 1.0f, 0.0f));
+		renderer_->SetCameraView(view);
+	}
+
+	bool CameraController::UpdateHorizontalPosition(double elapsedTime)
+	{
 		if (glm::abs(currentMovement_.horizontalRotationVelocity) > kMinUpdateSpeed)
 		{
 			currentPosition_.horizontalAngle += (
@@ -49,9 +82,13 @@ namespace tree_generator
 			{
 				currentPosition_.horizontalAngle += kMaxHorizontalAngle;
 			}
-			wasPositionUpdated = true;
+			return true;
 		}
+		return false;
+	}
 
+	bool CameraController::UpdateVerticalPosition(double elapsedTime)
+	{
 		if (glm::abs(currentMovement_.verticalRotationVelocity) > kMinUpdateSpeed)
 		{
 			currentPosition_.verticalAngle += (
@@ -64,9 +101,13 @@ namespace tree_generator
 			{
 				currentPosition_.verticalAngle = -kMaxVerticalAngle;
 			}
-			wasPositionUpdated = true;
+			return true;
 		}
+		return false;
+	}
 
+	bool CameraController::UpdateDistance(double elapsedTime)
+	{
 		if (currentMovement_.remainingDistanceChange > kMinUpdateSpeed)
 		{
 			float diff = movementSettings_.maxDistanceChangePerSecond * elapsedTime;
@@ -85,7 +126,7 @@ namespace tree_generator
 			{
 				currentPosition_.distance = movementSettings_.maxDistance;
 			}
-			wasPositionUpdated = true;
+			return true;
 		}
 		else if (currentMovement_.remainingDistanceChange < -kMinUpdateSpeed)
 		{
@@ -105,32 +146,13 @@ namespace tree_generator
 			{
 				currentPosition_.distance = movementSettings_.minDistance;
 			}
-			wasPositionUpdated = true;
+			return true;
 		}
-
-		if (wasPositionUpdated)
-		{
-			UpdateCameraPosition();
-		}
+		return false;
 	}
 
-	void CameraController::UpdateCameraPosition()
+	bool CameraController::UpdateHeight(double elapsedTime)
 	{
-		float verticalMultiplier = glm::cos(glm::radians(currentPosition_.verticalAngle));
-
-		float x = verticalMultiplier * glm::sin(
-			glm::radians(currentPosition_.horizontalAngle));
-		float y = glm::sin(glm::radians(currentPosition_.verticalAngle));
-		float z = verticalMultiplier * glm::cos(
-			glm::radians(currentPosition_.horizontalAngle));
-
-		glm::vec3 newPosition = glm::vec3(x, y, z ) * currentPosition_.distance;
-		newPosition += glm::vec3(0.0f, currentPosition_.height, 0.0f);
-
-		glm::mat4 view = glm::lookAt(
-			newPosition,
-			glm::vec3(0.0f, currentPosition_.height, 0.0f),
-			glm::vec3(0.0f, 1.0f, 0.0f));
-		renderer_->SetCameraView(view);
+		return false;
 	}
 }
