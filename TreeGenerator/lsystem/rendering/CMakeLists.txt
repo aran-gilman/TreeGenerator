@@ -1,35 +1,60 @@
-add_library(lsystem_rendering)
-
-target_sources(lsystem_rendering
+add_library(lsystem_string_generator)
+target_sources(lsystem_string_generator
 	PUBLIC
 		string_generator.h
-
 	PRIVATE
 		string_generator.cpp
 )
+target_link_libraries(lsystem_string_generator
+	PUBLIC
+		lsystem_core
+)
 
-target_link_libraries(lsystem_rendering
+add_library(lsystem_mesh_generator)
+target_sources(lsystem_mesh_generator
+	PUBLIC
+		mesh_generator.h
+	PRIVATE
+		mesh_generator.cpp
+)
+target_link_libraries(lsystem_mesh_generator
 	PUBLIC
 		lsystem_core
 )
 
 enable_testing()
-add_executable(lsystem_rendering_test)
+include(GoogleTest)
 
-target_sources(lsystem_rendering_test
+add_executable(lsystem_string_generator_test)
+target_sources(lsystem_string_generator_test
 	PRIVATE
+		string_generator.h
 		string_generator_test.cpp
 )
-
-target_link_libraries(lsystem_rendering_test
+target_link_libraries(lsystem_string_generator_test
 	PRIVATE
 		GTest::gtest
 		GTest::gmock
 		GTest::gtest_main
 		
 		lsystem_core
-		lsystem_rendering
+		lsystem_string_generator
 )
+gtest_discover_tests(lsystem_string_generator_test)
 
-include(GoogleTest)
-gtest_discover_tests(lsystem_rendering_test)
+add_executable(lsystem_mesh_generator_test)
+target_sources(lsystem_mesh_generator_test
+	PRIVATE
+		mesh_generator.h
+		mesh_generator_test.cpp
+)
+target_link_libraries(lsystem_mesh_generator_test
+	PRIVATE
+		GTest::gtest
+		GTest::gmock
+		GTest::gtest_main
+		
+		lsystem_core
+		lsystem_mesh_generator
+)
+gtest_discover_tests(lsystem_mesh_generator_test)
