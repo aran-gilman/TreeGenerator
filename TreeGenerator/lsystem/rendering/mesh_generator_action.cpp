@@ -25,12 +25,12 @@ namespace tree_generator::lsystem
 		if (auto iter = state->symbolMeshMap.find(symbol);
 			iter != state->symbolMeshMap.end())
 		{
-			iter->second->instances.push_back(CreateTransform(*state));
+			iter->second.instances.push_back(CreateTransform(*state));
 		}
 		else
 		{
-			state->meshes.push_back({ meshData_, { CreateTransform(*state) } });
-			state->symbolMeshMap[symbol] = &state->meshes.back();
+			state->symbolMeshMap.emplace(symbol,
+				MeshGroup{ meshData_, { CreateTransform(*state) } });
 		}
 	}
 

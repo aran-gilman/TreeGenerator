@@ -26,6 +26,12 @@ namespace tree_generator::lsystem
 				iter->second->PerformAction(symbol, &state);
 			}
 		}
-		return state.meshes;
+
+		std::vector<MeshGroup> meshes;
+		for (auto& [symbol, meshGroup] : state.symbolMeshMap)
+		{
+			meshes.push_back(std::move(meshGroup));
+		}
+		return meshes;
 	}
 }

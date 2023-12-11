@@ -10,6 +10,10 @@
 #include "graphics/opengl/opengl_renderer.h"
 #include "graphics/opengl/opengl_window.h"
 #include "input/camera_controller.h"
+#include "lsystem/core/lsystem.h"
+#include "lsystem/rendering/mesh_generator.h"
+#include "lsystem/rendering/mesh_generator_action.h"
+#include "lsystem/rendering/string_generator.h"
 
 namespace tree_generator
 {
@@ -75,11 +79,58 @@ namespace tree_generator
 
 		CameraController cameraController(renderer.get());
 
-		std::vector<Transform> instances;
-		instances.push_back({ glm::vec3(1), glm::vec3(0), 1.0f });
-		instances.push_back({ glm::vec3(3), glm::vec3(0), 1.0f });
+		lsystem::Symbol trunk{ '1' };
+		lsystem::Symbol leaf{ '0' };
 
-		renderer->AddMesh(CreateCylinder(4), instances);
+		lsystem::Symbol push{ '[' };
+		lsystem::Symbol pop{ ']' };
+
+		lsystem::Symbol rotateRight{ 'R' };
+		lsystem::Symbol rotateLeft{ 'L' };
+		lsystem::Symbol advance{ 'A' };
+
+		lsystem::MeshGenerator generator;
+		generator.Define(trunk, std::make_unique<lsystem::DrawAction>(CreateCylinder(8)));
+		generator.Define(leaf, std::make_unique<lsystem::DrawAction>(CreateQuad()));
+
+		generator.Define(push, std::make_unique<lsystem::SaveAction>());
+		generator.Define(pop, std::make_unique<lsystem::RestoreAction>());
+
+		glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 45.0f);
+		generator.Define(rotateRight, std::make_unique<lsystem::RotateAction>(-rotation));
+		generator.Define(rotateLeft, std::make_unique<lsystem::RotateAction>(rotation));
+		generator.Define(advance, std::make_unique<lsystem::MoveAction>());
+
+		lsystem::StringGenerator stringGenerator;
+		stringGenerator.Define(trunk, "1");
+		stringGenerator.Define(leaf, "0");
+		stringGenerator.Define(push, "[");
+		stringGenerator.Define(pop, "]");
+		stringGenerator.Define(rotateRight, "R");
+		stringGenerator.Define(rotateLeft, "L");
+		stringGenerator.Define(advance, "A");
+
+		lsystem::RuleMap rules = {
+			{ trunk, { trunk, advance, trunk }},
+			{ leaf, {
+				trunk,
+				push, rotateRight, advance, leaf, pop,
+				rotateLeft, advance, leaf 
+		}}};
+		std::vector<lsystem::Symbol> symbols = { leaf };
+		for (int i = 0; i < 5; i++)
+		{
+			symbols = Iterate(symbols, rules);
+		}
+
+		std::cout << "Generated tree: " << stringGenerator.Generate(symbols) << std::endl;
+
+		std::vector<lsystem::MeshGroup> meshes = generator.Generate(symbols);
+		for (const lsystem::MeshGroup& group : meshes)
+		{
+			renderer->AddMesh(group.mesh, group.instances);
+		}
+
 		renderer->AddMesh(CreateQuad(),
 			{ glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(90.0f, 0.0f, 0.0f), 10.0f });
 

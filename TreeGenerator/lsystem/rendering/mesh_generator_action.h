@@ -30,9 +30,7 @@ namespace tree_generator::lsystem
 	{
 		std::vector<glm::vec3> positionStack;
 		std::vector<glm::vec3> rotationStack;
-		std::vector<MeshGroup> meshes;
-
-		std::unordered_map<Symbol, MeshGroup*> symbolMeshMap;
+		std::unordered_map<Symbol, MeshGroup> symbolMeshMap;
 	};
 
 	// Interface for mutating the generator state.

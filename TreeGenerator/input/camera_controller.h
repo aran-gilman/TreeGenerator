@@ -45,7 +45,7 @@ namespace tree_generator
 			// Range: -90 to 90
 			float verticalAngle = 0.0f;
 
-			float distance = 5.0f;
+			float distance = 50.0f;
 		};
 
 		CameraController(Renderer* renderer);

@@ -13,8 +13,10 @@ target_link_libraries(TreeGenerator
 	PRIVATE
 		glm
 
-		lsystem_core
 		graphics_common
 		graphics_opengl
-		input
+		input		
+		lsystem_core
+		lsystem_mesh_generator
+		lsystem_string_generator
 )
