@@ -12,3 +12,24 @@ target_link_libraries(lsystem_rendering
 	PUBLIC
 		lsystem_core
 )
+
+enable_testing()
+add_executable(lsystem_rendering_test)
+
+target_sources(lsystem_rendering_test
+	PRIVATE
+		text_renderer_test.cpp
+)
+
+target_link_libraries(lsystem_rendering_test
+	PRIVATE
+		GTest::gtest
+		GTest::gmock
+		GTest::gtest_main
+		
+		lsystem_core
+		lsystem_rendering
+)
+
+include(GoogleTest)
+gtest_discover_tests(lsystem_rendering_test)
