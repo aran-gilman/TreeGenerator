@@ -9,10 +9,21 @@ target_sources(lsystem_core
 )
 
 enable_testing()
+add_executable(lsystem_test)
 
-add_executable(TreeGeneratorTest lsystem_test.cpp)
+target_sources(lsystem_test
+	PRIVATE
+		lsystem_test.cpp
+)
 
-target_link_libraries(TreeGeneratorTest GTest::gtest GTest::gmock GTest::gtest_main lsystem_core)
+target_link_libraries(lsystem_test
+	PRIVATE
+		GTest::gtest
+		GTest::gmock
+		GTest::gtest_main
+		
+		lsystem_core
+)
 
 include(GoogleTest)
-gtest_discover_tests(TreeGeneratorTest)
+gtest_discover_tests(lsystem_test)
