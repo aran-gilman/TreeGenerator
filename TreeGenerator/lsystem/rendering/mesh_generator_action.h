@@ -56,7 +56,13 @@ namespace tree_generator::lsystem
 	class MoveAction : public MeshGeneratorAction
 	{
 	public:
+		MoveAction(float distance);
+		MoveAction() : MoveAction(1.0f) {}
+
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
+
+	private:
+		float distance_;
 	};
 
 	// Rotate the model and change the turtle's direction.

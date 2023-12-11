@@ -34,6 +34,8 @@ namespace tree_generator::lsystem
 		}
 	}
 
+	MoveAction::MoveAction(float distance) : distance_(distance) {}
+
 	void MoveAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
 	{
 		glm::vec3 rotation = state->rotationStack.back();
@@ -46,7 +48,7 @@ namespace tree_generator::lsystem
 		glm::vec3 direction = glm::vec3(0.0f, 1.0f, 0.0f);
 		direction = glm::mat3(matrix) * direction;
 
-		state->positionStack.back() += direction;
+		state->positionStack.back() += (direction * distance_);
 	}
 
 	RotateAction::RotateAction(glm::vec3 rotation) : rotation_(rotation) {}

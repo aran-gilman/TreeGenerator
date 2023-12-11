@@ -189,7 +189,7 @@ namespace tree_generator
 				std::make_unique<lsystem::RotateAction>(rotation));
 			generator.Define(
 				symbols.advance,
-				std::make_unique<lsystem::MoveAction>());
+				std::make_unique<lsystem::MoveAction>(0.5f));
 			return generator;
 		}
 
