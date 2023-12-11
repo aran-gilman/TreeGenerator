@@ -157,6 +157,20 @@ namespace tree_generator
 			return generator;
 		}
 
+		lsystem::StringGenerator CreateBinaryTreeStringGenerator(
+			const DisplaySymbols& symbols)
+		{
+			lsystem::StringGenerator generator;
+			generator.Define(symbols.trunk, "1");
+			generator.Define(symbols.leaf, "0");
+			generator.Define(symbols.push, "[");
+			generator.Define(symbols.pop, "]");
+			generator.Define(symbols.rotateRight, "R");
+			generator.Define(symbols.rotateLeft, "L");
+			generator.Define(symbols.advance, "A");
+			return generator;
+		}
+
 		void Run()
 		{
 			std::unique_ptr<Window> window =
@@ -169,21 +183,13 @@ namespace tree_generator
 			DisplaySymbols symbols;
 			std::vector<lsystem::Symbol> tree = CreateSimpleBinaryTree(symbols, 5);
 
-			lsystem::MeshGenerator generator =
-				CreateBinaryTreeMeshGenerator(symbols, glm::vec3(0.0f, 0.0f, 45.0f));
-
-			lsystem::StringGenerator stringGenerator;
-			stringGenerator.Define(symbols.trunk, "1");
-			stringGenerator.Define(symbols.leaf, "0");
-			stringGenerator.Define(symbols.push, "[");
-			stringGenerator.Define(symbols.pop, "]");
-			stringGenerator.Define(symbols.rotateRight, "R");
-			stringGenerator.Define(symbols.rotateLeft, "L");
-			stringGenerator.Define(symbols.advance, "A");
-
+			lsystem::StringGenerator stringGenerator =
+				CreateBinaryTreeStringGenerator(symbols);
 			std::cout << "Generated tree: " << stringGenerator.Generate(tree) << std::endl;
 
-			std::vector<lsystem::MeshGroup> meshes = generator.Generate(tree);
+			lsystem::MeshGenerator meshGenerator =
+				CreateBinaryTreeMeshGenerator(symbols, glm::vec3(0.0f, 0.0f, 45.0f));
+			std::vector<lsystem::MeshGroup> meshes = meshGenerator.Generate(tree);
 			for (const lsystem::MeshGroup& group : meshes)
 			{
 				renderer->AddMesh(group.mesh, group.instances);
