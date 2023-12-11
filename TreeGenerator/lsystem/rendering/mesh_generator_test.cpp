@@ -1,5 +1,7 @@
 #include "mesh_generator.h"
 
+#include <ostream>
+
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -16,10 +18,55 @@ using ::testing::Eq;
 using ::testing::Field;
 using ::testing::FieldsAre;
 using ::testing::IsEmpty;
+using ::testing::PrintToString;
 using ::testing::SizeIs;
+
+namespace glm
+{
+	// These function must not be in an anonymous namespace in order for
+	// GoogleTest to be able to use it!
+	void PrintTo(const glm::vec3& vec, std::ostream* os)
+	{
+		*os << "(x: " << vec.x << ", y: " << vec.y << ", z: " << vec.z << ")";
+	}
+	
+	void PrintTo(const glm::vec2& vec, std::ostream* os)
+	{
+		*os << "(x: " << vec.x << ", y: " << vec.y << ")";
+	}
+}
+
+namespace tree_generator
+{
+	void PrintTo(const Transform& transform, std::ostream* os)
+	{
+		*os << "\nTransform(\n\tposition: " << PrintToString(transform.position);
+		*os << ",\n\trotation: " << PrintToString(transform.rotation);
+		*os << ",\n\tscale: " << transform.scale << ")";
+	}
+
+	void PrintTo(const Vertex& vertex, std::ostream* os)
+	{
+		*os << "\nVertex(\n\tposition: " << PrintToString(vertex.position);
+		*os << ",\n\tnormal: " << PrintToString(vertex.normal);
+		*os << ",\n\tuv: " << PrintToString(vertex.uv) << ")";
+	}
+
+	void PrintTo(const MeshData& meshData, std::ostream* os)
+	{
+		*os << "\nMeshData(\n\tvertices: " << PrintToString(meshData.vertices);
+		*os << ",\n\tindices: " << PrintToString(meshData.indices) << ")";
+	}
+}
 
 namespace tree_generator::lsystem
 {
+	void PrintTo(const MeshGroup& meshGroup, std::ostream* os)
+	{
+		*os << "\nMeshGroup(\n\tmesh: " << PrintToString(meshGroup.mesh);
+		*os << ",\n\tinstances: " << PrintToString(meshGroup.instances) << ")";
+	}
+
 	namespace
 	{
 		TEST(LSystemStringGeneratorTest, NoSymbolsGeneratesNoMeshes)
@@ -123,14 +170,21 @@ namespace tree_generator::lsystem
 			generator.DefineMove(symbolMove);
 
 			EXPECT_THAT(
-				generator.Generate({ symbolDraw, symbolRotate, symbolMove, symbolDraw }),
+				generator.Generate({
+					symbolDraw,
+					symbolRotate, symbolMove, symbolDraw,
+					symbolRotate, symbolMove, symbolDraw }),
 				ElementsAre(
 					Field(&MeshGroup::instances,
 						ElementsAre(
 							Field(&Transform::position, Eq(glm::vec3(0))),
 							Field(&Transform::position, Eq(glm::vec3(
-								glm::sin(glm::radians(30.0f)),
+								-glm::sin(glm::radians(30.0f)),
 								glm::cos(glm::radians(30.0f)),
+								0.0f))),
+							Field(&Transform::position, Eq(glm::vec3(
+								-glm::sin(glm::radians(30.0f)) - glm::sin(glm::radians(60.0f)),
+								glm::cos(glm::radians(30.0f)) + glm::cos(glm::radians(60.0f)),
 								0.0f)))
 						))));
 		}

@@ -35,7 +35,7 @@ namespace tree_generator::lsystem
 	{
 		MeshGeneratorState state;
 		state.positionStack.push_back(glm::vec3(0.0f));
-		state.rotationStack.push_back(glm::vec3(0.0f, 0.0f, 0.0f));
+		state.rotationStack.push_back(glm::vec3(0.0f));
 
 		for (const Symbol& symbol : symbols)
 		{
