@@ -128,6 +128,42 @@ namespace tree_generator
 			return output;
 		}
 
+		// See http://algorithmicbotany.org/papers/lsfp.pdf page 25
+		// X = leaf
+		// F = trunk
+		// - = rotateRight
+		// + = rotateLeft
+		// The system in the book does not have an explicit advance, but we add it
+		// to keep a 1:1 relationship between symbols and actions.
+		std::vector<lsystem::Symbol> CreateTreeTypeB(
+			const DisplaySymbols& symbols,
+			int iterations)
+		{
+			lsystem::RuleMap rules = {
+				{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
+				{ symbols.leaf, {
+					symbols.trunk, symbols.rotateRight,
+					symbols.push, symbols.push,
+					symbols.advance, symbols.leaf,
+					symbols.pop,
+					symbols.rotateLeft, symbols.advance, symbols.leaf,
+					symbols.pop,
+					symbols.rotateLeft, symbols.advance, symbols.trunk,
+					symbols.push,
+					symbols.rotateLeft, symbols.advance, symbols.trunk,
+					symbols.advance, symbols.leaf,
+					symbols.pop,
+					symbols.rotateRight, symbols.advance, symbols.leaf
+			}} };
+
+			std::vector<lsystem::Symbol> output = { symbols.leaf };
+			for (int i = 0; i < iterations; i++)
+			{
+				output = Iterate(output, rules);
+			}
+			return output;
+		}
+
 		lsystem::MeshGenerator CreateBinaryTreeMeshGenerator(
 			const DisplaySymbols& symbols,
 			glm::vec3 rotation)
@@ -181,14 +217,14 @@ namespace tree_generator
 			CameraController cameraController(renderer.get());
 
 			DisplaySymbols symbols;
-			std::vector<lsystem::Symbol> tree = CreateSimpleBinaryTree(symbols, 5);
+			std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols, 5);
 
 			lsystem::StringGenerator stringGenerator =
 				CreateBinaryTreeStringGenerator(symbols);
 			std::cout << "Generated tree: " << stringGenerator.Generate(tree) << std::endl;
 
 			lsystem::MeshGenerator meshGenerator =
-				CreateBinaryTreeMeshGenerator(symbols, glm::vec3(0.0f, 0.0f, 45.0f));
+				CreateBinaryTreeMeshGenerator(symbols, glm::vec3(0.0f, 0.0f, 22.5f));
 			std::vector<lsystem::MeshGroup> meshes = meshGenerator.Generate(tree);
 			for (const lsystem::MeshGroup& group : meshes)
 			{
