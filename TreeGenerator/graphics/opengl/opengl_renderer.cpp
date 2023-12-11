@@ -119,7 +119,7 @@ void main()
 				glm::perspective(
 					glm::radians(45.0f),
 					(float)window->Width() / window->Height(),
-					0.1f, 100.0f)
+					0.1f, 1000.0f)
 			};
 
 			glGenBuffers(1, &cameraBuffer);
