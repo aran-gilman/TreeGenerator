@@ -5,29 +5,11 @@
 
 namespace tree_generator::lsystem
 {
-	void MeshGenerator::DefineDraw(const Symbol& symbol, MeshData meshData)
+	void MeshGenerator::Define(
+		const Symbol& symbol,
+		std::unique_ptr<MeshGeneratorAction> action)
 	{
-		actions_[symbol] = std::make_unique<DrawAction>(std::move(meshData));
-	}
-
-	void MeshGenerator::DefineMove(const Symbol& symbol)
-	{
-		actions_[symbol] = std::make_unique<MoveAction>();
-	}
-
-	void MeshGenerator::DefineRotate(const Symbol& symbol, glm::vec3 rotation)
-	{
-		actions_[symbol] = std::make_unique<RotateAction>(rotation);
-	}
-
-	void MeshGenerator::DefineSave(const Symbol& symbol)
-	{
-		actions_[symbol] = std::make_unique<SaveAction>();
-	}
-
-	void MeshGenerator::DefineRestore(const Symbol& symbol)
-	{
-		actions_[symbol] = std::make_unique<RestoreAction>();
+		actions_[symbol] = std::move(action);
 	}
 
 	std::vector<MeshGroup> MeshGenerator::Generate(

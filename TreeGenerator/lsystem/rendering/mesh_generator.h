@@ -2,6 +2,7 @@
 #define TREE_GENERATOR_LSYSTEM_MESH_GENERATOR_H_
 
 #include <memory>
+#include <type_traits>
 #include <unordered_map>
 #include <vector>
 
@@ -17,11 +18,8 @@ namespace tree_generator::lsystem
 	class MeshGenerator
 	{
 	public:
-		void DefineDraw(const Symbol& symbol, MeshData meshData);
-		void DefineMove(const Symbol& symbol);
-		void DefineRotate(const Symbol& symbol, glm::vec3 rotation);
-		void DefineSave(const Symbol& symbol);
-		void DefineRestore(const Symbol& symbol);
+		// Define an action for the given symbol.
+		void Define(const Symbol& symbol, std::unique_ptr<MeshGeneratorAction> action);
 
 		std::vector<MeshGroup> Generate(const std::vector<Symbol>& symbols) const;
 

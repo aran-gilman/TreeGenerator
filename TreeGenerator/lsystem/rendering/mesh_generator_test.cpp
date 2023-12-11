@@ -88,7 +88,7 @@ namespace tree_generator::lsystem
 			MeshData quad = CreateQuad();
 
 			MeshGenerator generator;
-			generator.DefineDraw(a, quad);
+			generator.Define(a, std::make_unique<DrawAction>(quad));
 
 			// MeshData and Vertex don't have equality defined on them, so we
 			// can't directly use equals. For now, assume that if the size is
@@ -109,7 +109,7 @@ namespace tree_generator::lsystem
 			MeshData quad = CreateQuad();
 
 			MeshGenerator generator;
-			generator.DefineDraw(a, quad);
+			generator.Define(a, std::make_unique<DrawAction>(quad));
 
 			EXPECT_THAT(
 				generator.Generate({ a, a }),
@@ -124,8 +124,8 @@ namespace tree_generator::lsystem
 			Symbol symbolMove{ 'b' };
 
 			MeshGenerator generator;
-			generator.DefineDraw(symbolDraw, CreateQuad());
-			generator.DefineMove(symbolMove);
+			generator.Define(symbolDraw, std::make_unique<DrawAction>(CreateQuad()));
+			generator.Define(symbolMove, std::make_unique<MoveAction>());
 
 			EXPECT_THAT(
 				generator.Generate({ symbolDraw, symbolMove, symbolDraw }),
@@ -143,8 +143,9 @@ namespace tree_generator::lsystem
 			Symbol symbolRotate{ 'b' };
 
 			MeshGenerator generator;
-			generator.DefineDraw(symbolDraw, CreateQuad());
-			generator.DefineRotate(symbolRotate, glm::vec3(0.0f, 0.0f, 45.0f));
+			generator.Define(symbolDraw, std::make_unique<DrawAction>(CreateQuad()));
+			generator.Define(symbolRotate,
+				std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 45.0f)));
 
 			EXPECT_THAT(
 				generator.Generate(
@@ -165,9 +166,9 @@ namespace tree_generator::lsystem
 			Symbol symbolMove{ 'c' };
 
 			MeshGenerator generator;
-			generator.DefineDraw(symbolDraw, CreateQuad());
-			generator.DefineRotate(symbolRotate, glm::vec3(0.0f, 0.0f, 30.0f));
-			generator.DefineMove(symbolMove);
+			generator.Define(symbolDraw, std::make_unique<DrawAction>(CreateQuad()));
+			generator.Define(symbolRotate, std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 30.0f)));
+			generator.Define(symbolMove, std::make_unique<MoveAction>());
 
 			EXPECT_THAT(
 				generator.Generate({
@@ -198,11 +199,12 @@ namespace tree_generator::lsystem
 			Symbol symbolRestore{ 'e' };
 
 			MeshGenerator generator;
-			generator.DefineDraw(symbolDraw, CreateQuad());
-			generator.DefineRotate(symbolRotate, glm::vec3(0.0f, 0.0f, 30.0f));
-			generator.DefineMove(symbolMove);
-			generator.DefineSave(symbolSave);
-			generator.DefineRestore(symbolRestore);
+			generator.Define(symbolDraw, std::make_unique<DrawAction>(CreateQuad()));
+			generator.Define(symbolRotate,
+				std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 30.0f)));
+			generator.Define(symbolMove, std::make_unique<MoveAction>());
+			generator.Define(symbolSave, std::make_unique<SaveAction>());
+			generator.Define(symbolRestore, std::make_unique<RestoreAction>());
 
 			EXPECT_THAT(
 				generator.Generate({
