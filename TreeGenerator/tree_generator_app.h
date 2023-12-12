@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "lsystem/core/lsystem.h"
+#include "lsystem/core/lsystem_parser.h"
 #include "lsystem/rendering/mesh_generator.h"
 #include "lsystem/rendering/string_generator.h"
 
@@ -40,6 +42,9 @@ namespace tree_generator
 		std::unique_ptr<CameraController> cameraController_;
 
 		DisplaySymbols symbols_;
+		lsystem::StringLSystem stringLSystem_;
+		lsystem::LSystem lSystem_;
+
 		lsystem::MeshGenerator meshGenerator_;
 		lsystem::StringGenerator stringGenerator_;
 

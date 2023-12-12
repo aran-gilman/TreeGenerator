@@ -121,11 +121,11 @@ namespace tree_generator
 		// + = rotateLeft
 		// The system in the book does not have an explicit advance, but we add it
 		// to keep a 1:1 relationship between symbols and actions.
-		std::vector<lsystem::Symbol> CreateTreeTypeB(
-			const DisplaySymbols& symbols,
-			int iterations)
+		lsystem::LSystem CreateTreeTypeB(const DisplaySymbols& symbols)
 		{
-			lsystem::RuleMap rules = {
+			lsystem::LSystem lSystem;
+			lSystem.axiom = { symbols.leaf };
+			lSystem.rules = {
 				{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
 				{ symbols.leaf, {
 					symbols.trunk, symbols.rotateRight,
@@ -140,14 +140,8 @@ namespace tree_generator
 					symbols.advance, symbols.leaf,
 					symbols.pop,
 					symbols.rotateRight, symbols.advance, symbols.leaf
-			}} };
-
-			std::vector<lsystem::Symbol> output = { symbols.leaf };
-			for (int i = 0; i < iterations; i++)
-			{
-				output = Iterate(output, rules);
-			}
-			return output;
+			}}};
+			return lSystem;
 		}
 
 		lsystem::MeshGenerator CreateBinaryTreeMeshGenerator(
@@ -198,7 +192,10 @@ namespace tree_generator
 		window_(std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator")),
 		renderer_(std::make_unique<opengl::OpenGLRenderer>(window_.get())),
 		cameraController_(std::make_unique<CameraController>(renderer_.get())),
+
 		symbols_({}),
+		lSystem_(CreateTreeTypeB(symbols_)),
+
 		stringGenerator_(CreateBinaryTreeStringGenerator(symbols_)),
 		meshGenerator_(
 			CreateBinaryTreeMeshGenerator(symbols_, glm::vec3(0.0f, 0.0f, 22.5f))),
@@ -244,13 +241,14 @@ namespace tree_generator
 		if (ImGui::Button("Regenerate"))
 		{
 			renderer_->ClearAllMeshes();
-			std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols_, iterations_);
+			std::vector<lsystem::Symbol> tree = lsystem::Generate(lSystem_, iterations_);
 			if (doOutputToConsole_)
 			{
 				std::cout << "Generated tree: " <<
 					stringGenerator_.Generate(tree) << std::endl;
 			}
-			std::vector<lsystem::MeshGroup> meshes = meshGenerator_.Generate(tree);
+			std::vector<lsystem::MeshGroup> meshes = 
+				meshGenerator_.Generate(tree);
 			for (const lsystem::MeshGroup& group : meshes)
 			{
 				renderer_->AddMesh(group.mesh, group.instances);
