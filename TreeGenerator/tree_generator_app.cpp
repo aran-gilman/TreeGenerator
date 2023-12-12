@@ -241,7 +241,6 @@ namespace tree_generator
 		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoTitleBar;
 		ImGui::Begin("Tree Generator", nullptr, windowFlags);
 
-
 		if (ImGui::Button("Regenerate"))
 		{
 			renderer_->ClearAllMeshes();
@@ -260,8 +259,7 @@ namespace tree_generator
 
 		if (ImGui::CollapsingHeader("L-System"))
 		{
-			ImGui::InputInt("Iterations", &iterations_);
-			if (iterations_ < 1)
+			if (ImGui::InputInt("Iterations", &iterations_) && iterations_ < 1)
 			{
 				iterations_ = 1;
 			}
