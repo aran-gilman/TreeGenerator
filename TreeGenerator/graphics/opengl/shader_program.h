@@ -3,8 +3,10 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 
 #include "typed_shader.h"
 
@@ -29,9 +31,14 @@ namespace tree_generator
 				const std::string& uniformBlockName,
 				GLuint uniformBlockBinding);
 
+			void SetUniform(const std::string& uniform, glm::vec4 value);
+
 		private:
-			ShaderProgram(GLuint name) : name_(name) {}
 			GLuint name_;
+			std::unordered_map<std::string, int> uniformLocations_;
+
+			ShaderProgram(GLuint name) : name_(name) {}
+			int GetUniformLocation(const std::string& uniform);
 		};
 	}
 }

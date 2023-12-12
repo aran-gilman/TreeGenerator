@@ -1,5 +1,7 @@
 #include "shader_program.h"
 
+#include <glm/gtc/type_ptr.hpp>
+
 namespace tree_generator
 {
 	namespace opengl
@@ -40,6 +42,23 @@ namespace tree_generator
 		{
 			GLuint index = glGetUniformBlockIndex(name_, uniformBlockName.c_str());
 			glUniformBlockBinding(name_, index, uniformBlockBinding);
+		}
+
+		void ShaderProgram::SetUniform(const std::string& uniform, glm::vec4 value)
+		{
+			glUniform4fv(GetUniformLocation(uniform), 1, glm::value_ptr(value));
+		}
+
+		int ShaderProgram::GetUniformLocation(const std::string& uniform)
+		{
+			auto iter = uniformLocations_.find(uniform);
+			if (iter == uniformLocations_.end())
+			{
+				auto res = uniformLocations_.emplace(
+					uniform, glGetUniformLocation(name_, uniform.c_str()));
+				iter = res.first;
+			}
+			return iter->second;
 		}
 	}
 }
