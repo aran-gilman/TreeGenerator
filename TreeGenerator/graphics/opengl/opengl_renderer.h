@@ -1,6 +1,8 @@
 #ifndef TREE_GENERATOR_OPENGL_RENDERER_H_
 #define TREE_GENERATOR_OPENGL_RENDERER_H_
 
+#include <memory>
+
 #include <glm/glm.hpp>
 
 #include "../common/mesh_data.h"
@@ -13,6 +15,8 @@ namespace tree_generator
 
 	namespace opengl
 	{
+		class ShaderProgram;
+
 		struct MeshRenderData
 		{
 			MeshData meshData;
@@ -44,7 +48,7 @@ namespace tree_generator
 			void Render() override;
 
 		private:
-			unsigned int normalShader_;
+			std::unique_ptr<ShaderProgram> normalShader_;
 			unsigned int cameraBuffer;
 			std::vector<MeshRenderData> meshRenderData;
 		};
