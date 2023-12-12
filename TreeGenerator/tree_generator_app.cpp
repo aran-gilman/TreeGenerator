@@ -201,7 +201,11 @@ namespace tree_generator
 		symbols_({}),
 		stringGenerator_(CreateBinaryTreeStringGenerator(symbols_)),
 		meshGenerator_(
-			CreateBinaryTreeMeshGenerator(symbols_, glm::vec3(0.0f, 0.0f, 22.5f)))
+			CreateBinaryTreeMeshGenerator(symbols_, glm::vec3(0.0f, 0.0f, 22.5f))),
+
+		showDemoWindow_(false),
+		iterations_(5),
+		doOutputToConsole_(false)
 	{
 		window_->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
 			HandleCameraInput(cameraController_.get(), keyToken, action);
@@ -219,21 +223,18 @@ namespace tree_generator
 
 	void TreeGeneratorApp::Run()
 	{
-		bool showDemoWindow = false;
-		int iterations = 5;
-		bool doOutputToConsole = false;
 		window_->Display([&](double elapsedTime) {
 			ImGui::Begin("Tree Generator");
-			ImGui::InputInt("Iterations", &iterations);
-			if (iterations < 1)
+			ImGui::InputInt("Iterations", &iterations_);
+			if (iterations_ < 1)
 			{
-				iterations = 1;
+				iterations_ = 1;
 			}
 			if (ImGui::Button("Regenerate"))
 			{
 				renderer_->ClearAllMeshes();
-				std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols_, iterations);
-				if (doOutputToConsole)
+				std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols_, iterations_);
+				if (doOutputToConsole_)
 				{
 					std::cout << "Generated tree: " <<
 						stringGenerator_.Generate(tree) << std::endl;
@@ -244,16 +245,16 @@ namespace tree_generator
 					renderer_->AddMesh(group.mesh, group.instances);
 				}
 			}
-			ImGui::Checkbox("Output to console", &doOutputToConsole);
+			ImGui::Checkbox("Output to console", &doOutputToConsole_);
 			if (ImGui::Button("Open Demo Window"))
 			{
-				showDemoWindow = true;
+				showDemoWindow_ = true;
 			}
 			ImGui::End();
 
-			if (showDemoWindow)
+			if (showDemoWindow_)
 			{
-				ImGui::ShowDemoWindow(&showDemoWindow);
+				ImGui::ShowDemoWindow(&showDemoWindow_);
 			}
 			cameraController_->Update(elapsedTime);
 			renderer_->Render();

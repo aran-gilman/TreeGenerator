@@ -42,6 +42,10 @@ namespace tree_generator
 		DisplaySymbols symbols_;
 		lsystem::MeshGenerator meshGenerator_;
 		lsystem::StringGenerator stringGenerator_;
+
+		bool showDemoWindow_;
+		int iterations_;
+		bool doOutputToConsole_;
 	};
 }
 
