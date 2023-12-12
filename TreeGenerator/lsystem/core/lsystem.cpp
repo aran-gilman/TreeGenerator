@@ -4,6 +4,17 @@ namespace tree_generator
 {
 	namespace lsystem
 	{
+
+		std::vector<Symbol> Generate(const LSystem& lSystem, int iterations)
+		{
+			std::vector<Symbol> output(lSystem.axiom);
+			for (int i = 0; i < iterations; ++i)
+			{
+				output = Iterate(output, lSystem.rules);
+			}
+			return output;
+		}
+
 		std::vector<Symbol> Iterate(const std::vector<Symbol>& previous, const RuleMap& rules)
 		{
 			std::vector<Symbol> next;

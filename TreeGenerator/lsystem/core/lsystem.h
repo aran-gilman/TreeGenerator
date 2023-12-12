@@ -10,7 +10,16 @@ namespace tree_generator
 	{
 		enum class Symbol : unsigned char {};
 		using RuleMap = std::map<Symbol, std::vector<Symbol>>;
-		std::vector<Symbol> Iterate(const std::vector<Symbol>& previous, const RuleMap& rules);
+
+		struct LSystem
+		{
+			std::vector<Symbol> axiom;
+			RuleMap rules;
+		};
+
+		std::vector<Symbol> Generate(const LSystem& lSystem, int iterations);
+		std::vector<Symbol> Iterate(
+			const std::vector<Symbol>& previous, const RuleMap& rules);
 	}
 }
 
