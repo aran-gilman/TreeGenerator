@@ -34,5 +34,11 @@ namespace tree_generator
 			}
 			return next;
 		}
+
+		std::string ToString(Symbol symbol)
+		{
+			char c = static_cast<char>(symbol);
+			return std::string(1, c);
+		}
 	}
 }

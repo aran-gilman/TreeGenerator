@@ -1,6 +1,7 @@
 #include "mesh_generator_action.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <imgui.h>
 
 namespace tree_generator::lsystem
 {
@@ -13,6 +14,11 @@ namespace tree_generator::lsystem
 				state.rotationStack.back(), 
 				1.0f };
 		}
+	}
+
+	void MeshGeneratorAction::ShowGUI()
+	{
+		ImGui::Text("<No options>");
 	}
 
 	DrawAction::DrawAction(MeshData meshData)
@@ -76,16 +82,9 @@ namespace tree_generator::lsystem
 		state->rotationStack.push_back(state->rotationStack.back());
 	}
 
-	void SaveAction::ShowGUI()
-	{
-	}
-
 	void RestoreAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
 	{
 		state->positionStack.pop_back();
 		state->rotationStack.pop_back();
-	}
-	void tree_generator::lsystem::RestoreAction::ShowGUI()
-	{
 	}
 }

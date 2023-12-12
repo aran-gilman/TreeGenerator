@@ -1,6 +1,7 @@
 #include "tree_generator_app.h"
 
 #include <algorithm>
+#include <format>
 #include <iostream>
 #include <optional>
 
@@ -301,9 +302,13 @@ namespace tree_generator
 		{
 			for (auto& [symbol, action] : meshGenerator_.GetActionMap())
 			{
-				ImGui::PushID(static_cast<char>(symbol));
-				action->ShowGUI();
-				ImGui::PopID();
+				std::string label = std::format(
+					"{0}: {1}", lsystem::ToString(symbol), action->Name());
+				if (ImGui::TreeNode(label.c_str()))
+				{
+					action->ShowGUI();
+					ImGui::TreePop();
+				}
 			}
 		}
 	}

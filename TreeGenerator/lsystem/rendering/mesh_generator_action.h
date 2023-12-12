@@ -1,6 +1,8 @@
 #ifndef TREE_GENERATOR_LSYSTEM_MESH_GENERATOR_ACTION_H_
 #define TREE_GENERATOR_LSYSTEM_MESH_GENERATOR_ACTION_H_
 
+#include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -39,7 +41,9 @@ namespace tree_generator::lsystem
 	public:
 		virtual ~MeshGeneratorAction() {}
 		virtual void PerformAction(const Symbol& symbol, MeshGeneratorState* state) = 0;
-		virtual void ShowGUI() = 0;
+
+		virtual void ShowGUI();
+		virtual const std::string_view Name() const = 0;
 	};
 
 	// Render a mesh to the screen.
@@ -48,9 +52,12 @@ namespace tree_generator::lsystem
 	public:
 		DrawAction(MeshData meshData);
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
+
 		void ShowGUI() override;
+		const std::string_view Name() const override { return kName_; }
 
 	private:
+		inline static const std::string kName_ = "Draw mesh";
 		MeshData meshData_;
 	};
 
@@ -62,9 +69,12 @@ namespace tree_generator::lsystem
 		MoveAction() : MoveAction(1.0f) {}
 
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
+
 		void ShowGUI() override;
+		const std::string_view Name() const override { return kName_; }
 
 	private:
+		inline static const std::string kName_ = "Move forward";
 		float distance_;
 	};
 
@@ -74,9 +84,12 @@ namespace tree_generator::lsystem
 	public:
 		RotateAction(glm::vec3 rotation);
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
+
 		void ShowGUI() override;
+		const std::string_view Name() const override { return kName_; }
 
 	private:
+		inline static const std::string kName_ = "Rotate";
 		glm::vec3 rotation_;
 	};
 
@@ -85,7 +98,10 @@ namespace tree_generator::lsystem
 	{
 	public:
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
-		void ShowGUI() override;
+		const std::string_view Name() const override { return kName_; }
+
+	private:
+		inline static const std::string kName_ = "Push state";
 	};
 
 	// Pop the current state from the stack, returning to the previous one.
@@ -93,7 +109,10 @@ namespace tree_generator::lsystem
 	{
 	public:
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
-		void ShowGUI() override;
+		const std::string_view Name() const override { return kName_; }
+
+	private:
+		inline static const std::string kName_ = "Pop state";
 	};
 }
 
