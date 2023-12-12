@@ -1,5 +1,6 @@
 ﻿add_subdirectory(graphics)
 add_subdirectory(lsystem)
+add_subdirectory(imgui)
 add_subdirectory(input)
 
 add_executable (TreeGenerator)
@@ -15,6 +16,7 @@ target_link_libraries(TreeGenerator
 
 		graphics_common
 		graphics_opengl
+		imgui
 		input		
 		lsystem_core
 		lsystem_mesh_generator
