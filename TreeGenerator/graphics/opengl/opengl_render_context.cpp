@@ -117,6 +117,9 @@ void main()
 			materialShader_ = ThrowIfNull(
 				ShaderProgram::Create(*vertexShader, *materialFragmentShader),
 				"Material shader linking failed");
+
+			normalShader_->BindUniformBlock("Camera", 1);
+			materialShader_->BindUniformBlock("Camera", 1);
 		}
 
 		OpenGLRenderContext::~OpenGLRenderContext()
@@ -132,8 +135,6 @@ void main()
 
 		std::unique_ptr<Camera> OpenGLRenderContext::CreateCamera()
 		{
-			normalShader_->BindUniformBlock("Camera", 1);
-			materialShader_->BindUniformBlock("Camera", 1);
 			return std::make_unique<OpenGLCamera>(1);
 		}
 

@@ -38,6 +38,8 @@ namespace tree_generator
 			OpenGLRenderContext(Window* window);
 			~OpenGLRenderContext() override;
 
+			// Warning: Multiple cameras are currently not supported!
+			// Creating a new camera overwrites the old camera
 			std::unique_ptr<Camera> CreateCamera() override;
 
 			void AddMesh(const MeshData& meshData) override;
