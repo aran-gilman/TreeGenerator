@@ -74,6 +74,7 @@ namespace tree_generator::lsystem
 
 	void RotateAction::ShowGUI()
 	{
+		ImGui::InputFloat3("Angles (degrees)", &rotation_.x);
 	}
 
 	void SaveAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
