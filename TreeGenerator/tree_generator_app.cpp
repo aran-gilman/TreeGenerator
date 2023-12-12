@@ -270,6 +270,11 @@ namespace tree_generator
 				auto iter = stringLSystem_.rules.begin() + toRemove;
 				stringLSystem_.rules.erase(iter, iter + 1);
 			}
+
+			if (ImGui::Button("Add rule"))
+			{
+				stringLSystem_.rules.push_back({});
+			}
 		}
 
 		if (ImGui::CollapsingHeader("Debug"))
