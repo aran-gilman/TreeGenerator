@@ -46,6 +46,8 @@ namespace tree_generator
 		bool showDemoWindow_;
 		int iterations_;
 		bool doOutputToConsole_;
+
+		void ShowMenu();
 	};
 }
 

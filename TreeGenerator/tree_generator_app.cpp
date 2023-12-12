@@ -224,40 +224,46 @@ namespace tree_generator
 	void TreeGeneratorApp::Run()
 	{
 		window_->Display([&](double elapsedTime) {
-			ImGui::Begin("Tree Generator");
-			ImGui::InputInt("Iterations", &iterations_);
-			if (iterations_ < 1)
-			{
-				iterations_ = 1;
-			}
-			if (ImGui::Button("Regenerate"))
-			{
-				renderer_->ClearAllMeshes();
-				std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols_, iterations_);
-				if (doOutputToConsole_)
-				{
-					std::cout << "Generated tree: " <<
-						stringGenerator_.Generate(tree) << std::endl;
-				}
-				std::vector<lsystem::MeshGroup> meshes = meshGenerator_.Generate(tree);
-				for (const lsystem::MeshGroup& group : meshes)
-				{
-					renderer_->AddMesh(group.mesh, group.instances);
-				}
-			}
-			ImGui::Checkbox("Output to console", &doOutputToConsole_);
-			if (ImGui::Button("Open Demo Window"))
-			{
-				showDemoWindow_ = true;
-			}
-			ImGui::End();
+			ShowMenu();
 
 			if (showDemoWindow_)
 			{
 				ImGui::ShowDemoWindow(&showDemoWindow_);
 			}
+
 			cameraController_->Update(elapsedTime);
 			renderer_->Render();
 			});
+	}
+
+	void TreeGeneratorApp::ShowMenu()
+	{
+		ImGui::Begin("Tree Generator");
+		ImGui::InputInt("Iterations", &iterations_);
+		if (iterations_ < 1)
+		{
+			iterations_ = 1;
+		}
+		if (ImGui::Button("Regenerate"))
+		{
+			renderer_->ClearAllMeshes();
+			std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols_, iterations_);
+			if (doOutputToConsole_)
+			{
+				std::cout << "Generated tree: " <<
+					stringGenerator_.Generate(tree) << std::endl;
+			}
+			std::vector<lsystem::MeshGroup> meshes = meshGenerator_.Generate(tree);
+			for (const lsystem::MeshGroup& group : meshes)
+			{
+				renderer_->AddMesh(group.mesh, group.instances);
+			}
+		}
+		ImGui::Checkbox("Output to console", &doOutputToConsole_);
+		if (ImGui::Button("Open Demo Window"))
+		{
+			showDemoWindow_ = true;
+		}
+		ImGui::End();
 	}
 }
