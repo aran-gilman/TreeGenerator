@@ -49,6 +49,8 @@ namespace tree_generator
 
 		private:
 			std::unique_ptr<ShaderProgram> normalShader_;
+			std::unique_ptr<ShaderProgram> materialShader_;
+
 			unsigned int cameraBuffer;
 			std::vector<MeshRenderData> meshRenderData;
 		};

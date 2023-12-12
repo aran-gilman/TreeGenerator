@@ -74,8 +74,17 @@ out vec4 FragColor;
 
 void main()
 {
-	FragColor = vec4(material.color, 1.0f);
+	FragColor = material.color;
 })s";
+		template <typename T>
+		std::unique_ptr<T> ThrowIfNull(std::unique_ptr<T> value, const std::string& message)
+		{
+			if (value == nullptr)
+			{
+				throw std::runtime_error(message);
+			}
+			return std::move(value);
+		}
 
 		OpenGLRenderer::OpenGLRenderer(Window* window)
 		{
@@ -88,12 +97,24 @@ void main()
 			glViewport(0, 0, window->Width(), window->Height());
 			glEnable(GL_DEPTH_TEST);
 
-			std::unique_ptr<VertexShader> vertexShader =
-				VertexShader::Create(vertexShaderSource);
-			std::unique_ptr<FragmentShader> normalFragmentShader =
-				FragmentShader::Create(normalFragmentShaderSource);
+			std::unique_ptr<VertexShader> vertexShader = ThrowIfNull(
+				VertexShader::Create(vertexShaderSource),
+				"Vertex shader compilation failed");
 
-			normalShader_ = ShaderProgram::Create(*vertexShader, *normalFragmentShader);
+			std::unique_ptr<FragmentShader> normalFragmentShader = ThrowIfNull(
+				FragmentShader::Create(normalFragmentShaderSource),
+				"Normal fragment shader compilation failed");
+
+			std::unique_ptr<FragmentShader> materialFragmentShader = ThrowIfNull(
+				FragmentShader::Create(materialFragmentShaderSource),
+				"Material fragment shader compilation failed");
+
+			normalShader_ = ThrowIfNull(
+				ShaderProgram::Create(*vertexShader, *normalFragmentShader),
+				"Normal shader linking failed");
+			materialShader_ = ThrowIfNull(
+				ShaderProgram::Create(*vertexShader, *materialFragmentShader),
+				"Material shader linking failed");
 
 			CameraData camera{
 				glm::lookAt(
@@ -112,6 +133,9 @@ void main()
 			glBindBufferBase(GL_UNIFORM_BUFFER, 1, cameraBuffer);
 
 			normalShader_->BindUniformBlock("Camera", 1);
+			materialShader_->BindUniformBlock("Camera", 1);
+
+			materialShader_->SetUniform("material.color", glm::vec4(0.0f, 0.5f, 0.0f, 1.0f));
 		}
 
 		OpenGLRenderer::~OpenGLRenderer()
@@ -297,7 +321,7 @@ void main()
 			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			normalShader_->Bind();
+			materialShader_->Bind();
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
