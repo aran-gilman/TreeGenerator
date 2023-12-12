@@ -231,6 +231,7 @@ namespace tree_generator
 				HandleScrollInput(&cameraController, xOffset, yOffset);
 				});
 
+			bool showDemoWindow = false;
 			int iterations = 5;
 			bool doOutputToConsole = false;
 			window->Display([&](double elapsedTime) {
@@ -256,7 +257,16 @@ namespace tree_generator
 					}
 				}
 				ImGui::Checkbox("Output to console", &doOutputToConsole);
+				if (ImGui::Button("Open Demo Window"))
+				{
+					showDemoWindow = true;
+				}
 				ImGui::End();
+
+				if (showDemoWindow)
+				{
+					ImGui::ShowDemoWindow(&showDemoWindow);
+				}
 				cameraController.Update(elapsedTime);
 				renderer->Render();
 				});
