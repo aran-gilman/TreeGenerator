@@ -38,6 +38,7 @@ namespace tree_generator
 
 			glfwSetKeyCallback(internalWindow_, ReceiveKeyboardEvent);
 			glfwSetScrollCallback(internalWindow_, ReceiveScrollEvent);
+			glfwSetFramebufferSizeCallback(internalWindow_, ReceiveFramebufferSizeEvent);
 
 			IMGUI_CHECKVERSION();
 			ImGui::CreateContext();
@@ -92,6 +93,11 @@ namespace tree_generator
 			scrollCallback_ = scrollCallback;
 		}
 
+		void OpenGLWindow::SetFramebufferSizeCallback(FramebufferSizeCallback callback)
+		{
+			framebufferSizeCallback_ = callback;
+		}
+
 		void OpenGLWindow::ReceiveKeyboardEvent(
 			GLFWwindow* window,
 			int keyToken, int scancode, int action, int mods)
@@ -109,6 +115,14 @@ namespace tree_generator
 			OpenGLWindow* user = static_cast<OpenGLWindow*>(
 				glfwGetWindowUserPointer(window));
 			user->SendScrollEvent(xOffset, yOffset);
+		}
+
+		void OpenGLWindow::ReceiveFramebufferSizeEvent(
+			GLFWwindow* window, int width, int height)
+		{
+			OpenGLWindow* user = static_cast<OpenGLWindow*>(
+				glfwGetWindowUserPointer(window));
+			user->framebufferSizeCallback_(width, height);
 		}
 
 		void OpenGLWindow::SendKeyboardEvent(KeyToken token, KeyAction action)

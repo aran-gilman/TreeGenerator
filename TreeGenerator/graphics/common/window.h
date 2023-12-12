@@ -26,6 +26,9 @@ namespace tree_generator
 		using ScrollCallback = std::function<void(double xOffset, double yOffset)>;
 		virtual void SetScrollCallback(ScrollCallback scrollCallback) = 0;
 
+		using FramebufferSizeCallback = std::function<void(int width, int height)>;
+		virtual void SetFramebufferSizeCallback(FramebufferSizeCallback callback) = 0;
+
 		// Disallow copy and move
 		Window(const Window&) = delete;
 		Window& operator&(const Window&) = delete;
