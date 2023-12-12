@@ -178,7 +178,7 @@ namespace tree_generator
 
 	TreeGeneratorApp::TreeGeneratorApp() :
 		window_(std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator")),
-		renderer_(std::make_unique<opengl::OpenGLRenderer>(window_.get())),
+		renderer_(std::make_unique<opengl::OpenGLRenderContext>(window_.get())),
 		cameraController_(std::make_unique<CameraController>(renderer_.get())),
 
 		symbols_({}),

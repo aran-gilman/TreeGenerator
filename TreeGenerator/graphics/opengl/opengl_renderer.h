@@ -31,11 +31,11 @@ namespace tree_generator
 			int instanceCount;
 		};
 
-		class OpenGLRenderer : public RenderContext
+		class OpenGLRenderContext : public RenderContext
 		{
 		public:
-			OpenGLRenderer(Window* window);
-			~OpenGLRenderer() override;
+			OpenGLRenderContext(Window* window);
+			~OpenGLRenderContext() override;
 
 			void SetCameraView(glm::mat4 view) override;
 			void SetWindowFramebufferSize(int width, int height) override;

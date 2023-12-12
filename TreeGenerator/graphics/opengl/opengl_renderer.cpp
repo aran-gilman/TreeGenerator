@@ -86,7 +86,7 @@ void main()
 			return std::move(value);
 		}
 
-		OpenGLRenderer::OpenGLRenderer(Window* window)
+		OpenGLRenderContext::OpenGLRenderContext(Window* window)
 		{
 			int version = gladLoadGL();
 			if (version == 0)
@@ -136,7 +136,7 @@ void main()
 			materialShader_->BindUniformBlock("Camera", 1);
 		}
 
-		OpenGLRenderer::~OpenGLRenderer()
+		OpenGLRenderContext::~OpenGLRenderContext()
 		{
 			glDeleteBuffers(1, &cameraBuffer);
 
@@ -149,7 +149,7 @@ void main()
 			}
 		}
 
-		void OpenGLRenderer::SetCameraView(glm::mat4 view)
+		void OpenGLRenderContext::SetCameraView(glm::mat4 view)
 		{
 			glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
 			glBufferSubData(
@@ -159,7 +159,7 @@ void main()
 				&view);
 		}
 
-		void OpenGLRenderer::SetWindowFramebufferSize(int width, int height)
+		void OpenGLRenderContext::SetWindowFramebufferSize(int width, int height)
 		{
 			glm::mat4 projection = glm::perspective(
 				glm::radians(45.0f),
@@ -174,18 +174,18 @@ void main()
 				&projection);
 		}
 
-		void OpenGLRenderer::AddMesh(const MeshData& meshData)
+		void OpenGLRenderContext::AddMesh(const MeshData& meshData)
 		{
 			AddMesh(meshData, { glm::zero<glm::vec3>(), glm::zero<glm::vec3>(), 1.0f });
 		}
 
-		void OpenGLRenderer::AddMesh(
+		void OpenGLRenderContext::AddMesh(
 			const MeshData& meshData, const Transform& transform)
 		{
 			AddMesh(meshData, std::vector<Transform>({ transform }));
 		}
 
-		void OpenGLRenderer::AddMesh(
+		void OpenGLRenderContext::AddMesh(
 			const MeshData& meshData, const std::vector<Transform>& instances)
 		{
 			meshRenderData.push_back({});
@@ -303,7 +303,7 @@ void main()
 			glVertexAttribDivisor(6, 1);
 		}
 
-		void OpenGLRenderer::ClearAllMeshes()
+		void OpenGLRenderContext::ClearAllMeshes()
 		{
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
@@ -315,7 +315,7 @@ void main()
 			meshRenderData.clear();
 		}
 
-		void OpenGLRenderer::Render()
+		void OpenGLRenderContext::Render()
 		{
 			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
