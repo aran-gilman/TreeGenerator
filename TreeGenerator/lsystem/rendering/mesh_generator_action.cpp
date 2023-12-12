@@ -33,7 +33,47 @@ namespace tree_generator::lsystem
 
 	bool CylinderDefinition::ShowGUI()
 	{
-		return false;
+		bool wasChanged = false;
+		if (ImGui::InputInt("Side Count", &sideCount_))
+		{
+			if (sideCount_ < 3)
+			{
+				sideCount_ = 3;
+			}
+			else
+			{
+				wasChanged = true;
+			}
+		}
+
+		float previousHeight = height_;
+		if (ImGui::InputFloat("Height", &height_, 0.01f, 0.1f))
+		{
+			if (height_ < 0.0f)
+			{
+				height_ = 0.0f;
+			}
+
+			if (glm::abs(previousHeight - height_) > 0.00001f)
+			{
+				wasChanged = true;
+			}
+		}
+
+		float previousRadius = radius_;
+		if (ImGui::InputFloat("Radius", &radius_, 0.01f, 0.1f))
+		{
+			if (radius_ < 0.0f)
+			{
+				radius_ = 0.0f;
+			}
+
+			if (glm::abs(previousRadius - radius_) > 0.00001f)
+			{
+				wasChanged = true;
+			}
+		}
+		return wasChanged;
 	}
 
 	MeshData CylinderDefinition::GenerateMesh() const
