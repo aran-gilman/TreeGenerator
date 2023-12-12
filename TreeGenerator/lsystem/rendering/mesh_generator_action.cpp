@@ -34,6 +34,10 @@ namespace tree_generator::lsystem
 		}
 	}
 
+	void DrawAction::ShowGUI()
+	{
+	}
+
 	MoveAction::MoveAction(float distance) : distance_(distance) {}
 
 	void MoveAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
@@ -51,11 +55,19 @@ namespace tree_generator::lsystem
 		state->positionStack.back() += (direction * distance_);
 	}
 
+	void MoveAction::ShowGUI()
+	{
+	}
+
 	RotateAction::RotateAction(glm::vec3 rotation) : rotation_(rotation) {}
 
 	void RotateAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
 	{
 		state->rotationStack.back() += rotation_;
+	}
+
+	void RotateAction::ShowGUI()
+	{
 	}
 
 	void SaveAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
@@ -64,9 +76,16 @@ namespace tree_generator::lsystem
 		state->rotationStack.push_back(state->rotationStack.back());
 	}
 
+	void SaveAction::ShowGUI()
+	{
+	}
+
 	void RestoreAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
 	{
 		state->positionStack.pop_back();
 		state->rotationStack.pop_back();
+	}
+	void tree_generator::lsystem::RestoreAction::ShowGUI()
+	{
 	}
 }

@@ -18,10 +18,13 @@ namespace tree_generator::lsystem
 	class MeshGenerator
 	{
 	public:
+		using ActionMap = std::unordered_map<Symbol, std::unique_ptr<MeshGeneratorAction>>;
+
 		// Define an action for the given symbol.
 		void Define(const Symbol& symbol, std::unique_ptr<MeshGeneratorAction> action);
 
 		std::vector<MeshGroup> Generate(const std::vector<Symbol>& symbols) const;
+		ActionMap& GetActionMap() { return actions_; }
 
 	private:
 		std::unordered_map<Symbol, std::unique_ptr<MeshGeneratorAction>> actions_;

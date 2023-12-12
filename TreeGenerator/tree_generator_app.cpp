@@ -230,6 +230,7 @@ namespace tree_generator
 
 		ShowGenerateButton();
 		ShowLSystemSection();
+		ShowMeshSection();
 		ShowDebugSection();
 
 		ImGui::End();
@@ -290,6 +291,19 @@ namespace tree_generator
 			if (ImGui::Button("Add rule"))
 			{
 				stringLSystem_.rules.push_back({});
+			}
+		}
+	}
+
+	void TreeGeneratorApp::ShowMeshSection()
+	{
+		if (ImGui::CollapsingHeader("Mesh"))
+		{
+			for (auto& [symbol, action] : meshGenerator_.GetActionMap())
+			{
+				ImGui::PushID(static_cast<char>(symbol));
+				action->ShowGUI();
+				ImGui::PopID();
 			}
 		}
 	}

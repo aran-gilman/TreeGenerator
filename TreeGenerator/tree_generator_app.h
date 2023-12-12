@@ -56,6 +56,7 @@ namespace tree_generator
 
 		void ShowGenerateButton();
 		void ShowLSystemSection();
+		void ShowMeshSection();
 		void ShowDebugSection();
 	};
 }

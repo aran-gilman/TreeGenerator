@@ -23,6 +23,7 @@ target_sources(lsystem_mesh_generator
 target_link_libraries(lsystem_mesh_generator
 	PUBLIC
 		glm
+		imgui
 
 		graphics_common
 		lsystem_core
