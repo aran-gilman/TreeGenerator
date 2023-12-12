@@ -138,7 +138,7 @@ namespace tree_generator
 			generator.Define(
 				symbols.trunk,
 				std::make_unique<lsystem::DrawAction>(
-					std::make_unique<lsystem::CylinderDefinition>(8, 0.5f, 0.5f)));
+					std::make_unique<lsystem::CylinderDefinition>(8, 0.15f, 0.1f)));
 			generator.Define(
 				symbols.leaf,
 				std::make_unique<lsystem::DrawAction>(
@@ -157,7 +157,7 @@ namespace tree_generator
 				std::make_unique<lsystem::RotateAction>(rotation));
 			generator.Define(
 				symbols.advance,
-				std::make_unique<lsystem::MoveAction>(0.5f));
+				std::make_unique<lsystem::MoveAction>(0.15f));
 			return generator;
 		}
 
