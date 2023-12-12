@@ -83,6 +83,9 @@ namespace tree_generator::lsystem
 
 	private:
 		inline static const std::string kName_ = "Quad";
+		float width_;
+		float height_;
+		float skew_;
 	};
 
 	// Render a mesh to the screen.

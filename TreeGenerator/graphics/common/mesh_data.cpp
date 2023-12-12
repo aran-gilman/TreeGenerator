@@ -38,6 +38,28 @@ namespace tree_generator
 		return quad;
 	}
 
+	MeshData CreateQuad(
+		glm::vec2 bottomLeft,
+		glm::vec2 topLeft,
+		glm::vec2 bottomRight,
+		glm::vec2 topRight)
+	{
+		glm::vec3 normal(0.0f, 0.0f, -1.0f);
+
+		MeshData quad;
+		quad.vertices = {
+			{ glm::vec3(topRight, 0.0f), normal},
+			{ glm::vec3(bottomRight, 0.0f), normal},
+			{ glm::vec3(bottomLeft, 0.0f), normal},
+			{ glm::vec3(topLeft, 0.0f), normal}
+		};
+		quad.indices = {
+			0, 1, 3,
+			1, 2, 3
+		};
+		return quad;
+	}
+
 	// Reference: http://www.songho.ca/opengl/gl_cylinder.html
 	MeshData CreateCylinder(int sideCount, float height, float radius)
 	{

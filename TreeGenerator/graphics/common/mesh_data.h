@@ -21,6 +21,12 @@ namespace tree_generator
 	};
 
 	MeshData CreateQuad();
+	MeshData CreateQuad(
+		glm::vec2 bottomLeft,
+		glm::vec2 topLeft,
+		glm::vec2 bottomRight,
+		glm::vec2 topRight);
+
 	MeshData CreateCylinder(int sideCount, float height = 1.0f, float radius = 1.0f);
 }
 
