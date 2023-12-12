@@ -32,6 +32,7 @@ namespace tree_generator
 			~OpenGLRenderer() override;
 
 			void SetCameraView(glm::mat4 view) override;
+			void SetWindowFramebufferSize(int width, int height) override;
 
 			void AddMesh(const MeshData& meshData) override;
 			void AddMesh(const MeshData& meshData, const Transform& transform) override;

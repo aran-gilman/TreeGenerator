@@ -155,6 +155,21 @@ void main()
 				&view);
 		}
 
+		void OpenGLRenderer::SetWindowFramebufferSize(int width, int height)
+		{
+			glm::mat4 projection = glm::perspective(
+				glm::radians(45.0f),
+				(float)width / height,
+				0.1f, 1000.0f);
+			glViewport(0, 0, width, height);
+			glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
+			glBufferSubData(
+				GL_UNIFORM_BUFFER,
+				offsetof(CameraData, projection),
+				sizeof(glm::mat4),
+				&projection);
+		}
+
 		void OpenGLRenderer::AddMesh(const MeshData& meshData)
 		{
 			AddMesh(meshData, { glm::zero<glm::vec3>(), glm::zero<glm::vec3>(), 1.0f });

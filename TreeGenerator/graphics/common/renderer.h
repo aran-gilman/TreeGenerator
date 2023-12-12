@@ -17,6 +17,7 @@ namespace tree_generator
 		virtual ~Renderer() = default;
 
 		virtual void SetCameraView(glm::mat4 view) = 0;
+		virtual void SetWindowFramebufferSize(int width, int height) = 0;
 
 		virtual void AddMesh(const MeshData& meshData) = 0;
 		virtual void AddMesh(const MeshData& meshData, const Transform& transform) = 0;

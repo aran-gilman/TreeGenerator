@@ -18,7 +18,8 @@ namespace tree_generator
 			height_(height),
 			internalWindow_(nullptr),
 			keyboardCallback_([](KeyToken, KeyAction) {}),
-			scrollCallback_([](double, double) {})
+			scrollCallback_([](double, double) {}),
+			framebufferSizeCallback_([](int, int){})
 		{
 			glfwInit();
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);

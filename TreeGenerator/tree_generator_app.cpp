@@ -197,6 +197,10 @@ namespace tree_generator
 		window_->SetScrollCallback([&](double xOffset, double yOffset) {
 			HandleScrollInput(cameraController_.get(), xOffset, yOffset);
 			});
+
+		window_->SetFramebufferSizeCallback([&](int width, int height) {
+			renderer_->SetWindowFramebufferSize(width, height);
+			});
 	}
 
 	// The destructor must be define in the implementation file for forward-
