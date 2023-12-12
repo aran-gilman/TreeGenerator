@@ -18,9 +18,10 @@ namespace tree_generator::lsystem
 	{
 		std::string axiom;
 		StringRuleMap rules;
-	};
+	};	
 
 	std::vector<Symbol> ParseSymbols(const std::string& str);
+	LSystem ParseLSystem(const StringLSystem& stringLSystem);
 }
 
 #endif  // !TREE_GENERATOR_LSYSTEM_PARSER_H_
