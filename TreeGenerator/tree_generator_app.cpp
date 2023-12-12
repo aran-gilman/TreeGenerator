@@ -209,6 +209,11 @@ namespace tree_generator
 			});
 	}
 
+	// The destructor must be define in the implementation file for forward-
+	// declaring classes with unique_ptr to work.
+	// See https://stackoverflow.com/questions/6012157/is-stdunique-ptrt-required-to-know-the-full-definition-of-t
+	TreeGeneratorApp::~TreeGeneratorApp() = default;
+
 	void TreeGeneratorApp::Run()
 	{
 		bool showDemoWindow = false;

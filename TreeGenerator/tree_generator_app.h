@@ -30,6 +30,8 @@ namespace tree_generator
 	{
 	public:
 		TreeGeneratorApp();
+		~TreeGeneratorApp();
+
 		void Run();
 
 	private:
