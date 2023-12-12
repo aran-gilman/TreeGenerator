@@ -12,7 +12,7 @@
 #include "graphics/common/mesh_data.h"
 #include "graphics/common/render_context.h"
 #include "graphics/common/window.h"
-#include "graphics/opengl/opengl_renderer.h"
+#include "graphics/opengl/opengl_render_context.h"
 #include "graphics/opengl/opengl_window.h"
 #include "input/camera_controller.h"
 #include "lsystem/core/lsystem.h"
