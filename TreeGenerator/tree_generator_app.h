@@ -53,6 +53,10 @@ namespace tree_generator
 		bool doOutputToConsole_;
 
 		void ShowMenu();
+
+		void ShowGenerateButton();
+		void ShowLSystemSection();
+		void ShowDebugSection();
 	};
 }
 

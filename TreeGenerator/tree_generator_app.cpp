@@ -224,7 +224,16 @@ namespace tree_generator
 		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoTitleBar;
 		ImGui::Begin("Tree Generator", nullptr, windowFlags);
 
-		if (ImGui::Button("Regenerate"))
+		ShowGenerateButton();
+		ShowLSystemSection();
+		ShowDebugSection();
+
+		ImGui::End();
+	}
+
+	void TreeGeneratorApp::ShowGenerateButton()
+	{
+		if (ImGui::Button("Generate"))
 		{
 			renderer_->ClearAllMeshes();
 			lSystem_ = ParseLSystem(stringLSystem_);
@@ -234,14 +243,17 @@ namespace tree_generator
 				std::cout << "Generated tree: " <<
 					stringGenerator_.Generate(tree) << std::endl;
 			}
-			std::vector<lsystem::MeshGroup> meshes = 
+			std::vector<lsystem::MeshGroup> meshes =
 				meshGenerator_.Generate(tree);
 			for (const lsystem::MeshGroup& group : meshes)
 			{
 				renderer_->AddMesh(group.mesh, group.instances);
 			}
 		}
+	}
 
+	void TreeGeneratorApp::ShowLSystemSection()
+	{
 		if (ImGui::CollapsingHeader("L-System"))
 		{
 			if (ImGui::InputInt("Iterations", &iterations_) && iterations_ < 1)
@@ -276,7 +288,10 @@ namespace tree_generator
 				stringLSystem_.rules.push_back({});
 			}
 		}
+	}
 
+	void TreeGeneratorApp::ShowDebugSection()
+	{
 		if (ImGui::CollapsingHeader("Debug"))
 		{
 			ImGui::Checkbox("Output to console", &doOutputToConsole_);
@@ -285,6 +300,5 @@ namespace tree_generator
 				showDemoWindow_ = true;
 			}
 		}
-		ImGui::End();
 	}
 }
