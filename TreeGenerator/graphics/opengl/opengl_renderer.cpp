@@ -193,6 +193,7 @@ void main()
 			mesh.instanceCount = instances.size();
 
 			mesh.meshData = meshData;
+			mesh.material.color = glm::vec4(0.0f, 0.5f, 0.0f, 1.0f);
 
 			glGenBuffers(1, &mesh.vertexBuffer);
 			glGenBuffers(1, &mesh.indexBuffer);
@@ -320,10 +321,11 @@ void main()
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			materialShader_->Bind();
-			materialShader_->SetUniform("material.color", glm::vec4(0.0f, 0.5f, 0.0f, 1.0f));
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
+				materialShader_->SetUniform(
+					"material.color", mesh.material.color);
 				glBindVertexArray(mesh.vertexArray);
 				glDrawElementsInstanced(
 					GL_TRIANGLES,

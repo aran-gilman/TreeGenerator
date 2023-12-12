@@ -5,6 +5,7 @@
 
 #include <glm/glm.hpp>
 
+#include "../common/material.h"
 #include "../common/mesh_data.h"
 #include "../common/renderer.h"
 #include "../common/transform.h"
@@ -20,6 +21,7 @@ namespace tree_generator
 		struct MeshRenderData
 		{
 			MeshData meshData;
+			Material material;
 
 			unsigned int vertexArray;
 			unsigned int vertexBuffer;
