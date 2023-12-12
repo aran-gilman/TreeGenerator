@@ -148,7 +148,7 @@ namespace tree_generator::lsystem
 
 	void MoveAction::ShowGUI()
 	{
-		ImGui::InputFloat("Distance", &distance_);
+		ImGui::InputFloat("Distance", &distance_, 0.01f, 0.1f);
 	}
 
 	RotateAction::RotateAction(glm::vec3 rotation) : rotation_(rotation) {}
