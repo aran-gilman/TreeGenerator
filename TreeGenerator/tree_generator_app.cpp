@@ -1,9 +1,12 @@
 #include "tree_generator_app.h"
 
+#include <algorithm>
 #include <iostream>
+#include <optional>
 
 #include <glm/glm.hpp>
 #include <imgui.h>
+#include <misc/cpp/imgui_stdlib.h>
 
 #include "graphics/common/mesh_data.h"
 #include "graphics/common/renderer.h"
@@ -121,8 +124,8 @@ namespace tree_generator
 		{
 			lsystem::StringLSystem lSystem;
 			lSystem.axiom = "X";
-			lSystem.rules["F"] = "FAF";
-			lSystem.rules["X"] = "F-[[AX]+AX]+AF[+AFAX]-AX";
+			lSystem.rules.push_back({ "F", "FAF" });
+			lSystem.rules.push_back({ "X", "F-[[AX]+AX]+AF[+AFAX]-AX" });
 			return lSystem;
 		}
 
@@ -224,6 +227,7 @@ namespace tree_generator
 		if (ImGui::Button("Regenerate"))
 		{
 			renderer_->ClearAllMeshes();
+			lSystem_ = ParseLSystem(stringLSystem_);
 			std::vector<lsystem::Symbol> tree = lsystem::Generate(lSystem_, iterations_);
 			if (doOutputToConsole_)
 			{
@@ -243,6 +247,28 @@ namespace tree_generator
 			if (ImGui::InputInt("Iterations", &iterations_) && iterations_ < 1)
 			{
 				iterations_ = 1;
+			}
+
+			const float buttonSize = ImGui::GetFrameHeight();
+			int toRemove = -1;
+			for (int i = 0; i < stringLSystem_.rules.size(); ++i)
+			{
+				ImGui::PushID(i);
+				auto& [successor, predecessor] = stringLSystem_.rules[i];
+				ImGui::InputText("Predecessor", &successor);
+				ImGui::SameLine();
+				if (ImGui::Button("-", ImVec2(buttonSize, buttonSize)))
+				{
+					toRemove = i;
+				}
+				ImGui::InputText("Successor", &predecessor);
+				ImGui::PopID();
+			}
+
+			if (toRemove >= 0)
+			{
+				auto iter = stringLSystem_.rules.begin() + toRemove;
+				stringLSystem_.rules.erase(iter, iter + 1);
 			}
 		}
 

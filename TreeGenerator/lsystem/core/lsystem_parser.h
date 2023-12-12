@@ -1,19 +1,19 @@
 #ifndef TREE_GENERATOR_LSYSTEM_PARSER_H_
 #define TREE_GENERATOR_LSYSTEM_PARSER_H_
 
-#include <map>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "lsystem.h"
 
 namespace tree_generator::lsystem
 {
-	// We may want to use a different data structure for this in the long run.
-	// It more or less works right now, when each symbol = one char, but
-	// parameterized strings will require more complex handling.
-	// e.g. F(x) -> F(x+1) where x could be any number
-	using StringRuleMap = std::map<std::string, std::string>;
+	// We use a vector of pairs instead of a map because the first element
+	// does not act like a usual map key. This is particularly relevant when
+	// replacing existing rules, since we want to be able to change the first
+	// element without erasing the entry and making a new one.
+	using StringRuleMap = std::vector<std::pair<std::string, std::string>>;
 	struct StringLSystem
 	{
 		std::string axiom;

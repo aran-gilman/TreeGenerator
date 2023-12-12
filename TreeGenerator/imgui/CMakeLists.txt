@@ -6,12 +6,16 @@ target_sources(imgui
 		${imgui_SOURCE_DIR}/imstb_textedit.h
 		${imgui_SOURCE_DIR}/imstb_truetype.h
 
+		${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.h
+
 	PRIVATE
 		${imgui_SOURCE_DIR}/imgui.cpp
 		${imgui_SOURCE_DIR}/imgui_draw.cpp
 		${imgui_SOURCE_DIR}/imgui_internal.h
 		${imgui_SOURCE_DIR}/imgui_tables.cpp
 		${imgui_SOURCE_DIR}/imgui_widgets.cpp
+
+		${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp
 )
 
 # Add backends in separate call to make it easier to swap them out later
