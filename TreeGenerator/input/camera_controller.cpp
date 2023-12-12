@@ -4,7 +4,7 @@
 #include <glm/gtx/common.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../graphics/common/renderer.h"
+#include "../graphics/common/render_context.h"
 
 namespace tree_generator
 {

@@ -10,7 +10,7 @@
 #include <misc/cpp/imgui_stdlib.h>
 
 #include "graphics/common/mesh_data.h"
-#include "graphics/common/renderer.h"
+#include "graphics/common/render_context.h"
 #include "graphics/common/window.h"
 #include "graphics/opengl/opengl_renderer.h"
 #include "graphics/opengl/opengl_window.h"

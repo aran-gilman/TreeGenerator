@@ -6,7 +6,7 @@ target_sources(graphics_common
 		key_action.h
 		key_token.h
 		mesh_data.h
-		renderer.h
+		render_context.h
 		transform.h
 		window.h
 

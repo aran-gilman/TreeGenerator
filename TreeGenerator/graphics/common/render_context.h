@@ -1,5 +1,5 @@
-#ifndef TREE_GENERATOR_RENDERER_H_
-#define TREE_GENERATOR_RENDERER_H_
+#ifndef TREE_GENERATOR_RENDER_CONTEXT_H_
+#define TREE_GENERATOR_RENDER_CONTEXT_H_
 
 #include <vector>
 
@@ -33,4 +33,4 @@ namespace tree_generator
 	};
 }
 
-#endif  // !TREE_GENERATOR_RENDERER_H_
+#endif  // !TREE_GENERATOR_RENDER_CONTEXT_H_
