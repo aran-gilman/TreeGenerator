@@ -16,179 +16,182 @@
 
 namespace tree_generator
 {
-	void HandleCameraInput(CameraController* camera, KeyToken keyToken, KeyAction action)
+	namespace
 	{
-		CameraController::Movement& movement = camera->GetCurrentMovement();
-		CameraController::MovementSettings& settings = camera->GetMovementSettings();
-
-		if (action == KeyAction::Press)
+		void HandleCameraInput(CameraController* camera, KeyToken keyToken, KeyAction action)
 		{
-			if (keyToken == KeyToken::A)
+			CameraController::Movement& movement = camera->GetCurrentMovement();
+			CameraController::MovementSettings& settings = camera->GetMovementSettings();
+
+			if (action == KeyAction::Press)
 			{
-				movement.horizontalRotationVelocity -=
-					settings.maxHorizontalRotationPerSecond;
+				if (keyToken == KeyToken::A)
+				{
+					movement.horizontalRotationVelocity -=
+						settings.maxHorizontalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::D)
+				{
+					movement.horizontalRotationVelocity +=
+						settings.maxHorizontalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::S)
+				{
+					movement.verticalRotationVelocity -=
+						settings.maxVerticalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::W)
+				{
+					movement.verticalRotationVelocity +=
+						settings.maxVerticalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::Comma)
+				{
+					movement.heightVelocity -= settings.maxHeightChangePerSecond;
+				}
+				else if (keyToken == KeyToken::Period)
+				{
+					movement.heightVelocity += settings.maxHeightChangePerSecond;
+				}
 			}
-			else if (keyToken == KeyToken::D)
+			else if (action == KeyAction::Release)
 			{
-				movement.horizontalRotationVelocity +=
-					settings.maxHorizontalRotationPerSecond;
-			}
-			else if (keyToken == KeyToken::S)
-			{
-				movement.verticalRotationVelocity -=
-					settings.maxVerticalRotationPerSecond;
-			}
-			else if (keyToken == KeyToken::W)
-			{
-				movement.verticalRotationVelocity +=
-					settings.maxVerticalRotationPerSecond;
-			}
-			else if (keyToken == KeyToken::Comma)
-			{
-				movement.heightVelocity -= settings.maxHeightChangePerSecond;
-			}
-			else if (keyToken == KeyToken::Period)
-			{
-				movement.heightVelocity += settings.maxHeightChangePerSecond;
+				if (keyToken == KeyToken::A)
+				{
+					movement.horizontalRotationVelocity +=
+						settings.maxHorizontalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::D)
+				{
+					movement.horizontalRotationVelocity -=
+						settings.maxHorizontalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::S)
+				{
+					movement.verticalRotationVelocity +=
+						settings.maxVerticalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::W)
+				{
+					movement.verticalRotationVelocity -=
+						settings.maxVerticalRotationPerSecond;
+				}
+				else if (keyToken == KeyToken::Comma)
+				{
+					movement.heightVelocity += settings.maxHeightChangePerSecond;
+				}
+				else if (keyToken == KeyToken::Period)
+				{
+					movement.heightVelocity -= settings.maxHeightChangePerSecond;
+				}
 			}
 		}
-		else if (action == KeyAction::Release)
+
+		void HandleScrollInput(CameraController* camera, double xOffset, double yOffset)
 		{
-			if (keyToken == KeyToken::A)
-			{
-				movement.horizontalRotationVelocity +=
-					settings.maxHorizontalRotationPerSecond;
-			}
-			else if (keyToken == KeyToken::D)
-			{
-				movement.horizontalRotationVelocity -=
-					settings.maxHorizontalRotationPerSecond;
-			}
-			else if (keyToken == KeyToken::S)
-			{
-				movement.verticalRotationVelocity +=
-					settings.maxVerticalRotationPerSecond;
-			}
-			else if (keyToken == KeyToken::W)
-			{
-				movement.verticalRotationVelocity -=
-					settings.maxVerticalRotationPerSecond;
-			}
-			else if (keyToken == KeyToken::Comma)
-			{
-				movement.heightVelocity += settings.maxHeightChangePerSecond;
-			}
-			else if (keyToken == KeyToken::Period)
-			{
-				movement.heightVelocity -= settings.maxHeightChangePerSecond;
-			}
+			camera->GetCurrentMovement().remainingDistanceChange -= yOffset;
 		}
-	}
 
-	void HandleScrollInput(CameraController* camera, double xOffset, double yOffset)
-	{
-		camera->GetCurrentMovement().remainingDistanceChange -= yOffset;
-	}
+		std::vector<lsystem::Symbol> CreateSimpleBinaryTree(
+			const DisplaySymbols& symbols,
+			int iterations)
+		{
+			lsystem::RuleMap rules = {
+				{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
+				{ symbols.leaf, {
+					symbols.trunk,
+					symbols.push,
+					symbols.rotateRight, symbols.advance, symbols.leaf,
+					symbols.pop,
+					symbols.rotateLeft, symbols.advance, symbols.leaf
+			}} };
 
-	std::vector<lsystem::Symbol> CreateSimpleBinaryTree(
-		const DisplaySymbols& symbols,
-		int iterations)
-	{
-		lsystem::RuleMap rules = {
-			{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
-			{ symbols.leaf, {
+			std::vector<lsystem::Symbol> output = { symbols.leaf };
+			for (int i = 0; i < iterations; i++)
+			{
+				output = Iterate(output, rules);
+			}
+			return output;
+		}
+
+		// See http://algorithmicbotany.org/papers/lsfp.pdf page 25
+		// X = leaf
+		// F = trunk
+		// - = rotateRight
+		// + = rotateLeft
+		// The system in the book does not have an explicit advance, but we add it
+		// to keep a 1:1 relationship between symbols and actions.
+		std::vector<lsystem::Symbol> CreateTreeTypeB(
+			const DisplaySymbols& symbols,
+			int iterations)
+		{
+			lsystem::RuleMap rules = {
+				{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
+				{ symbols.leaf, {
+					symbols.trunk, symbols.rotateRight,
+					symbols.push, symbols.push,
+					symbols.advance, symbols.leaf,
+					symbols.pop,
+					symbols.rotateLeft, symbols.advance, symbols.leaf,
+					symbols.pop,
+					symbols.rotateLeft, symbols.advance, symbols.trunk,
+					symbols.push,
+					symbols.rotateLeft, symbols.advance, symbols.trunk,
+					symbols.advance, symbols.leaf,
+					symbols.pop,
+					symbols.rotateRight, symbols.advance, symbols.leaf
+			}} };
+
+			std::vector<lsystem::Symbol> output = { symbols.leaf };
+			for (int i = 0; i < iterations; i++)
+			{
+				output = Iterate(output, rules);
+			}
+			return output;
+		}
+
+		lsystem::MeshGenerator CreateBinaryTreeMeshGenerator(
+			const DisplaySymbols& symbols,
+			glm::vec3 rotation)
+		{
+			lsystem::MeshGenerator generator;
+			generator.Define(
 				symbols.trunk,
+				std::make_unique<lsystem::DrawAction>(CreateCylinder(8, 0.5f, 0.5f)));
+			generator.Define(
+				symbols.leaf,
+				std::make_unique<lsystem::DrawAction>(CreateQuad()));
+			generator.Define(
 				symbols.push,
-				symbols.rotateRight, symbols.advance, symbols.leaf,
+				std::make_unique<lsystem::SaveAction>());
+			generator.Define(
 				symbols.pop,
-				symbols.rotateLeft, symbols.advance, symbols.leaf
-		}} };
-
-		std::vector<lsystem::Symbol> output = { symbols.leaf };
-		for (int i = 0; i < iterations; i++)
-		{
-			output = Iterate(output, rules);
+				std::make_unique<lsystem::RestoreAction>());
+			generator.Define(
+				symbols.rotateRight,
+				std::make_unique<lsystem::RotateAction>(-rotation));
+			generator.Define(
+				symbols.rotateLeft,
+				std::make_unique<lsystem::RotateAction>(rotation));
+			generator.Define(
+				symbols.advance,
+				std::make_unique<lsystem::MoveAction>(0.5f));
+			return generator;
 		}
-		return output;
-	}
 
-	// See http://algorithmicbotany.org/papers/lsfp.pdf page 25
-	// X = leaf
-	// F = trunk
-	// - = rotateRight
-	// + = rotateLeft
-	// The system in the book does not have an explicit advance, but we add it
-	// to keep a 1:1 relationship between symbols and actions.
-	std::vector<lsystem::Symbol> CreateTreeTypeB(
-		const DisplaySymbols& symbols,
-		int iterations)
-	{
-		lsystem::RuleMap rules = {
-			{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
-			{ symbols.leaf, {
-				symbols.trunk, symbols.rotateRight,
-				symbols.push, symbols.push,
-				symbols.advance, symbols.leaf,
-				symbols.pop,
-				symbols.rotateLeft, symbols.advance, symbols.leaf,
-				symbols.pop,
-				symbols.rotateLeft, symbols.advance, symbols.trunk,
-				symbols.push,
-				symbols.rotateLeft, symbols.advance, symbols.trunk,
-				symbols.advance, symbols.leaf,
-				symbols.pop,
-				symbols.rotateRight, symbols.advance, symbols.leaf
-		}} };
-
-		std::vector<lsystem::Symbol> output = { symbols.leaf };
-		for (int i = 0; i < iterations; i++)
+		lsystem::StringGenerator CreateBinaryTreeStringGenerator(
+			const DisplaySymbols& symbols)
 		{
-			output = Iterate(output, rules);
+			lsystem::StringGenerator generator;
+			generator.Define(symbols.trunk, "1");
+			generator.Define(symbols.leaf, "0");
+			generator.Define(symbols.push, "[");
+			generator.Define(symbols.pop, "]");
+			generator.Define(symbols.rotateRight, "R");
+			generator.Define(symbols.rotateLeft, "L");
+			generator.Define(symbols.advance, "A");
+			return generator;
 		}
-		return output;
-	}
-
-	lsystem::MeshGenerator CreateBinaryTreeMeshGenerator(
-		const DisplaySymbols& symbols,
-		glm::vec3 rotation)
-	{
-		lsystem::MeshGenerator generator;
-		generator.Define(
-			symbols.trunk,
-			std::make_unique<lsystem::DrawAction>(CreateCylinder(8, 0.5f, 0.5f)));
-		generator.Define(
-			symbols.leaf,
-			std::make_unique<lsystem::DrawAction>(CreateQuad()));
-		generator.Define(
-			symbols.push,
-			std::make_unique<lsystem::SaveAction>());
-		generator.Define(
-			symbols.pop,
-			std::make_unique<lsystem::RestoreAction>());
-		generator.Define(
-			symbols.rotateRight,
-			std::make_unique<lsystem::RotateAction>(-rotation));
-		generator.Define(
-			symbols.rotateLeft,
-			std::make_unique<lsystem::RotateAction>(rotation));
-		generator.Define(
-			symbols.advance,
-			std::make_unique<lsystem::MoveAction>(0.5f));
-		return generator;
-	}
-
-	lsystem::StringGenerator CreateBinaryTreeStringGenerator(
-		const DisplaySymbols& symbols)
-	{
-		lsystem::StringGenerator generator;
-		generator.Define(symbols.trunk, "1");
-		generator.Define(symbols.leaf, "0");
-		generator.Define(symbols.push, "[");
-		generator.Define(symbols.pop, "]");
-		generator.Define(symbols.rotateRight, "R");
-		generator.Define(symbols.rotateLeft, "L");
-		generator.Define(symbols.advance, "A");
-		return generator;
 	}
 
 	TreeGeneratorApp::TreeGeneratorApp() :
