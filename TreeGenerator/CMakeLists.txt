@@ -17,6 +17,7 @@ target_link_libraries(TreeGenerator
 		graphics_common
 		graphics_opengl
 		imgui
+		imgui_demo
 		input		
 		lsystem_core
 		lsystem_mesh_generator

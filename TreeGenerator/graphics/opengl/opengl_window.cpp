@@ -5,6 +5,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
+
 namespace tree_generator
 {
 	namespace opengl
@@ -34,10 +38,24 @@ namespace tree_generator
 
 			glfwSetKeyCallback(internalWindow_, ReceiveKeyboardEvent);
 			glfwSetScrollCallback(internalWindow_, ReceiveScrollEvent);
+
+			IMGUI_CHECKVERSION();
+			ImGui::CreateContext();
+
+			ImGuiIO& io = ImGui::GetIO();
+			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+			ImGui::StyleColorsDark();
+
+			ImGui_ImplGlfw_InitForOpenGL(internalWindow_, true);
+			ImGui_ImplOpenGL3_Init(nullptr);
 		}
 
 		OpenGLWindow::~OpenGLWindow()
 		{
+			ImGui_ImplOpenGL3_Shutdown();
+			ImGui_ImplGlfw_Shutdown();
+			ImGui::DestroyContext();
+
 			glfwDestroyWindow(internalWindow_);
 			glfwTerminate();
 		}
@@ -48,8 +66,16 @@ namespace tree_generator
 			double previousTime = glfwGetTime();
 			while (!glfwWindowShouldClose(internalWindow_))
 			{
+				ImGui_ImplOpenGL3_NewFrame();
+				ImGui_ImplGlfw_NewFrame();
+				ImGui::NewFrame();
+
 				currentTime = glfwGetTime();
 				renderCallback(currentTime - previousTime);
+
+				ImGui::Render();
+				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 				glfwSwapBuffers(internalWindow_);
 				glfwPollEvents();
 				previousTime = currentTime;

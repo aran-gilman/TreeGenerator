@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <glm/glm.hpp>
+#include <imgui.h>
 
 #include "graphics/common/mesh_data.h"
 #include "graphics/common/renderer.h"
@@ -239,7 +240,12 @@ namespace tree_generator
 				HandleScrollInput(&cameraController, xOffset, yOffset);
 				});
 
+			bool showDemoWindow = true;
 			window->Display([&](double elapsedTime) {
+				if (showDemoWindow)
+				{
+					ImGui::ShowDemoWindow(&showDemoWindow);
+				}
 				cameraController.Update(elapsedTime);
 				renderer->Render();
 				});

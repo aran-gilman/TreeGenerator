@@ -13,6 +13,7 @@ target_sources(graphics_opengl
 target_link_libraries(graphics_opengl
 	PUBLIC
 		glm
+		imgui
 
 	PRIVATE
 		glad

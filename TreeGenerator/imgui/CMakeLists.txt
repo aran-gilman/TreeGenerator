@@ -32,3 +32,13 @@ target_link_libraries(imgui
 	PUBLIC
 		glfw
 )
+
+add_library(imgui_demo)
+target_sources(imgui_demo
+	PRIVATE
+		${imgui_SOURCE_DIR}/imgui_demo.cpp
+)
+target_link_libraries(imgui_demo
+	PUBLIC
+		imgui
+)
