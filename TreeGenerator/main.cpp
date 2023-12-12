@@ -231,20 +231,31 @@ namespace tree_generator
 				HandleScrollInput(&cameraController, xOffset, yOffset);
 				});
 
+			int iterations = 5;
+			bool doOutputToConsole = false;
 			window->Display([&](double elapsedTime) {
 				ImGui::Begin("Tree Generator");
+				ImGui::InputInt("Iterations", &iterations);
+				if (iterations < 1)
+				{
+					iterations = 1;
+				}
 				if (ImGui::Button("Regenerate"))
 				{
 					renderer->ClearAllMeshes();
-					std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols, 5);
-					std::cout << "Generated tree: " << 
-						stringGenerator.Generate(tree) << std::endl;
+					std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols, iterations);
+					if (doOutputToConsole)
+					{
+						std::cout << "Generated tree: " <<
+							stringGenerator.Generate(tree) << std::endl;
+					}
 					std::vector<lsystem::MeshGroup> meshes = meshGenerator.Generate(tree);
 					for (const lsystem::MeshGroup& group : meshes)
 					{
 						renderer->AddMesh(group.mesh, group.instances);
 					}
 				}
+				ImGui::Checkbox("Output to console", &doOutputToConsole);
 				ImGui::End();
 				cameraController.Update(elapsedTime);
 				renderer->Render();
