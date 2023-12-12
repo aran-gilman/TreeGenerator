@@ -44,7 +44,7 @@ namespace tree_generator
 			void Render() override;
 
 		private:
-			unsigned int shader;
+			unsigned int normalShader_;
 			unsigned int cameraBuffer;
 			std::vector<MeshRenderData> meshRenderData;
 		};

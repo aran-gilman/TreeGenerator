@@ -43,7 +43,7 @@ void main()
 	vs_out.normal = aNormal;
 })s";
 
-		const char* fragmentShaderSource = R"s(
+		const char* normalFragmentShaderSource = R"s(
 #version 330 core
 
 in VS_OUT
@@ -56,6 +56,23 @@ out vec4 FragColor;
 void main()
 {
 	FragColor = vec4(abs(vs_out.normal), 1.0f);
+})s";		
+		
+		const char* materialFragmentShaderSource = R"s(
+#version 330 core
+
+struct Material
+{
+    vec4 color;
+};
+
+uniform Material material;
+
+out vec4 FragColor;
+
+void main()
+{
+	FragColor = vec4(material.color, 1.0f);
 })s";
 
 		OpenGLRenderer::OpenGLRenderer(Window* window)
@@ -84,7 +101,7 @@ void main()
 			}
 
 			unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+			glShaderSource(fragmentShader, 1, &normalFragmentShaderSource, nullptr);
 			glCompileShader(fragmentShader);
 
 			glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
@@ -94,22 +111,22 @@ void main()
 				std::cerr << "Fragment shader compilation failed: " << infoLog << std::endl;
 			}
 
-			shader = glCreateProgram();
-			glAttachShader(shader, vertexShader);
-			glAttachShader(shader, fragmentShader);
-			glLinkProgram(shader);
+			normalShader_ = glCreateProgram();
+			glAttachShader(normalShader_, vertexShader);
+			glAttachShader(normalShader_, fragmentShader);
+			glLinkProgram(normalShader_);
 
-			glGetProgramiv(shader, GL_LINK_STATUS, &success);
+			glGetProgramiv(normalShader_, GL_LINK_STATUS, &success);
 			if (!success)
 			{
-				glGetProgramInfoLog(shader, 512, nullptr, infoLog);
+				glGetProgramInfoLog(normalShader_, 512, nullptr, infoLog);
 				std::cerr << "Shader program linking failed: " << infoLog << std::endl;
 			}
 
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
 
-			glUseProgram(shader);
+			glUseProgram(normalShader_);
 
 			CameraData camera{
 				glm::lookAt(
@@ -127,14 +144,14 @@ void main()
 			glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraData), &camera, GL_STATIC_DRAW);
 			glBindBufferBase(GL_UNIFORM_BUFFER, 1, cameraBuffer);
 
-			unsigned int cameraIndex = glGetUniformBlockIndex(shader, "Camera");
-			glUniformBlockBinding(shader, cameraIndex, 1);
+			unsigned int cameraIndex = glGetUniformBlockIndex(normalShader_, "Camera");
+			glUniformBlockBinding(normalShader_, cameraIndex, 1);
 		}
 
 		OpenGLRenderer::~OpenGLRenderer()
 		{
 			glDeleteBuffers(1, &cameraBuffer);
-			glDeleteProgram(shader);
+			glDeleteProgram(normalShader_);
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
