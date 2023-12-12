@@ -134,8 +134,6 @@ void main()
 
 			normalShader_->BindUniformBlock("Camera", 1);
 			materialShader_->BindUniformBlock("Camera", 1);
-
-			materialShader_->SetUniform("material.color", glm::vec4(0.0f, 0.5f, 0.0f, 1.0f));
 		}
 
 		OpenGLRenderer::~OpenGLRenderer()
@@ -322,6 +320,7 @@ void main()
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			materialShader_->Bind();
+			materialShader_->SetUniform("material.color", glm::vec4(0.0f, 0.5f, 0.0f, 1.0f));
 
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
