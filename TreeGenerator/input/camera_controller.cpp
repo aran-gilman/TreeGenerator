@@ -23,13 +23,13 @@ namespace tree_generator
 		constexpr float kMinUpdateSpeed = 0.001f;
 	}
 
-	CameraController::CameraController(Renderer* renderer) :
+	CameraController::CameraController(RenderContext* renderer) :
 		CameraController(renderer, MovementSettings())
 	{
 	}
 
 	CameraController::CameraController(
-		Renderer* renderer, MovementSettings movementSettings) :
+		RenderContext* renderer, MovementSettings movementSettings) :
 		renderer_(renderer),
 		movementSettings_(movementSettings)
 	{

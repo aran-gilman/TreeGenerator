@@ -11,7 +11,7 @@
 namespace tree_generator
 {
 	class CameraController;
-	class Renderer;
+	class RenderContext;
 	class Window;
 
 	// TODO: Replace this with runtime-/user-configurable structure
@@ -38,7 +38,7 @@ namespace tree_generator
 
 	private:
 		std::unique_ptr<Window> window_;
-		std::unique_ptr<Renderer> renderer_;
+		std::unique_ptr<RenderContext> renderer_;
 		std::unique_ptr<CameraController> cameraController_;
 
 		DisplaySymbols symbols_;

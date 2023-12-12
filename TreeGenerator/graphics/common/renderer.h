@@ -11,10 +11,10 @@
 namespace tree_generator
 {
 	// Draws objects to the screen
-	class Renderer
+	class RenderContext
 	{
 	public:
-		virtual ~Renderer() = default;
+		virtual ~RenderContext() = default;
 
 		virtual void SetCameraView(glm::mat4 view) = 0;
 		virtual void SetWindowFramebufferSize(int width, int height) = 0;
@@ -29,7 +29,7 @@ namespace tree_generator
 		virtual void Render() = 0;
 
 	protected:
-		Renderer() {}
+		RenderContext() {}
 	};
 }
 

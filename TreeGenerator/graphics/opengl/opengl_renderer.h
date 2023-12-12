@@ -31,7 +31,7 @@ namespace tree_generator
 			int instanceCount;
 		};
 
-		class OpenGLRenderer : public Renderer
+		class OpenGLRenderer : public RenderContext
 		{
 		public:
 			OpenGLRenderer(Window* window);
