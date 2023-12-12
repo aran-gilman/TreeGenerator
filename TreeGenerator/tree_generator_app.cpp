@@ -238,7 +238,9 @@ namespace tree_generator
 
 	void TreeGeneratorApp::ShowMenu()
 	{
-		ImGui::Begin("Tree Generator");
+		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoTitleBar;
+		ImGui::Begin("Tree Generator", nullptr, windowFlags);
+
 		ImGui::InputInt("Iterations", &iterations_);
 		if (iterations_ < 1)
 		{
