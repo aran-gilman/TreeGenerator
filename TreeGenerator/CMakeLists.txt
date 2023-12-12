@@ -7,7 +7,10 @@ add_executable (TreeGenerator)
 
 target_sources(TreeGenerator
 	PRIVATE
+		tree_generator_app.h
+
 		main.cpp
+		tree_generator_app.cpp
 )
 
 target_link_libraries(TreeGenerator
