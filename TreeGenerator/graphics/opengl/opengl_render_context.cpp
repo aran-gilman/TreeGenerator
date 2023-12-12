@@ -7,8 +7,10 @@
 #include <glm/gtc/constants.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "../common/camera.h"
 #include "../common/camera_data.h"
 #include "../common/window.h"
+#include "opengl_camera.h"
 #include "typed_shader.h"
 #include "shader_program.h"
 
@@ -115,31 +117,10 @@ void main()
 			materialShader_ = ThrowIfNull(
 				ShaderProgram::Create(*vertexShader, *materialFragmentShader),
 				"Material shader linking failed");
-
-			CameraData camera{
-				glm::lookAt(
-					glm::vec3(0.0f, 0.0f, -3.0f),
-					glm::vec3(0.0f),
-					glm::vec3(0.0f, 1.0f, 0.0f)),
-				glm::perspective(
-					glm::radians(45.0f),
-					(float)window->Width() / window->Height(),
-					0.1f, 1000.0f)
-			};
-
-			glGenBuffers(1, &cameraBuffer);
-			glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
-			glBufferData(GL_UNIFORM_BUFFER, sizeof(CameraData), &camera, GL_STATIC_DRAW);
-			glBindBufferBase(GL_UNIFORM_BUFFER, 1, cameraBuffer);
-
-			normalShader_->BindUniformBlock("Camera", 1);
-			materialShader_->BindUniformBlock("Camera", 1);
 		}
 
 		OpenGLRenderContext::~OpenGLRenderContext()
 		{
-			glDeleteBuffers(1, &cameraBuffer);
-
 			for (const MeshRenderData& mesh : meshRenderData)
 			{
 				glDeleteVertexArrays(1, &mesh.vertexArray);
@@ -149,29 +130,11 @@ void main()
 			}
 		}
 
-		void OpenGLRenderContext::SetCameraView(glm::mat4 view)
+		std::unique_ptr<Camera> OpenGLRenderContext::CreateCamera()
 		{
-			glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
-			glBufferSubData(
-				GL_UNIFORM_BUFFER,
-				offsetof(CameraData, view),
-				sizeof(glm::mat4),
-				&view);
-		}
-
-		void OpenGLRenderContext::SetWindowFramebufferSize(int width, int height)
-		{
-			glm::mat4 projection = glm::perspective(
-				glm::radians(45.0f),
-				(float)width / height,
-				0.1f, 1000.0f);
-			glViewport(0, 0, width, height);
-			glBindBuffer(GL_UNIFORM_BUFFER, cameraBuffer);
-			glBufferSubData(
-				GL_UNIFORM_BUFFER,
-				offsetof(CameraData, projection),
-				sizeof(glm::mat4),
-				&projection);
+			normalShader_->BindUniformBlock("Camera", 1);
+			materialShader_->BindUniformBlock("Camera", 1);
+			return std::make_unique<OpenGLCamera>(1);
 		}
 
 		void OpenGLRenderContext::AddMesh(const MeshData& meshData)
@@ -317,9 +280,6 @@ void main()
 
 		void OpenGLRenderContext::Render()
 		{
-			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 			materialShader_->Bind();
 
 			for (const MeshRenderData& mesh : meshRenderData)

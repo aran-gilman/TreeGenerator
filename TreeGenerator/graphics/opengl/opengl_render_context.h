@@ -12,6 +12,7 @@
 
 namespace tree_generator
 {
+	class Camera;
 	class Window;
 
 	namespace opengl
@@ -37,8 +38,7 @@ namespace tree_generator
 			OpenGLRenderContext(Window* window);
 			~OpenGLRenderContext() override;
 
-			void SetCameraView(glm::mat4 view) override;
-			void SetWindowFramebufferSize(int width, int height) override;
+			std::unique_ptr<Camera> CreateCamera() override;
 
 			void AddMesh(const MeshData& meshData) override;
 			void AddMesh(const MeshData& meshData, const Transform& transform) override;
@@ -53,7 +53,6 @@ namespace tree_generator
 			std::unique_ptr<ShaderProgram> normalShader_;
 			std::unique_ptr<ShaderProgram> materialShader_;
 
-			unsigned int cameraBuffer;
 			std::vector<MeshRenderData> meshRenderData;
 		};
 	}

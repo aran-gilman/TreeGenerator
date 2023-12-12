@@ -10,6 +10,7 @@
 
 namespace tree_generator
 {
+	class Camera;
 	class CameraController;
 	class RenderContext;
 	class Window;
@@ -39,6 +40,7 @@ namespace tree_generator
 	private:
 		std::unique_ptr<Window> window_;
 		std::unique_ptr<RenderContext> renderer_;
+		std::unique_ptr<Camera> camera_;
 		std::unique_ptr<CameraController> cameraController_;
 
 		DisplaySymbols symbols_;

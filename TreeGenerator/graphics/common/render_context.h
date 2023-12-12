@@ -1,6 +1,7 @@
 #ifndef TREE_GENERATOR_RENDER_CONTEXT_H_
 #define TREE_GENERATOR_RENDER_CONTEXT_H_
 
+#include <memory>
 #include <vector>
 
 #include <glm/glm.hpp>
@@ -10,14 +11,15 @@
 
 namespace tree_generator
 {
+	class Camera;
+
 	// Draws objects to the screen
 	class RenderContext
 	{
 	public:
 		virtual ~RenderContext() = default;
 
-		virtual void SetCameraView(glm::mat4 view) = 0;
-		virtual void SetWindowFramebufferSize(int width, int height) = 0;
+		virtual std::unique_ptr<Camera> CreateCamera() = 0;
 
 		virtual void AddMesh(const MeshData& meshData) = 0;
 		virtual void AddMesh(const MeshData& meshData, const Transform& transform) = 0;

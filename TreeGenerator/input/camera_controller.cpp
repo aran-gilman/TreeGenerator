@@ -4,7 +4,7 @@
 #include <glm/gtx/common.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../graphics/common/render_context.h"
+#include "../graphics/common/camera.h"
 
 namespace tree_generator
 {
@@ -23,17 +23,17 @@ namespace tree_generator
 		constexpr float kMinUpdateSpeed = 0.001f;
 	}
 
-	CameraController::CameraController(RenderContext* renderer) :
-		CameraController(renderer, MovementSettings())
+	CameraController::CameraController(Camera* camera) :
+		CameraController(camera, MovementSettings())
 	{
 	}
 
 	CameraController::CameraController(
-		RenderContext* renderer, MovementSettings movementSettings) :
-		renderer_(renderer),
+		Camera* camera, MovementSettings movementSettings) :
+		camera_(camera),
 		movementSettings_(movementSettings)
 	{
-		UpdateRendererCamera();
+		UpdateCamera();
 	}
 
 	void CameraController::Update(double elapsedTime)
@@ -46,11 +46,11 @@ namespace tree_generator
 
 		if (wasPositionUpdated)
 		{
-			UpdateRendererCamera();
+			UpdateCamera();
 		}
 	}
 
-	void CameraController::UpdateRendererCamera()
+	void CameraController::UpdateCamera()
 	{
 		float verticalMultiplier = glm::cos(glm::radians(currentPosition_.verticalAngle));
 
@@ -67,7 +67,7 @@ namespace tree_generator
 			newPosition,
 			glm::vec3(0.0f, currentPosition_.height, 0.0f),
 			glm::vec3(0.0f, 1.0f, 0.0f));
-		renderer_->SetCameraView(view);
+		camera_->SetView(view);
 	}
 
 	bool CameraController::UpdateHorizontalPosition(double elapsedTime)

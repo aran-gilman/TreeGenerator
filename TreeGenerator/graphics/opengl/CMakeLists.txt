@@ -6,6 +6,8 @@ target_sources(graphics_opengl
 		opengl_window.h
 
 	PRIVATE
+		opengl_camera.h
+		opengl_camera.cpp
 		opengl_render_context.cpp
 		opengl_window.cpp
 		shader_program.h

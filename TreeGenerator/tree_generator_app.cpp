@@ -9,6 +9,7 @@
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 
+#include "graphics/common/camera.h"
 #include "graphics/common/mesh_data.h"
 #include "graphics/common/render_context.h"
 #include "graphics/common/window.h"
@@ -179,7 +180,9 @@ namespace tree_generator
 	TreeGeneratorApp::TreeGeneratorApp() :
 		window_(std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator")),
 		renderer_(std::make_unique<opengl::OpenGLRenderContext>(window_.get())),
-		cameraController_(std::make_unique<CameraController>(renderer_.get())),
+
+		camera_(renderer_->CreateCamera()),
+		cameraController_(std::make_unique<CameraController>(camera_.get())),
 
 		symbols_({}),
 		stringLSystem_(CreateTreeTypeB()),
@@ -201,8 +204,9 @@ namespace tree_generator
 			HandleScrollInput(cameraController_.get(), xOffset, yOffset);
 			});
 
+		camera_->SetViewport({ 0, 0, window_->Width(), window_->Height() });
 		window_->SetFramebufferSizeCallback([&](int width, int height) {
-			renderer_->SetWindowFramebufferSize(width, height);
+			camera_->SetViewport({0, 0, width, height});
 			});
 	}
 
@@ -222,6 +226,7 @@ namespace tree_generator
 			}
 
 			cameraController_->Update(elapsedTime);
+			camera_->Bind();
 			renderer_->Render();
 			});
 	}

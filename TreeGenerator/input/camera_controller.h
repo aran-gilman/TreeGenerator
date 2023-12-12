@@ -3,7 +3,7 @@
 
 namespace tree_generator
 {
-	class RenderContext;
+	class Camera;
 
 	// Rotates the renderer's camera around the origin of the scene.
 	// 
@@ -53,8 +53,8 @@ namespace tree_generator
 			float height = 1.0f;
 		};
 
-		CameraController(RenderContext* renderer);
-		CameraController(RenderContext* renderer, MovementSettings movementSettings);
+		CameraController(Camera* camera);
+		CameraController(Camera* camera, MovementSettings movementSettings);
 
 		void Update(double elapsedTime);
 
@@ -63,13 +63,13 @@ namespace tree_generator
 		Position& GetCurrentPosition() { return currentPosition_; }
 
 	private:
-		RenderContext* renderer_;
+		Camera* camera_;
 
 		MovementSettings movementSettings_;
 		Movement currentMovement_;
 		Position currentPosition_;
 
-		void UpdateRendererCamera();
+		void UpdateCamera();
 
 		// Returns whether the associated value actually changed.
 		bool UpdateHorizontalPosition(double elapsedTime);
