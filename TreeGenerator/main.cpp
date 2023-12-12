@@ -218,19 +218,10 @@ namespace tree_generator
 			CameraController cameraController(renderer.get());
 
 			DisplaySymbols symbols;
-			std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols, 5);
-
 			lsystem::StringGenerator stringGenerator =
 				CreateBinaryTreeStringGenerator(symbols);
-			std::cout << "Generated tree: " << stringGenerator.Generate(tree) << std::endl;
-
 			lsystem::MeshGenerator meshGenerator =
 				CreateBinaryTreeMeshGenerator(symbols, glm::vec3(0.0f, 0.0f, 22.5f));
-			std::vector<lsystem::MeshGroup> meshes = meshGenerator.Generate(tree);
-			for (const lsystem::MeshGroup& group : meshes)
-			{
-				renderer->AddMesh(group.mesh, group.instances);
-			}
 
 			window->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
 				HandleCameraInput(&cameraController, keyToken, action);
@@ -240,12 +231,21 @@ namespace tree_generator
 				HandleScrollInput(&cameraController, xOffset, yOffset);
 				});
 
-			bool showDemoWindow = true;
 			window->Display([&](double elapsedTime) {
-				if (showDemoWindow)
+				ImGui::Begin("Tree Generator");
+				if (ImGui::Button("Regenerate"))
 				{
-					ImGui::ShowDemoWindow(&showDemoWindow);
+					renderer->ClearAllMeshes();
+					std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols, 5);
+					std::cout << "Generated tree: " << 
+						stringGenerator.Generate(tree) << std::endl;
+					std::vector<lsystem::MeshGroup> meshes = meshGenerator.Generate(tree);
+					for (const lsystem::MeshGroup& group : meshes)
+					{
+						renderer->AddMesh(group.mesh, group.instances);
+					}
 				}
+				ImGui::End();
 				cameraController.Update(elapsedTime);
 				renderer->Render();
 				});
