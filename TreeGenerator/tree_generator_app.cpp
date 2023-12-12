@@ -90,19 +90,6 @@ namespace tree_generator
 		camera->GetCurrentMovement().remainingDistanceChange -= yOffset;
 	}
 
-	struct DisplaySymbols
-	{
-		lsystem::Symbol trunk{ '1' };
-		lsystem::Symbol leaf{ '0' };
-
-		lsystem::Symbol push{ '[' };
-		lsystem::Symbol pop{ ']' };
-
-		lsystem::Symbol rotateRight{ 'R' };
-		lsystem::Symbol rotateLeft{ 'L' };
-		lsystem::Symbol advance{ 'A' };
-	};
-
 	std::vector<lsystem::Symbol> CreateSimpleBinaryTree(
 		const DisplaySymbols& symbols,
 		int iterations)
@@ -204,18 +191,15 @@ namespace tree_generator
 		return generator;
 	}
 
-	void TreeGeneratorApp::Run()
+	TreeGeneratorApp::TreeGeneratorApp() :
+		window_(std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator")),
+		renderer_(std::make_unique<opengl::OpenGLRenderer>(window_.get())),
+		cameraController_(std::make_unique<CameraController>(renderer_.get())),
+		symbols_({}),
+		stringGenerator_(CreateBinaryTreeStringGenerator(symbols_)),
+		meshGenerator_(
+			CreateBinaryTreeMeshGenerator(symbols_, glm::vec3(0.0f, 0.0f, 22.5f)))
 	{
-		window_ = std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator");
-		renderer_ = std::make_unique<opengl::OpenGLRenderer>(window_.get());
-
-		cameraController_ = std::make_unique<CameraController>(renderer_.get());
-
-		DisplaySymbols symbols;
-		stringGenerator_ = CreateBinaryTreeStringGenerator(symbols);
-		meshGenerator_ = CreateBinaryTreeMeshGenerator(
-			symbols, glm::vec3(0.0f, 0.0f, 22.5f));
-
 		window_->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
 			HandleCameraInput(cameraController_.get(), keyToken, action);
 			});
@@ -223,7 +207,10 @@ namespace tree_generator
 		window_->SetScrollCallback([&](double xOffset, double yOffset) {
 			HandleScrollInput(cameraController_.get(), xOffset, yOffset);
 			});
+	}
 
+	void TreeGeneratorApp::Run()
+	{
 		bool showDemoWindow = false;
 		int iterations = 5;
 		bool doOutputToConsole = false;
@@ -237,7 +224,7 @@ namespace tree_generator
 			if (ImGui::Button("Regenerate"))
 			{
 				renderer_->ClearAllMeshes();
-				std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols, iterations);
+				std::vector<lsystem::Symbol> tree = CreateTreeTypeB(symbols_, iterations);
 				if (doOutputToConsole)
 				{
 					std::cout << "Generated tree: " <<
