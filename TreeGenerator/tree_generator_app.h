@@ -17,14 +17,14 @@ namespace tree_generator
 	// TODO: Replace this with runtime-/user-configurable structure
 	struct DisplaySymbols
 	{
-		lsystem::Symbol trunk{ '1' };
-		lsystem::Symbol leaf{ '0' };
+		lsystem::Symbol trunk{ 'F' };
+		lsystem::Symbol leaf{ 'X' };
 
 		lsystem::Symbol push{ '[' };
 		lsystem::Symbol pop{ ']' };
 
-		lsystem::Symbol rotateRight{ 'R' };
-		lsystem::Symbol rotateLeft{ 'L' };
+		lsystem::Symbol rotateRight{ '-' };
+		lsystem::Symbol rotateLeft{ '+' };
 		lsystem::Symbol advance{ 'A' };
 	};
 

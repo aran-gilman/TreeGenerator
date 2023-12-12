@@ -115,32 +115,14 @@ namespace tree_generator
 		}
 
 		// See http://algorithmicbotany.org/papers/lsfp.pdf page 25
-		// X = leaf
-		// F = trunk
-		// - = rotateRight
-		// + = rotateLeft
 		// The system in the book does not have an explicit advance, but we add it
 		// to keep a 1:1 relationship between symbols and actions.
-		lsystem::LSystem CreateTreeTypeB(const DisplaySymbols& symbols)
+		lsystem::StringLSystem CreateTreeTypeB()
 		{
-			lsystem::LSystem lSystem;
-			lSystem.axiom = { symbols.leaf };
-			lSystem.rules = {
-				{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
-				{ symbols.leaf, {
-					symbols.trunk, symbols.rotateRight,
-					symbols.push, symbols.push,
-					symbols.advance, symbols.leaf,
-					symbols.pop,
-					symbols.rotateLeft, symbols.advance, symbols.leaf,
-					symbols.pop,
-					symbols.rotateLeft, symbols.advance, symbols.trunk,
-					symbols.push,
-					symbols.rotateLeft, symbols.advance, symbols.trunk,
-					symbols.advance, symbols.leaf,
-					symbols.pop,
-					symbols.rotateRight, symbols.advance, symbols.leaf
-			}}};
+			lsystem::StringLSystem lSystem;
+			lSystem.axiom = "X";
+			lSystem.rules["F"] = "FAF";
+			lSystem.rules["X"] = "F-[[AX]+AX]+AF[+AFAX]-AX";
 			return lSystem;
 		}
 
@@ -194,7 +176,8 @@ namespace tree_generator
 		cameraController_(std::make_unique<CameraController>(renderer_.get())),
 
 		symbols_({}),
-		lSystem_(CreateTreeTypeB(symbols_)),
+		stringLSystem_(CreateTreeTypeB()),
+		lSystem_(ParseLSystem(stringLSystem_)),
 
 		stringGenerator_(CreateBinaryTreeStringGenerator(symbols_)),
 		meshGenerator_(
