@@ -1,5 +1,7 @@
 #include "mesh_generator_action.h"
 
+#include <stdexcept>
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <imgui.h>
 
@@ -21,9 +23,48 @@ namespace tree_generator::lsystem
 		ImGui::Text("<No options>");
 	}
 
-	DrawAction::DrawAction(MeshData meshData)
-		: meshData_(meshData)
+	CylinderDefinition::CylinderDefinition(int sideCount, float height, float radius) :
+		sideCount_(sideCount),
+		height_(height),
+		radius_(radius)
 	{
+
+	}
+
+	bool CylinderDefinition::ShowGUI()
+	{
+		return false;
+	}
+
+	MeshData CylinderDefinition::GenerateMesh() const
+	{
+		return CreateCylinder(sideCount_, height_, radius_);
+	}
+	
+	QuadDefinition::QuadDefinition()
+	{
+
+	}
+
+	bool QuadDefinition::ShowGUI()
+	{
+		return false;
+	}
+
+	MeshData QuadDefinition::GenerateMesh() const
+	{
+		return CreateQuad();
+	}
+
+	DrawAction::DrawAction(std::unique_ptr<MeshDefinition> meshDefinition) :
+		meshDefinition_(std::move(meshDefinition))
+	{
+		if (meshDefinition_ == nullptr)
+		{
+			throw std::invalid_argument(
+				"Failed to initialize DrawAction: meshDefinition must be non-null");
+		}
+		meshData_ = meshDefinition_->GenerateMesh();
 	}
 
 	void DrawAction::PerformAction(const Symbol& symbol, MeshGeneratorState* state)
@@ -42,6 +83,10 @@ namespace tree_generator::lsystem
 
 	void DrawAction::ShowGUI()
 	{
+		if (meshDefinition_->ShowGUI())
+		{
+			meshData_ = meshDefinition_->GenerateMesh();
+		}
 	}
 
 	MoveAction::MoveAction(float distance) : distance_(distance) {}

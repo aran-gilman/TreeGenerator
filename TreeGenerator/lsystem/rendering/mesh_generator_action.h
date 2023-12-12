@@ -1,6 +1,7 @@
 #ifndef TREE_GENERATOR_LSYSTEM_MESH_GENERATOR_ACTION_H_
 #define TREE_GENERATOR_LSYSTEM_MESH_GENERATOR_ACTION_H_
 
+#include <memory>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -46,18 +47,56 @@ namespace tree_generator::lsystem
 		virtual const std::string_view Name() const = 0;
 	};
 
+	class MeshDefinition
+	{
+	public:
+		virtual bool ShowGUI() = 0;
+		virtual const std::string_view Name() const = 0;
+		virtual MeshData GenerateMesh() const = 0;
+	};
+
+	class CylinderDefinition : public MeshDefinition
+	{
+	public:
+		CylinderDefinition(int sideCount, float height, float radius);
+
+		bool ShowGUI() override;
+		const std::string_view Name() const { return kName_; }
+		MeshData GenerateMesh() const override;
+
+	private:
+		inline static const std::string kName_ = "Cylinder";
+		int sideCount_;
+		float height_;
+		float radius_;
+	};
+
+
+	class QuadDefinition : public MeshDefinition
+	{
+	public:
+		QuadDefinition();
+
+		bool ShowGUI() override;
+		const std::string_view Name() const { return kName_; }
+		MeshData GenerateMesh() const override;
+
+	private:
+		inline static const std::string kName_ = "Quad";
+	};
+
 	// Render a mesh to the screen.
 	class DrawAction : public MeshGeneratorAction
 	{
 	public:
-		DrawAction(MeshData meshData);
+		DrawAction(std::unique_ptr<MeshDefinition> meshDefinition);
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 
 		void ShowGUI() override;
-		const std::string_view Name() const override { return kName_; }
+		const std::string_view Name() const override { return meshDefinition_->Name(); }
 
 	private:
-		inline static const std::string kName_ = "Draw mesh";
+		std::unique_ptr<MeshDefinition> meshDefinition_;
 		MeshData meshData_;
 	};
 

@@ -29,7 +29,7 @@ namespace glm
 	{
 		*os << "(x: " << vec.x << ", y: " << vec.y << ", z: " << vec.z << ")";
 	}
-	
+
 	void PrintTo(const glm::vec2& vec, std::ostream* os)
 	{
 		*os << "(x: " << vec.x << ", y: " << vec.y << ")";
@@ -88,7 +88,8 @@ namespace tree_generator::lsystem
 			MeshData quad = CreateQuad();
 
 			MeshGenerator generator;
-			generator.Define(a, std::make_unique<DrawAction>(quad));
+			generator.Define(a,
+				std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
 
 			// MeshData and Vertex don't have equality defined on them, so we
 			// can't directly use equals. For now, assume that if the size is
@@ -109,7 +110,7 @@ namespace tree_generator::lsystem
 			MeshData quad = CreateQuad();
 
 			MeshGenerator generator;
-			generator.Define(a, std::make_unique<DrawAction>(quad));
+			generator.Define(a, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
 
 			EXPECT_THAT(
 				generator.Generate({ a, a }),
@@ -124,7 +125,7 @@ namespace tree_generator::lsystem
 			Symbol symbolMove{ 'b' };
 
 			MeshGenerator generator;
-			generator.Define(symbolDraw, std::make_unique<DrawAction>(CreateQuad()));
+			generator.Define(symbolDraw, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
 			generator.Define(symbolMove, std::make_unique<MoveAction>());
 
 			EXPECT_THAT(
@@ -143,7 +144,7 @@ namespace tree_generator::lsystem
 			Symbol symbolRotate{ 'b' };
 
 			MeshGenerator generator;
-			generator.Define(symbolDraw, std::make_unique<DrawAction>(CreateQuad()));
+			generator.Define(symbolDraw, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
 			generator.Define(symbolRotate,
 				std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 45.0f)));
 
@@ -166,7 +167,7 @@ namespace tree_generator::lsystem
 			Symbol symbolMove{ 'c' };
 
 			MeshGenerator generator;
-			generator.Define(symbolDraw, std::make_unique<DrawAction>(CreateQuad()));
+			generator.Define(symbolDraw, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
 			generator.Define(symbolRotate, std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 30.0f)));
 			generator.Define(symbolMove, std::make_unique<MoveAction>());
 
@@ -175,19 +176,19 @@ namespace tree_generator::lsystem
 					symbolDraw,
 					symbolRotate, symbolMove, symbolDraw,
 					symbolRotate, symbolMove, symbolDraw }),
-				ElementsAre(
-					Field(&MeshGroup::instances,
-						ElementsAre(
-							Field(&Transform::position, Eq(glm::vec3(0))),
-							Field(&Transform::position, Eq(glm::vec3(
-								-glm::sin(glm::radians(30.0f)),
-								glm::cos(glm::radians(30.0f)),
-								0.0f))),
-							Field(&Transform::position, Eq(glm::vec3(
-								-glm::sin(glm::radians(30.0f)) - glm::sin(glm::radians(60.0f)),
-								glm::cos(glm::radians(30.0f)) + glm::cos(glm::radians(60.0f)),
-								0.0f)))
-						))));
+					ElementsAre(
+						Field(&MeshGroup::instances,
+							ElementsAre(
+								Field(&Transform::position, Eq(glm::vec3(0))),
+								Field(&Transform::position, Eq(glm::vec3(
+									-glm::sin(glm::radians(30.0f)),
+									glm::cos(glm::radians(30.0f)),
+									0.0f))),
+								Field(&Transform::position, Eq(glm::vec3(
+									-glm::sin(glm::radians(30.0f)) - glm::sin(glm::radians(60.0f)),
+									glm::cos(glm::radians(30.0f)) + glm::cos(glm::radians(60.0f)),
+									0.0f)))
+							))));
 		}
 
 		TEST(LSystemMeshGeneratorTest, SaveRestoreReturnsToEarlierState)
@@ -199,7 +200,7 @@ namespace tree_generator::lsystem
 			Symbol symbolRestore{ 'e' };
 
 			MeshGenerator generator;
-			generator.Define(symbolDraw, std::make_unique<DrawAction>(CreateQuad()));
+			generator.Define(symbolDraw, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
 			generator.Define(symbolRotate,
 				std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 30.0f)));
 			generator.Define(symbolMove, std::make_unique<MoveAction>());
@@ -211,16 +212,16 @@ namespace tree_generator::lsystem
 					symbolSave, symbolDraw,
 					symbolRotate, symbolMove, symbolDraw,
 					symbolRestore, symbolDraw }),
-				ElementsAre(
-					Field(&MeshGroup::instances,
-						ElementsAre(
-							Field(&Transform::position, Eq(glm::vec3(0))),
-							Field(&Transform::position, Eq(glm::vec3(
-								-glm::sin(glm::radians(30.0f)),
-								glm::cos(glm::radians(30.0f)),
-								0.0f))),
-							Field(&Transform::position, Eq(glm::vec3(0)))
-						))));
+					ElementsAre(
+						Field(&MeshGroup::instances,
+							ElementsAre(
+								Field(&Transform::position, Eq(glm::vec3(0))),
+								Field(&Transform::position, Eq(glm::vec3(
+									-glm::sin(glm::radians(30.0f)),
+									glm::cos(glm::radians(30.0f)),
+									0.0f))),
+								Field(&Transform::position, Eq(glm::vec3(0)))
+							))));
 		}
 	}
 }
