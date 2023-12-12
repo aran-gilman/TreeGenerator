@@ -241,11 +241,7 @@ namespace tree_generator
 		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoTitleBar;
 		ImGui::Begin("Tree Generator", nullptr, windowFlags);
 
-		ImGui::InputInt("Iterations", &iterations_);
-		if (iterations_ < 1)
-		{
-			iterations_ = 1;
-		}
+
 		if (ImGui::Button("Regenerate"))
 		{
 			renderer_->ClearAllMeshes();
@@ -261,10 +257,23 @@ namespace tree_generator
 				renderer_->AddMesh(group.mesh, group.instances);
 			}
 		}
-		ImGui::Checkbox("Output to console", &doOutputToConsole_);
-		if (ImGui::Button("Open Demo Window"))
+
+		if (ImGui::CollapsingHeader("L-System"))
 		{
-			showDemoWindow_ = true;
+			ImGui::InputInt("Iterations", &iterations_);
+			if (iterations_ < 1)
+			{
+				iterations_ = 1;
+			}
+		}
+
+		if (ImGui::CollapsingHeader("Debug"))
+		{
+			ImGui::Checkbox("Output to console", &doOutputToConsole_);
+			if (ImGui::Button("Open Demo Window"))
+			{
+				showDemoWindow_ = true;
+			}
 		}
 		ImGui::End();
 	}
