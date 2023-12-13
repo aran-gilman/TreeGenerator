@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 
+#include <glm/gtc/type_ptr.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <imgui.h>
 
@@ -146,6 +147,7 @@ namespace tree_generator::lsystem
 		{
 			meshData_ = meshDefinition_->GenerateMesh();
 		}
+		ImGui::ColorEdit4("Material color", glm::value_ptr(material_.color));
 	}
 
 	MoveAction::MoveAction(float distance) : distance_(distance) {}
