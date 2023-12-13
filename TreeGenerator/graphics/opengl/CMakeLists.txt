@@ -8,6 +8,8 @@ target_sources(graphics_opengl
 	PRIVATE
 		opengl_camera.h
 		opengl_camera.cpp
+		opengl_mesh_renderer.h
+		opengl_mesh_renderer.cpp
 		opengl_render_context.cpp
 		opengl_window.cpp
 		shader_program.h
