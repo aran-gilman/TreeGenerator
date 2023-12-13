@@ -62,7 +62,7 @@ namespace tree_generator::lsystem
 		CylinderDefinition(int sideCount, float height, float radius);
 
 		bool ShowGUI() override;
-		const std::string_view Name() const { return kName_; }
+		const std::string_view Name() const override { return kName_; }
 		MeshData GenerateMesh() const override;
 
 	private:
@@ -79,7 +79,7 @@ namespace tree_generator::lsystem
 		QuadDefinition();
 
 		bool ShowGUI() override;
-		const std::string_view Name() const { return kName_; }
+		const std::string_view Name() const override { return kName_; }
 		MeshData GenerateMesh() const override;
 
 	private:
