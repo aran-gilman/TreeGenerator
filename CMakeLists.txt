@@ -13,7 +13,11 @@ endif()
 
 set(CMAKE_CXX_STANDARD 20)
 
-project ("TreeGenerator")
+project (TreeGenerator VERSION 0.1.0)
+
+configure_file(config.h.in config.h)
+message("Project binary dir: ${PROJECT_BINARY_DIR}")
+include_directories("${PROJECT_BINARY_DIR}")
 
 # Download and set up dependencies
 FetchContent_Declare(

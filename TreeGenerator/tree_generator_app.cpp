@@ -9,6 +9,8 @@
 #include <imgui.h>
 #include <misc/cpp/imgui_stdlib.h>
 
+#include <config.h>
+
 #include "graphics/common/camera.h"
 #include "graphics/common/mesh_data.h"
 #include "graphics/common/mesh_renderer.h"
@@ -183,7 +185,8 @@ namespace tree_generator
 	}
 
 	TreeGeneratorApp::TreeGeneratorApp() :
-		window_(std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator")),
+		window_(std::make_unique<opengl::OpenGLWindow>(
+			800, 600, std::format("Tree Generator v{}", PROJECT_VERSION))),
 		renderer_(std::make_unique<opengl::OpenGLRenderContext>()),
 
 		camera_(renderer_->CreateCamera()),
