@@ -10,28 +10,28 @@ namespace tree_generator
 	class Camera;
 	class MeshRenderer;
 	class Window;
+}
 
-	namespace opengl
+namespace tree_generator::opengl
+{
+	class ShaderProgram;
+
+	class OpenGLRenderContext : public RenderContext
 	{
-		class ShaderProgram;
+	public:
+		OpenGLRenderContext();
+		~OpenGLRenderContext() override;
 
-		class OpenGLRenderContext : public RenderContext
-		{
-		public:
-			OpenGLRenderContext();
-			~OpenGLRenderContext() override;
+		// Warning: Multiple cameras are currently not supported!
+		// Creating a new camera overwrites the old camera
+		std::unique_ptr<Camera> CreateCamera() override;
 
-			// Warning: Multiple cameras are currently not supported!
-			// Creating a new camera overwrites the old camera
-			std::unique_ptr<Camera> CreateCamera() override;
+		std::unique_ptr<MeshRenderer> CreateMeshRenderer() override;
 
-			std::unique_ptr<MeshRenderer> CreateMeshRenderer() override;
-
-		private:
-			std::unique_ptr<ShaderProgram> normalShader_;
-			std::unique_ptr<ShaderProgram> materialShader_;
-		};
-	}
+	private:
+		std::unique_ptr<ShaderProgram> normalShader_;
+		std::unique_ptr<ShaderProgram> materialShader_;
+	};
 }
 
 #endif  // !TREE_GENERATOR_OPENGL_RENDER_CONTEXT_H_

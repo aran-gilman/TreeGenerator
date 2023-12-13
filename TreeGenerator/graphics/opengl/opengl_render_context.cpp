@@ -15,11 +15,9 @@
 #include "internal/typed_shader.h"
 #include "internal/shader_program.h"
 
-namespace tree_generator
+namespace tree_generator::opengl
 {
-	namespace opengl
-	{
-		const char* vertexShaderSource = R"s(
+	const char* vertexShaderSource = R"s(
 #version 330 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aNormal;
@@ -48,7 +46,7 @@ void main()
 	vs_out.normal = aNormal;
 })s";
 
-		const char* normalFragmentShaderSource = R"s(
+	const char* normalFragmentShaderSource = R"s(
 #version 330 core
 
 in VS_OUT
@@ -61,9 +59,9 @@ out vec4 FragColor;
 void main()
 {
 	FragColor = vec4(abs(vs_out.normal), 1.0f);
-})s";		
-		
-		const char* materialFragmentShaderSource = R"s(
+})s";
+
+	const char* materialFragmentShaderSource = R"s(
 #version 330 core
 
 struct Material
@@ -79,62 +77,62 @@ void main()
 {
 	FragColor = material.color;
 })s";
-		template <typename T>
-		std::unique_ptr<T> ThrowIfNull(std::unique_ptr<T> value, const std::string& message)
+	template <typename T>
+	std::unique_ptr<T> ThrowIfNull(std::unique_ptr<T> value, const std::string& message)
+	{
+		if (value == nullptr)
 		{
-			if (value == nullptr)
-			{
-				throw std::runtime_error(message);
-			}
-			return std::move(value);
+			throw std::runtime_error(message);
+		}
+		return std::move(value);
+	}
+
+	OpenGLRenderContext::OpenGLRenderContext()
+	{
+		int version = gladLoadGL();
+		if (version == 0)
+		{
+			throw std::runtime_error("Failed to load OpenGL");
 		}
 
-		OpenGLRenderContext::OpenGLRenderContext()
-		{
-			int version = gladLoadGL();
-			if (version == 0)
-			{
-				throw std::runtime_error("Failed to load OpenGL");
-			}
+		glEnable(GL_DEPTH_TEST);
 
-			glEnable(GL_DEPTH_TEST);
+		std::unique_ptr<VertexShader> vertexShader = ThrowIfNull(
+			VertexShader::Create(vertexShaderSource),
+			"Vertex shader compilation failed");
 
-			std::unique_ptr<VertexShader> vertexShader = ThrowIfNull(
-				VertexShader::Create(vertexShaderSource),
-				"Vertex shader compilation failed");
+		std::unique_ptr<FragmentShader> normalFragmentShader = ThrowIfNull(
+			FragmentShader::Create(normalFragmentShaderSource),
+			"Normal fragment shader compilation failed");
 
-			std::unique_ptr<FragmentShader> normalFragmentShader = ThrowIfNull(
-				FragmentShader::Create(normalFragmentShaderSource),
-				"Normal fragment shader compilation failed");
+		std::unique_ptr<FragmentShader> materialFragmentShader = ThrowIfNull(
+			FragmentShader::Create(materialFragmentShaderSource),
+			"Material fragment shader compilation failed");
 
-			std::unique_ptr<FragmentShader> materialFragmentShader = ThrowIfNull(
-				FragmentShader::Create(materialFragmentShaderSource),
-				"Material fragment shader compilation failed");
+		normalShader_ = ThrowIfNull(
+			ShaderProgram::Create(*vertexShader, *normalFragmentShader),
+			"Normal shader linking failed");
+		materialShader_ = ThrowIfNull(
+			ShaderProgram::Create(*vertexShader, *materialFragmentShader),
+			"Material shader linking failed");
 
-			normalShader_ = ThrowIfNull(
-				ShaderProgram::Create(*vertexShader, *normalFragmentShader),
-				"Normal shader linking failed");
-			materialShader_ = ThrowIfNull(
-				ShaderProgram::Create(*vertexShader, *materialFragmentShader),
-				"Material shader linking failed");
+		normalShader_->BindUniformBlock("Camera", 1);
+		materialShader_->BindUniformBlock("Camera", 1);
+	}
 
-			normalShader_->BindUniformBlock("Camera", 1);
-			materialShader_->BindUniformBlock("Camera", 1);
-		}
+	OpenGLRenderContext::~OpenGLRenderContext()
+	{
+	}
 
-		OpenGLRenderContext::~OpenGLRenderContext()
-		{
-		}
+	std::unique_ptr<Camera> OpenGLRenderContext::CreateCamera()
+	{
+		return std::make_unique<OpenGLCamera>(1);
+	}
 
-		std::unique_ptr<Camera> OpenGLRenderContext::CreateCamera()
-		{
-			return std::make_unique<OpenGLCamera>(1);
-		}
-
-		std::unique_ptr<MeshRenderer> OpenGLRenderContext::CreateMeshRenderer()
-		{
-			return std::make_unique<OpenGLMeshRenderer>(
-				materialShader_.get(), normalShader_.get());
-		}
+	std::unique_ptr<MeshRenderer> OpenGLRenderContext::CreateMeshRenderer()
+	{
+		return std::make_unique<OpenGLMeshRenderer>(
+			materialShader_.get(), normalShader_.get());
 	}
 }
+
