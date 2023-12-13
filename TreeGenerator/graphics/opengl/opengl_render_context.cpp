@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -9,7 +10,6 @@
 #include "../common/camera.h"
 #include "../common/window.h"
 
-#include "internal/gl_helper.h"
 #include "internal/opengl_camera.h"
 #include "internal/opengl_mesh_renderer.h"
 #include "internal/typed_shader.h"
@@ -91,13 +91,11 @@ void main()
 
 		OpenGLRenderContext::OpenGLRenderContext()
 		{
-#ifndef __EMSCRIPTEN__
 			int version = gladLoadGL();
 			if (version == 0)
 			{
 				throw std::runtime_error("Failed to load OpenGL");
 			}
-#endif
 
 			glEnable(GL_DEPTH_TEST);
 

@@ -1,8 +1,8 @@
 #include "opengl_mesh_renderer.h"
 
+#include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "gl_helper.h"
 #include "shader_program.h"
 
 namespace tree_generator::opengl

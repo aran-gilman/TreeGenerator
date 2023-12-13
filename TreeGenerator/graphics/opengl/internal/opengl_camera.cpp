@@ -1,8 +1,7 @@
 #include "opengl_camera.h"
 
+#include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
-
-#include "gl_helper.h"
 
 namespace tree_generator::opengl
 {

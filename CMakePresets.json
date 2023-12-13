@@ -41,32 +41,6 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       }
-    },
-    {
-      "name": "emscripten-base",
-      "hidden": true,
-      "inherits": "common",
-      "toolchainFile": "$env{EMSDK}/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake"
-    },
-    {
-      "name": "emscripten-debug",
-      "displayName": "emscripten Debug",
-      "inherits": "emscripten-base",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      },
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "name": "emscripten-release",
-      "displayName": "emscripten Release",
-      "inherits": "emscripten-debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
     }
   ]
 }

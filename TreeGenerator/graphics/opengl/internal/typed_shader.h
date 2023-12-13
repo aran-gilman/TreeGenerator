@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-#include "gl_helper.h"
+#include <glad/glad.h>
 
 namespace tree_generator
 {

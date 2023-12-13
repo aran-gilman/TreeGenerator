@@ -5,9 +5,9 @@
 #include <string>
 #include <unordered_map>
 
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 
-#include "gl_helper.h"
 #include "typed_shader.h"
 
 namespace tree_generator
