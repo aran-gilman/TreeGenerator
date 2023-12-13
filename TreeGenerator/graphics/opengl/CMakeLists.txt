@@ -9,6 +9,7 @@ target_sources(graphics_opengl
 		opengl_render_context.cpp
 		opengl_window.cpp
 
+		internal/gl_helper.h
 		internal/opengl_camera.h
 		internal/opengl_camera.cpp
 		internal/opengl_mesh_renderer.h
@@ -18,12 +19,26 @@ target_sources(graphics_opengl
 		internal/typed_shader.h
 )
 
-target_link_libraries(graphics_opengl
-	PUBLIC
-		glm
-		imgui
+if (NOT EMSCRIPTEN)
+	target_link_libraries(graphics_opengl
+		PUBLIC
+			glm
+			imgui
 
-	PRIVATE
-		glad
-		glfw
-)
+		PRIVATE
+			glad
+			glfw
+	)
+else()
+	target_link_libraries(graphics_opengl
+		PUBLIC
+			glm
+			imgui
+
+		PRIVATE
+			glfw
+	)	
+	set_target_properties(graphics_opengl
+		PROPERTIES
+		LINK_FLAGS " -s USE_GLFW=3 -s ASSERTIONS=1")
+endif()

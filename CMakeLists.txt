@@ -15,15 +15,19 @@ set(CMAKE_CXX_STANDARD 20)
 
 project ("TreeGenerator")
 
+set(DEPS glm googletest imgui)
 # Download and set up dependencies
-FetchContent_Declare(
-	glad
-	GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-)
-FetchContent_Declare(
-	glfw
-	GIT_REPOSITORY https://github.com/glfw/glfw.git
-)
+if (NOT EMSCRIPTEN)
+	FetchContent_Declare(
+		glad
+		GIT_REPOSITORY https://github.com/Dav1dde/glad.git
+	)
+	FetchContent_Declare(
+		glfw
+		GIT_REPOSITORY https://github.com/glfw/glfw.git
+	)
+	list(APPEND DEPS glad glfw)
+endif()
 FetchContent_Declare(
 	glm
 	GIT_REPOSITORY https://github.com/g-truc/glm.git
@@ -39,7 +43,7 @@ FetchContent_Declare(
 	GIT_REPOSITORY https://github.com/ocornut/imgui.git
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(glad glfw glm googletest imgui)
+FetchContent_MakeAvailable(${DEPS})
 
 # Include sub-projects.
 add_subdirectory ("TreeGenerator")
