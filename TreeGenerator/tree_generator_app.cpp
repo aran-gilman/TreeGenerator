@@ -97,7 +97,7 @@ namespace tree_generator
 
 		void HandleScrollInput(CameraController* camera, double xOffset, double yOffset)
 		{
-			camera->GetCurrentMovement().remainingDistanceChange -= yOffset;
+			camera->GetCurrentMovement().remainingDistanceChange -= static_cast<float>(yOffset);
 		}
 
 		std::vector<lsystem::Symbol> CreateSimpleBinaryTree(
