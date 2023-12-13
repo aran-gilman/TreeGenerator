@@ -276,7 +276,7 @@ namespace tree_generator
 			{
 				auto mesh = renderer_->CreateMeshRenderer();
 				mesh->SetMeshData(group.mesh, group.instances);
-				mesh->SetMaterial({ {0.0f, 0.5f, 0.0f, 1.0f} });
+				mesh->SetMaterial(group.material);
 				meshes_.push_back(std::move(mesh));
 			}
 		}

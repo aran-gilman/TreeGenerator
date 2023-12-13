@@ -137,7 +137,7 @@ namespace tree_generator::lsystem
 		else
 		{
 			state->symbolMeshMap.emplace(symbol,
-				MeshGroup{ meshData_, { CreateTransform(*state) } });
+				MeshGroup{ meshData_, { CreateTransform(*state) }, material_ });
 		}
 	}
 

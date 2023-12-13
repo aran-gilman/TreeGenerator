@@ -17,11 +17,11 @@
 namespace tree_generator::lsystem
 {
 	// Output type of the mesh generator.
-	// The fields can be passed to the graphics library.
 	struct MeshGroup
 	{
 		MeshData mesh;
 		std::vector<Transform> instances;
+		Material material;
 	};
 
 	// State of the mesh generator during construction of the MeshGroups.
