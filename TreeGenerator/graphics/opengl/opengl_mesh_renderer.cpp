@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "shader_program.h"
+
 namespace tree_generator::opengl
 {
 	OpenGLMeshRenderer::OpenGLMeshRenderer(
@@ -161,6 +163,15 @@ namespace tree_generator::opengl
 
 	void OpenGLMeshRenderer::Render()
 	{
-
+		materialShader_->Bind();
+		materialShader_->SetUniform(
+			"material.color", material_.color);
+		glBindVertexArray(vertexArray_);
+		glDrawElementsInstanced(
+			GL_TRIANGLES,
+			indexCount_,
+			GL_UNSIGNED_INT,
+			0,
+			instanceCount_);
 	}
 }
