@@ -180,7 +180,7 @@ namespace tree_generator
 
 	TreeGeneratorApp::TreeGeneratorApp() :
 		window_(std::make_unique<opengl::OpenGLWindow>(800, 600, "TreeGenerator")),
-		renderer_(std::make_unique<opengl::OpenGLRenderContext>(window_.get())),
+		renderer_(std::make_unique<opengl::OpenGLRenderContext>()),
 
 		camera_(renderer_->CreateCamera()),
 		cameraController_(std::make_unique<CameraController>(camera_.get())),

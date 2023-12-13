@@ -90,7 +90,7 @@ void main()
 			return std::move(value);
 		}
 
-		OpenGLRenderContext::OpenGLRenderContext(Window* window)
+		OpenGLRenderContext::OpenGLRenderContext()
 		{
 			int version = gladLoadGL();
 			if (version == 0)
@@ -98,7 +98,6 @@ void main()
 				throw std::runtime_error("Failed to load OpenGL");
 			}
 
-			glViewport(0, 0, window->Width(), window->Height());
 			glEnable(GL_DEPTH_TEST);
 
 			std::unique_ptr<VertexShader> vertexShader = ThrowIfNull(

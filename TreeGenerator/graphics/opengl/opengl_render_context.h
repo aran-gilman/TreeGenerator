@@ -18,7 +18,7 @@ namespace tree_generator
 		class OpenGLRenderContext : public RenderContext
 		{
 		public:
-			OpenGLRenderContext(Window* window);
+			OpenGLRenderContext();
 			~OpenGLRenderContext() override;
 
 			// Warning: Multiple cameras are currently not supported!
