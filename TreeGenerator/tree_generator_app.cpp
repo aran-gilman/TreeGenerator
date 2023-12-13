@@ -194,7 +194,8 @@ namespace tree_generator
 
 		showDemoWindow_(false),
 		iterations_(5),
-		doOutputToConsole_(false)
+		doOutputToConsole_(false),
+		doShowNormals_(false)
 	{
 		window_->SetKeyboardCallback([&](KeyToken keyToken, KeyAction action) {
 			HandleCameraInput(cameraController_.get(), keyToken, action);
@@ -228,9 +229,13 @@ namespace tree_generator
 			cameraController_->Update(elapsedTime);
 			camera_->Bind();
 
+			MeshRenderer::RenderMode renderMode =
+				doShowNormals_ ?
+				MeshRenderer::RenderMode::Normals : 
+				MeshRenderer::RenderMode::Material;
 			for (int i = 0; i < meshes_.size(); ++i)
 			{
-				meshes_[i]->Render();
+				meshes_[i]->Render(renderMode);
 			}
 			});
 	}
@@ -332,6 +337,7 @@ namespace tree_generator
 		if (ImGui::CollapsingHeader("Debug"))
 		{
 			ImGui::Checkbox("Output to console", &doOutputToConsole_);
+			ImGui::Checkbox("Show normals", &doShowNormals_);
 			if (ImGui::Button("Open Demo Window"))
 			{
 				showDemoWindow_ = true;

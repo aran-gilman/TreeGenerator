@@ -161,11 +161,18 @@ namespace tree_generator::opengl
 		material_ = material;
 	}
 
-	void OpenGLMeshRenderer::Render()
+	void OpenGLMeshRenderer::Render(RenderMode mode)
 	{
-		materialShader_->Bind();
-		materialShader_->SetUniform(
-			"material.color", material_.color);
+		if (mode == RenderMode::Material)
+		{
+			materialShader_->Bind();
+			materialShader_->SetUniform(
+				"material.color", material_.color);
+		}
+		else if(mode == RenderMode::Normals)
+		{
+			normalShader_->Bind();
+		}
 		glBindVertexArray(vertexArray_);
 		glDrawElementsInstanced(
 			GL_TRIANGLES,

@@ -12,6 +12,12 @@ namespace tree_generator
 	class MeshRenderer
 	{
 	public:
+		enum class RenderMode
+		{
+			Material,
+			Normals
+		};
+
 		virtual ~MeshRenderer() = default;
 
 		virtual void SetMeshData(const MeshData& meshData) = 0;
@@ -21,7 +27,7 @@ namespace tree_generator
 
 		virtual void SetMaterial(Material material) = 0;
 
-		virtual void Render() = 0;
+		virtual void Render(RenderMode mode) = 0;
 
 	protected:
 		MeshRenderer() {}

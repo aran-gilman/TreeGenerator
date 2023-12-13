@@ -35,7 +35,7 @@ namespace tree_generator::opengl
 
 		void SetMaterial(Material material) override;
 
-		void Render() override;
+		void Render(RenderMode mode) override;
 
 	private:
 		unsigned int vertexArray_;
