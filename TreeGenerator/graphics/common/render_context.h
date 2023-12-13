@@ -12,6 +12,7 @@
 namespace tree_generator
 {
 	class Camera;
+	class MeshRenderer;
 
 	// Draws objects to the screen
 	class RenderContext
@@ -20,6 +21,7 @@ namespace tree_generator
 		virtual ~RenderContext() = default;
 
 		virtual std::unique_ptr<Camera> CreateCamera() = 0;
+		virtual std::unique_ptr<MeshRenderer> CreateMeshRenderer() = 0;
 
 		virtual void AddMesh(const MeshData& meshData) = 0;
 		virtual void AddMesh(const MeshData& meshData, const Transform& transform) = 0;

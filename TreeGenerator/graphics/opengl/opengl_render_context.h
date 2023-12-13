@@ -28,6 +28,8 @@ namespace tree_generator
 			// Creating a new camera overwrites the old camera
 			std::unique_ptr<Camera> CreateCamera() override;
 
+			std::unique_ptr<MeshRenderer> CreateMeshRenderer() override;
+
 			void AddMesh(const MeshData& meshData) override;
 			void AddMesh(const MeshData& meshData, const Transform& transform) override;
 			void AddMesh(

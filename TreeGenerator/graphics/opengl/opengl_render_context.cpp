@@ -138,6 +138,11 @@ void main()
 			return std::make_unique<OpenGLCamera>(1);
 		}
 
+		std::unique_ptr<MeshRenderer> OpenGLRenderContext::CreateMeshRenderer()
+		{
+			return std::unique_ptr<OpenGLMeshRenderer>();
+		}
+
 		void OpenGLRenderContext::AddMesh(const MeshData& meshData)
 		{
 			AddMesh(meshData, { glm::zero<glm::vec3>(), glm::zero<glm::vec3>(), 1.0f });
