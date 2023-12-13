@@ -7,6 +7,8 @@
 
 namespace tree_generator::opengl
 {
+	class ShaderProgram;
+
 	struct MeshRenderData
 	{
 		MeshData meshData;
@@ -23,7 +25,7 @@ namespace tree_generator::opengl
 	class OpenGLMeshRenderer : public MeshRenderer
 	{
 	public:
-		OpenGLMeshRenderer();
+		OpenGLMeshRenderer(ShaderProgram* materialShader, ShaderProgram* normalShader);
 		~OpenGLMeshRenderer();
 
 		void SetMeshData(const MeshData& meshData) override;
@@ -45,6 +47,8 @@ namespace tree_generator::opengl
 		int instanceCount_;
 
 		Material material_;
+		ShaderProgram* materialShader_;
+		ShaderProgram* normalShader_;
 	};
 }
 

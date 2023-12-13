@@ -140,7 +140,8 @@ void main()
 
 		std::unique_ptr<MeshRenderer> OpenGLRenderContext::CreateMeshRenderer()
 		{
-			return std::unique_ptr<OpenGLMeshRenderer>();
+			return std::make_unique<OpenGLMeshRenderer>(
+				materialShader_.get(), normalShader_.get());
 		}
 
 		void OpenGLRenderContext::AddMesh(const MeshData& meshData)

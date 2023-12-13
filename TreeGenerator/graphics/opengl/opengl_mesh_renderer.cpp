@@ -5,7 +5,9 @@
 
 namespace tree_generator::opengl
 {
-	OpenGLMeshRenderer::OpenGLMeshRenderer() :
+	OpenGLMeshRenderer::OpenGLMeshRenderer(
+		ShaderProgram* materialShader,
+		ShaderProgram* normalShader) :
 		vertexArray_(0),
 		vertexBuffer_(0),
 		indexBuffer_(0),
@@ -14,7 +16,9 @@ namespace tree_generator::opengl
 		indexCount_(0),
 		instanceCount_(0),
 
-		material_({})
+		material_({}),
+		materialShader_(materialShader),
+		normalShader_(normalShader)
 	{
 		glGenBuffers(1, &vertexBuffer_);
 		glGenBuffers(1, &indexBuffer_);
