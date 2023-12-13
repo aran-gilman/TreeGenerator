@@ -8,7 +8,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "../common/camera.h"
-#include "../common/camera_data.h"
 #include "../common/window.h"
 
 #include "internal/opengl_camera.h"

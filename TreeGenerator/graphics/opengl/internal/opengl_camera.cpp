@@ -3,10 +3,22 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../../common/camera_data.h"
-
 namespace tree_generator::opengl
 {
+	// This struct primarily serves as a reference for accessing the fields in
+	// the camera's uniform block.
+	// If making changes to it, make sure it still matches the layout expected
+	// by OpenGL and the shader! (e.g. all fields are aligned to a 16-byte
+	// boundary)
+	struct CameraData
+	{
+		glm::mat4 view;
+		glm::mat4 projection;
+	};
+	static_assert(
+		sizeof(CameraData) % 16 == 0,
+		"CameraData must match corresponding uniform block");
+
 	OpenGLCamera::OpenGLCamera(unsigned int uniformBlockIndex) :
 		clearColor_(0.0f, 0.0f, 0.0f),
 		uniformBuffer_(0),
