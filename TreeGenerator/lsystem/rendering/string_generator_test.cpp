@@ -5,74 +5,71 @@
 
 #include "../core/lsystem.h"
 
-namespace tree_generator
+namespace tree_generator::lsystem
 {
-	namespace lsystem
+	namespace
 	{
-		namespace
+		TEST(LSystemStringGeneratorTest, NoDefinitionsGeneratesEmptyString)
 		{
-			TEST(LSystemStringGeneratorTest, NoDefinitionsGeneratesEmptyString)
-			{
-				Symbol a{ 'a' };
-				StringGenerator generator;
-				EXPECT_THAT(generator.Generate({ a }), testing::IsEmpty());
-			}
+			Symbol a{ 'a' };
+			StringGenerator generator;
+			EXPECT_THAT(generator.Generate({ a }), testing::IsEmpty());
+		}
 
-			TEST(LSystemStringGeneratorTest, NoSymbolsGeneratesEmptyString)
-			{
-				StringGenerator generator;
-				EXPECT_THAT(generator.Generate({}), testing::IsEmpty());
-			}
+		TEST(LSystemStringGeneratorTest, NoSymbolsGeneratesEmptyString)
+		{
+			StringGenerator generator;
+			EXPECT_THAT(generator.Generate({}), testing::IsEmpty());
+		}
 
-			TEST(LSystemStringGeneratorTest, SymbolGeneratesDefinitionString)
-			{
-				Symbol a{ 'a' };
+		TEST(LSystemStringGeneratorTest, SymbolGeneratesDefinitionString)
+		{
+			Symbol a{ 'a' };
 
-				StringGenerator generator;
-				generator.Define(a, "A");
-				EXPECT_EQ(generator.Generate({ a }), "A");
-			}
+			StringGenerator generator;
+			generator.Define(a, "A");
+			EXPECT_EQ(generator.Generate({ a }), "A");
+		}
 
-			TEST(LSystemStringGeneratorTest, RepeatedSymbolGeneratesRepeatedString)
-			{
-				Symbol a{ 'a' };
+		TEST(LSystemStringGeneratorTest, RepeatedSymbolGeneratesRepeatedString)
+		{
+			Symbol a{ 'a' };
 
-				StringGenerator generator;
-				generator.Define(a, "A");
-				EXPECT_EQ(generator.Generate({ a, a, a }), "AAA");
-			}
+			StringGenerator generator;
+			generator.Define(a, "A");
+			EXPECT_EQ(generator.Generate({ a, a, a }), "AAA");
+		}
 
-			TEST(LSystemGeneratorTest, DifferentSymbolDefinitionsGenerateDifferentStrings)
-			{
-				Symbol a{ 'a' };
-				Symbol b{ 'b' };
+		TEST(LSystemGeneratorTest, DifferentSymbolDefinitionsGenerateDifferentStrings)
+		{
+			Symbol a{ 'a' };
+			Symbol b{ 'b' };
 
-				StringGenerator generator;
-				generator.Define(a, "A");
-				generator.Define(b, "B");
-				EXPECT_EQ(generator.Generate({ b, a, b }), "BAB");
-			}
+			StringGenerator generator;
+			generator.Define(a, "A");
+			generator.Define(b, "B");
+			EXPECT_EQ(generator.Generate({ b, a, b }), "BAB");
+		}
 
-			TEST(LSystemGeneratorTest, SymbolsWithoutDefinitionAreIgnored)
-			{
-				Symbol a{ 'a' };
-				Symbol b{ 'b' };
+		TEST(LSystemGeneratorTest, SymbolsWithoutDefinitionAreIgnored)
+		{
+			Symbol a{ 'a' };
+			Symbol b{ 'b' };
 
-				StringGenerator generator;
-				generator.Define(b, "B");
-				EXPECT_EQ(generator.Generate({ b, a, b }), "BB");
-			}
+			StringGenerator generator;
+			generator.Define(b, "B");
+			EXPECT_EQ(generator.Generate({ b, a, b }), "BB");
+		}
 
-			TEST(LSystemGeneratorTest, SymbolRedefinitionUsesMostRecent)
-			{
-				Symbol a{ 'a' };
+		TEST(LSystemGeneratorTest, SymbolRedefinitionUsesMostRecent)
+		{
+			Symbol a{ 'a' };
 
-				StringGenerator generator;
-				generator.Define(a, "A");
-				generator.Define(a, "B");
+			StringGenerator generator;
+			generator.Define(a, "A");
+			generator.Define(a, "B");
 
-				EXPECT_EQ(generator.Generate({ a }), "B");
-			}
+			EXPECT_EQ(generator.Generate({ a }), "B");
 		}
 	}
 }
