@@ -113,8 +113,10 @@ namespace tree_generator::lsystem
 		return CreateQuad(bottomLeft, topLeft, bottomRight, topRight);
 	}
 
-	DrawAction::DrawAction(std::unique_ptr<MeshDefinition> meshDefinition) :
-		meshDefinition_(std::move(meshDefinition))
+	DrawAction::DrawAction(
+		std::unique_ptr<MeshDefinition> meshDefinition, Material material) :
+		meshDefinition_(std::move(meshDefinition)),
+		material_(std::move(material))
 	{
 		if (meshDefinition_ == nullptr)
 		{

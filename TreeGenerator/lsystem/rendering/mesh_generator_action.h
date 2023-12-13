@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 
 #include "../core/lsystem.h"
+#include "../../graphics/common/material.h"
 #include "../../graphics/common/mesh_data.h"
 #include "../../graphics/common/transform.h"
 
@@ -92,7 +93,7 @@ namespace tree_generator::lsystem
 	class DrawAction : public MeshGeneratorAction
 	{
 	public:
-		DrawAction(std::unique_ptr<MeshDefinition> meshDefinition);
+		DrawAction(std::unique_ptr<MeshDefinition> meshDefinition, Material material);
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 
 		void ShowGUI() override;
@@ -101,6 +102,7 @@ namespace tree_generator::lsystem
 	private:
 		std::unique_ptr<MeshDefinition> meshDefinition_;
 		MeshData meshData_;
+		Material material_;
 	};
 
 	// Move the generator's turtle position forward.

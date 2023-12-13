@@ -137,14 +137,18 @@ namespace tree_generator
 			glm::vec3 rotation)
 		{
 			lsystem::MeshGenerator generator;
+			Material trunkMaterial = { {0.5f, 0.2f, 0.0f, 1.0f} };
+			Material leafMaterial = { {0.0f, 0.5f, 0.0f, 1.0f} };
 			generator.Define(
 				symbols.trunk,
 				std::make_unique<lsystem::DrawAction>(
-					std::make_unique<lsystem::CylinderDefinition>(8, 0.15f, 0.1f)));
+					std::make_unique<lsystem::CylinderDefinition>(8, 0.15f, 0.1f),
+					trunkMaterial));
 			generator.Define(
 				symbols.leaf,
 				std::make_unique<lsystem::DrawAction>(
-					std::make_unique<lsystem::QuadDefinition>()));
+					std::make_unique<lsystem::QuadDefinition>(),
+					leafMaterial));
 			generator.Define(
 				symbols.push,
 				std::make_unique<lsystem::SaveAction>());

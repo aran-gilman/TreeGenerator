@@ -89,7 +89,9 @@ namespace tree_generator::lsystem
 
 			MeshGenerator generator;
 			generator.Define(a,
-				std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
+				std::make_unique<DrawAction>(
+					std::make_unique<QuadDefinition>(),
+					Material()));
 
 			// MeshData and Vertex don't have equality defined on them, so we
 			// can't directly use equals. For now, assume that if the size is
@@ -110,7 +112,9 @@ namespace tree_generator::lsystem
 			MeshData quad = CreateQuad();
 
 			MeshGenerator generator;
-			generator.Define(a, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
+			generator.Define(a, std::make_unique<DrawAction>(
+				std::make_unique<QuadDefinition>(),
+				Material()));
 
 			EXPECT_THAT(
 				generator.Generate({ a, a }),
@@ -125,7 +129,9 @@ namespace tree_generator::lsystem
 			Symbol symbolMove{ 'b' };
 
 			MeshGenerator generator;
-			generator.Define(symbolDraw, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
+			generator.Define(symbolDraw,
+				std::make_unique<DrawAction>(
+					std::make_unique<QuadDefinition>(), Material()));
 			generator.Define(symbolMove, std::make_unique<MoveAction>());
 
 			EXPECT_THAT(
@@ -144,7 +150,10 @@ namespace tree_generator::lsystem
 			Symbol symbolRotate{ 'b' };
 
 			MeshGenerator generator;
-			generator.Define(symbolDraw, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
+			generator.Define(symbolDraw,
+				std::make_unique<DrawAction>(
+					std::make_unique<QuadDefinition>(),
+					Material()));
 			generator.Define(symbolRotate,
 				std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 45.0f)));
 
@@ -167,7 +176,10 @@ namespace tree_generator::lsystem
 			Symbol symbolMove{ 'c' };
 
 			MeshGenerator generator;
-			generator.Define(symbolDraw, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
+			generator.Define(symbolDraw,
+				std::make_unique<DrawAction>(
+					std::make_unique<QuadDefinition>(),
+					Material()));
 			generator.Define(symbolRotate, std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 30.0f)));
 			generator.Define(symbolMove, std::make_unique<MoveAction>());
 
@@ -200,7 +212,10 @@ namespace tree_generator::lsystem
 			Symbol symbolRestore{ 'e' };
 
 			MeshGenerator generator;
-			generator.Define(symbolDraw, std::make_unique<DrawAction>(std::make_unique<QuadDefinition>()));
+			generator.Define(symbolDraw,
+				std::make_unique<DrawAction>(
+					std::make_unique<QuadDefinition>(),
+					Material()));
 			generator.Define(symbolRotate,
 				std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 30.0f)));
 			generator.Define(symbolMove, std::make_unique<MoveAction>());
