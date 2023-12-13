@@ -5,10 +5,9 @@
 
 #include <glm/glm.hpp>
 
-#include "../common/material.h"
-#include "../common/mesh_data.h"
 #include "../common/render_context.h"
 #include "../common/transform.h"
+#include "opengl_mesh_renderer.h"
 
 namespace tree_generator
 {
@@ -18,19 +17,6 @@ namespace tree_generator
 	namespace opengl
 	{
 		class ShaderProgram;
-
-		struct MeshRenderData
-		{
-			MeshData meshData;
-			Material material;
-
-			unsigned int vertexArray;
-			unsigned int vertexBuffer;
-			unsigned int indexBuffer;
-
-			unsigned int instanceTransformBuffer;
-			int instanceCount;
-		};
 
 		class OpenGLRenderContext : public RenderContext
 		{
