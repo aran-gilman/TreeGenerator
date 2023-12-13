@@ -11,10 +11,10 @@
 #include "../common/camera_data.h"
 #include "../common/window.h"
 
-#include "opengl_camera.h"
-#include "opengl_mesh_renderer.h"
-#include "typed_shader.h"
-#include "shader_program.h"
+#include "internal/opengl_camera.h"
+#include "internal/opengl_mesh_renderer.h"
+#include "internal/typed_shader.h"
+#include "internal/shader_program.h"
 
 namespace tree_generator
 {

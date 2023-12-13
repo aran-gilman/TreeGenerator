@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 
-#include "../common/camera.h"
+#include "../../common/camera.h"
 
 namespace tree_generator::opengl
 {

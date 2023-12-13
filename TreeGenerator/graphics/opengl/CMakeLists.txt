@@ -6,15 +6,16 @@ target_sources(graphics_opengl
 		opengl_window.h
 
 	PRIVATE
-		opengl_camera.h
-		opengl_camera.cpp
-		opengl_mesh_renderer.h
-		opengl_mesh_renderer.cpp
 		opengl_render_context.cpp
 		opengl_window.cpp
-		shader_program.h
-		shader_program.cpp
-		typed_shader.h
+
+		internal/opengl_camera.h
+		internal/opengl_camera.cpp
+		internal/opengl_mesh_renderer.h
+		internal/opengl_mesh_renderer.cpp
+		internal/shader_program.h
+		internal/shader_program.cpp
+		internal/typed_shader.h
 )
 
 target_link_libraries(graphics_opengl

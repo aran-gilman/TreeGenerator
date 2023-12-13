@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "../common/camera_data.h"
+#include "../../common/camera_data.h"
 
 namespace tree_generator::opengl
 {

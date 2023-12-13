@@ -1,9 +1,9 @@
 #ifndef TREE_GENERATOR_OPENGL_MESH_RENDERER_H_
 #define TREE_GENERATOR_OPENGL_MESH_RENDERER_H_
 
-#include "../common/material.h"
-#include "../common/mesh_data.h"
-#include "../common/mesh_renderer.h"
+#include "../../common/material.h"
+#include "../../common/mesh_data.h"
+#include "../../common/mesh_renderer.h"
 
 namespace tree_generator::opengl
 {
