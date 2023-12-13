@@ -30,20 +30,9 @@ namespace tree_generator
 
 			std::unique_ptr<MeshRenderer> CreateMeshRenderer() override;
 
-			void AddMesh(const MeshData& meshData) override;
-			void AddMesh(const MeshData& meshData, const Transform& transform) override;
-			void AddMesh(
-				const MeshData& meshData, const std::vector<Transform>& instances) override;
-
-			void ClearAllMeshes() override;
-
-			void Render() override;
-
 		private:
 			std::unique_ptr<ShaderProgram> normalShader_;
 			std::unique_ptr<ShaderProgram> materialShader_;
-
-			std::vector<MeshRenderData> meshRenderData;
 		};
 	}
 }

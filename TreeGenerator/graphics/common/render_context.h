@@ -23,15 +23,6 @@ namespace tree_generator
 		virtual std::unique_ptr<Camera> CreateCamera() = 0;
 		virtual std::unique_ptr<MeshRenderer> CreateMeshRenderer() = 0;
 
-		virtual void AddMesh(const MeshData& meshData) = 0;
-		virtual void AddMesh(const MeshData& meshData, const Transform& transform) = 0;
-		virtual void AddMesh(
-			const MeshData& meshData, const std::vector<Transform>& instances) = 0;
-
-		virtual void ClearAllMeshes() = 0;
-
-		virtual void Render() = 0;
-
 	protected:
 		RenderContext() {}
 	};
