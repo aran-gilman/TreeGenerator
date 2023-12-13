@@ -26,6 +26,11 @@ namespace tree_generator::opengl
 		OpenGLMeshRenderer();
 		~OpenGLMeshRenderer();
 
+		void SetMeshData(const MeshData& meshData) override;
+		void SetMeshData(const MeshData& meshData, const Transform& instance) override;
+		void SetMeshData(
+			const MeshData& meshData, const std::vector<Transform>& instances) override;
+
 		void Render() override;
 
 	private:
