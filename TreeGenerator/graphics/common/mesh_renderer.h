@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "material.h"
 #include "mesh_data.h"
 #include "transform.h"
 
@@ -17,6 +18,9 @@ namespace tree_generator
 		virtual void SetMeshData(const MeshData& meshData, const Transform& instance) = 0;
 		virtual void SetMeshData(
 			const MeshData& meshData, const std::vector<Transform>& instances) = 0;
+
+		virtual void SetMaterial(Material material) = 0;
+
 		virtual void Render() = 0;
 
 	protected:

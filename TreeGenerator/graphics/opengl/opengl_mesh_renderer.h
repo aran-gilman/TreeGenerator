@@ -31,6 +31,8 @@ namespace tree_generator::opengl
 		void SetMeshData(
 			const MeshData& meshData, const std::vector<Transform>& instances) override;
 
+		void SetMaterial(Material material) override;
+
 		void Render() override;
 
 	private:
@@ -41,6 +43,8 @@ namespace tree_generator::opengl
 
 		int indexCount_;
 		int instanceCount_;
+
+		Material material_;
 	};
 }
 

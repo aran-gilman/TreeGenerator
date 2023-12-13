@@ -12,7 +12,9 @@ namespace tree_generator::opengl
 		instanceTransformBuffer_(0),
 
 		indexCount_(0),
-		instanceCount_(0)
+		instanceCount_(0),
+
+		material_({})
 	{
 		glGenBuffers(1, &vertexBuffer_);
 		glGenBuffers(1, &indexBuffer_);
@@ -146,6 +148,11 @@ namespace tree_generator::opengl
 			sizeof(glm::mat4), (void*)(sizeof(glm::vec4) * 3));
 		glEnableVertexAttribArray(6);
 		glVertexAttribDivisor(6, 1);
+	}
+
+	void OpenGLMeshRenderer::SetMaterial(Material material)
+	{
+		material_ = material;
 	}
 
 	void OpenGLMeshRenderer::Render()
