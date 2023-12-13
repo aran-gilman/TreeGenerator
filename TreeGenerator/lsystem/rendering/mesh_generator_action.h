@@ -51,6 +51,8 @@ namespace tree_generator::lsystem
 	class MeshDefinition
 	{
 	public:
+		virtual ~MeshDefinition() = default;
+
 		virtual bool ShowGUI() = 0;
 		virtual const std::string_view Name() const = 0;
 		virtual MeshData GenerateMesh() const = 0;
