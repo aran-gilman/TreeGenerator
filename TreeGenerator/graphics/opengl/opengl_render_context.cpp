@@ -10,7 +10,9 @@
 #include "../common/camera.h"
 #include "../common/camera_data.h"
 #include "../common/window.h"
+
 #include "opengl_camera.h"
+#include "opengl_mesh_renderer.h"
 #include "typed_shader.h"
 #include "shader_program.h"
 

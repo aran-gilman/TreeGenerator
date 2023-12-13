@@ -11,6 +11,7 @@
 
 #include "graphics/common/camera.h"
 #include "graphics/common/mesh_data.h"
+#include "graphics/common/mesh_renderer.h"
 #include "graphics/common/render_context.h"
 #include "graphics/common/window.h"
 #include "graphics/opengl/opengl_render_context.h"

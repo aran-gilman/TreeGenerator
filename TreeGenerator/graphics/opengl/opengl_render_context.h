@@ -3,15 +3,12 @@
 
 #include <memory>
 
-#include <glm/glm.hpp>
-
 #include "../common/render_context.h"
-#include "../common/transform.h"
-#include "opengl_mesh_renderer.h"
 
 namespace tree_generator
 {
 	class Camera;
+	class MeshRenderer;
 	class Window;
 
 	namespace opengl
