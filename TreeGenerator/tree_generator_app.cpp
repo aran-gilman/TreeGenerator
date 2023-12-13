@@ -227,7 +227,11 @@ namespace tree_generator
 
 			cameraController_->Update(elapsedTime);
 			camera_->Bind();
-			renderer_->Render();
+
+			for (int i = 0; i < meshes_.size(); ++i)
+			{
+				meshes_[i]->Render();
+			}
 			});
 	}
 
@@ -248,7 +252,7 @@ namespace tree_generator
 	{
 		if (ImGui::Button("Generate"))
 		{
-			renderer_->ClearAllMeshes();
+			meshes_.clear();
 			lSystem_ = ParseLSystem(stringLSystem_);
 			std::vector<lsystem::Symbol> tree = lsystem::Generate(lSystem_, iterations_);
 			if (doOutputToConsole_)
@@ -256,11 +260,14 @@ namespace tree_generator
 				std::cout << "Generated tree: " <<
 					stringGenerator_.Generate(tree) << std::endl;
 			}
-			std::vector<lsystem::MeshGroup> meshes =
+			std::vector<lsystem::MeshGroup> meshGroups =
 				meshGenerator_.Generate(tree);
-			for (const lsystem::MeshGroup& group : meshes)
+			for (const lsystem::MeshGroup& group : meshGroups)
 			{
-				renderer_->AddMesh(group.mesh, group.instances);
+				auto mesh = renderer_->CreateMeshRenderer();
+				mesh->SetMeshData(group.mesh, group.instances);
+				mesh->SetMaterial({ {0.0f, 0.5f, 0.0f, 1.0f} });
+				meshes_.push_back(std::move(mesh));
 			}
 		}
 	}

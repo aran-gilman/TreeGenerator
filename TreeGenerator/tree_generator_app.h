@@ -2,6 +2,7 @@
 #define TREE_GENERATOR_APP_H_
 
 #include <memory>
+#include <vector>
 
 #include "lsystem/core/lsystem.h"
 #include "lsystem/core/lsystem_parser.h"
@@ -12,6 +13,7 @@ namespace tree_generator
 {
 	class Camera;
 	class CameraController;
+	class MeshRenderer;
 	class RenderContext;
 	class Window;
 
@@ -49,6 +51,8 @@ namespace tree_generator
 
 		lsystem::MeshGenerator meshGenerator_;
 		lsystem::StringGenerator stringGenerator_;
+
+		std::vector<std::unique_ptr<MeshRenderer>> meshes_;
 
 		bool showDemoWindow_;
 		int iterations_;
