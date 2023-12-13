@@ -2,19 +2,14 @@
 #define TREE_GENERATOR_RENDER_CONTEXT_H_
 
 #include <memory>
-#include <vector>
-
-#include <glm/glm.hpp>
-
-#include "mesh_data.h"
-#include "transform.h"
 
 namespace tree_generator
 {
 	class Camera;
 	class MeshRenderer;
 
-	// Draws objects to the screen
+	// Manages the backend graphics library (e.g. OpenGL, Vulkan, etc) and the
+	// creation of classes that need to interact with it.
 	class RenderContext
 	{
 	public:
