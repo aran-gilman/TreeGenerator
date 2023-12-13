@@ -23,7 +23,19 @@ namespace tree_generator::opengl
 	class OpenGLMeshRenderer : public MeshRenderer
 	{
 	public:
+		OpenGLMeshRenderer();
+		~OpenGLMeshRenderer();
+
 		void Render() override;
+
+	private:
+		unsigned int vertexArray_;
+		unsigned int vertexBuffer_;
+		unsigned int indexBuffer_;
+		unsigned int instanceTransformBuffer_;
+
+		int indexCount_;
+		int instanceCount_;
 	};
 }
 

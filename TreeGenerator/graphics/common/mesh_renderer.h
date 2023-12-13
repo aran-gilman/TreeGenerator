@@ -6,6 +6,7 @@ namespace tree_generator
 	class MeshRenderer
 	{
 	public:
+		virtual ~MeshRenderer() = default;
 		virtual void Render() = 0;
 
 	protected:
