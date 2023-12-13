@@ -17,8 +17,12 @@ namespace tree_generator
 			Fragment = GL_FRAGMENT_SHADER,
 		};
 
-		// A type-safe wrapper for OpenGL shaders, with ownership/memory
-		// managed via smart pointer.
+		// A type-safe wrapper for OpenGL shaders with RAII.
+		//
+		// The type of shader is included in the class type because it provides
+		// a compile-time check that the shader being passed is the correct
+		// type. There are no current use cases for handling shaders in a
+		// generic way, so the costs are minimal.
 		template <ShaderType TShaderType>
 		class TypedShader
 		{
@@ -39,7 +43,7 @@ namespace tree_generator
 				{
 					glGetShaderInfoLog(name, 512, nullptr, infoLog);
 					std::cerr
-						<< "Vertex shader compilation failed: "
+						<< "Shader compilation failed: "
 						<< infoLog
 						<< std::endl;
 					return nullptr;
