@@ -1,0 +1,9 @@
+#ifndef TREE_GENERATOR_UTILITY_ERROR_HANDLING_H_
+#define TREE_GENERATOR_UTILITY_ERROR_HANDLING_H_
+
+namespace tree_generator::utility
+{
+
+}
+
+#endif // !TREE_GENERATOR_UTILITY_ERROR_HANDLING_H_

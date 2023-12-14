@@ -1,4 +1,5 @@
-﻿add_subdirectory(graphics)
+﻿add_subdirectory(utility)
+add_subdirectory(graphics)
 add_subdirectory(lsystem)
 add_subdirectory(imgui)
 add_subdirectory(input)
