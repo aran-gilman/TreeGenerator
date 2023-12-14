@@ -9,11 +9,14 @@
 
 #include "../common/camera.h"
 #include "../common/window.h"
+#include "../../utility/error_handling.h"
 
 #include "internal/opengl_camera.h"
 #include "internal/opengl_mesh_renderer.h"
 #include "internal/typed_shader.h"
 #include "internal/shader_program.h"
+
+using ::tree_generator::utility::ThrowIfNull;
 
 namespace tree_generator::opengl
 {
@@ -77,15 +80,6 @@ void main()
 {
 	FragColor = material.color;
 })s";
-	template <typename T>
-	std::unique_ptr<T> ThrowIfNull(std::unique_ptr<T> value, const std::string& message)
-	{
-		if (value == nullptr)
-		{
-			throw std::runtime_error(message);
-		}
-		return std::move(value);
-	}
 
 	OpenGLRenderContext::OpenGLRenderContext()
 	{

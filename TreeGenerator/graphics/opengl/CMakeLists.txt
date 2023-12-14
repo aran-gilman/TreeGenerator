@@ -26,4 +26,6 @@ target_link_libraries(graphics_opengl
 	PRIVATE
 		glad
 		glfw
+
+		tree_generator_utility
 )
