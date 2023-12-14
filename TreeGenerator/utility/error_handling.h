@@ -1,6 +1,10 @@
 #ifndef TREE_GENERATOR_UTILITY_ERROR_HANDLING_H_
 #define TREE_GENERATOR_UTILITY_ERROR_HANDLING_H_
 
+#include <memory>
+#include <stdexcept>
+#include <string>
+
 namespace tree_generator::utility
 {
 	template <typename T>
