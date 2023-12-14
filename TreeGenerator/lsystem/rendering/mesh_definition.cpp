@@ -5,6 +5,30 @@
 
 namespace tree_generator::lsystem
 {
+	std::string GetName(MeshType meshType)
+	{
+		switch (meshType)
+		{
+		case MeshType::Cylinder:
+			return "Cylinder";
+		case MeshType::Quad:
+			return "Quad";
+		}
+		return "Unknown";
+	}
+
+	std::unique_ptr<MeshDefinition> MeshDefinition::FromMeshType(MeshType meshType)
+	{
+		switch (meshType)
+		{
+		case MeshType::Cylinder:
+			return std::make_unique<CylinderDefinition>(8, 1, 0.5f);
+		case MeshType::Quad:
+			return std::make_unique<QuadDefinition>();
+		}
+		return nullptr;
+	}
+
 	CylinderDefinition::CylinderDefinition(int sideCount, float height, float radius) :
 		sideCount_(sideCount),
 		height_(height),

@@ -1,6 +1,7 @@
 #ifndef TREE_GENERATOR_LSYSTEM_MESH_DEFINITION_H_
 #define TREE_GENERATOR_LSYSTEM_MESH_DEFINITION_H_
 
+#include <memory>
 #include <string>
 #include <string_view>
 
@@ -9,7 +10,7 @@
 
 namespace tree_generator::lsystem
 {
-	enum class MeshType : unsigned int
+	enum class MeshType : int
 	{
 		Cylinder,
 		Quad,
@@ -19,9 +20,13 @@ namespace tree_generator::lsystem
 		MeshType::Cylinder,
 		MeshType::Quad>;
 
+	std::string GetName(MeshType meshType);
+
 	class MeshDefinition
 	{
 	public:
+		static std::unique_ptr<MeshDefinition> FromMeshType(MeshType meshType);
+
 		virtual ~MeshDefinition() = default;
 
 		virtual bool ShowGUI() = 0;

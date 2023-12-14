@@ -1,7 +1,6 @@
 #include "mesh_generator_action.h"
-#include "mesh_generator_action.h"
-#include "mesh_generator_action.h"
 
+#include <iostream>
 #include <stdexcept>
 
 #include <glm/gtc/type_ptr.hpp>
@@ -57,6 +56,36 @@ namespace tree_generator::lsystem
 
 	void DrawAction::ShowGUI()
 	{
+		MeshType currentMeshType = meshDefinition_->GetMeshType();
+		if (ImGui::BeginCombo("Mesh Type", GetName(currentMeshType).c_str()))
+		{
+			MeshTypeIterator meshTypes{};
+			for (auto iter = meshTypes.begin(); iter != meshTypes.end(); ++iter)
+			{
+				MeshType type = *iter;
+				const bool isSelected = (type == currentMeshType);
+				if (ImGui::Selectable(GetName(type).c_str(), isSelected))
+				{
+					std::unique_ptr<MeshDefinition> newDefinition =
+						MeshDefinition::FromMeshType(type);
+					if (newDefinition == nullptr)
+					{
+						std::cerr << "Invalid mesh type" << std::endl;
+					}
+					else
+					{
+						meshDefinition_ = std::move(newDefinition);
+						meshData_ = meshDefinition_->GenerateMesh();
+					}
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		// These strings should be known at compile time, so eventually we will
+		// want to construct this only once instead of every frame.
+		std::vector<std::string> meshNames;
+
 		if (meshDefinition_->ShowGUI())
 		{
 			meshData_ = meshDefinition_->GenerateMesh();
