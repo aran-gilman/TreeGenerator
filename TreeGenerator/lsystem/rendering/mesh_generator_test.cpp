@@ -10,6 +10,7 @@
 #include "../core/lsystem.h"
 #include "../../graphics/common/mesh_data.h"
 #include "../../graphics/common/transform.h"
+#include "mesh_definition.h"
 
 using ::testing::AllOf;
 using ::testing::ElementsAre;

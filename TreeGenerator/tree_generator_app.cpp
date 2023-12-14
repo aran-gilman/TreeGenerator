@@ -20,6 +20,7 @@
 #include "graphics/opengl/opengl_window.h"
 #include "input/camera_controller.h"
 #include "lsystem/core/lsystem.h"
+#include "lsystem/rendering/mesh_definition.h"
 #include "lsystem/rendering/mesh_generator_action.h"
 
 namespace tree_generator

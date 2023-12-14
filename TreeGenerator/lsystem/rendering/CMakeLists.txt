@@ -13,10 +13,12 @@ target_link_libraries(lsystem_string_generator
 add_library(lsystem_mesh_generator)
 target_sources(lsystem_mesh_generator
 	PUBLIC
+		mesh_definition.h
 		mesh_generator.h
 		mesh_generator_action.h
 
 	PRIVATE
+		mesh_definition.cpp
 		mesh_generator.cpp
 		mesh_generator_action.cpp
 )
