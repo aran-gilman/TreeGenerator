@@ -20,14 +20,15 @@ namespace tree_generator::utility
 	class EnumIterator
 	{
 	public:
-		class iterator : public std::iterator<
-			std::input_iterator_tag,
-			TEnum,
-			TEnum,
-			const TEnum*,
-			TEnum>
+		class iterator
 		{
 		public:
+			using iterator_category = std::input_iterator_tag;
+			using value_type = TEnum;
+			using difference_type = std::underlying_type_t<TEnum>;
+			using pointer = const TEnum*;
+			using reference = TEnum;
+
 			explicit iterator(TEnum value) : value_(value)
 			{
 			}
@@ -55,7 +56,7 @@ namespace tree_generator::utility
 				return value_ != other.value_;
 			}
 
-			const TEnum& operator*() const
+			reference operator*() const
 			{
 				return value_;
 			}
