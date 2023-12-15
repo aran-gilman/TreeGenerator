@@ -41,6 +41,7 @@ namespace tree_generator
 		int iterations_;
 		bool doOutputToConsole_;
 		bool doShowNormals_;
+		std::string newSymbolInput_;
 
 		void ShowMenu();
 

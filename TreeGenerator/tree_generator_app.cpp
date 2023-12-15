@@ -310,10 +310,11 @@ namespace tree_generator
 					if (action != nullptr)
 					{
 						action->ShowGUI();
-						if (ImGui::Button("Remove"))
-						{
-							toRemove = symbol;
-						}
+					}
+
+					if (ImGui::Button("Remove"))
+					{
+						toRemove = symbol;
 					}
 					ImGui::TreePop();
 				}
@@ -322,6 +323,35 @@ namespace tree_generator
 			if (toRemove.has_value())
 			{
 				meshGenerator_.Remove(toRemove.value());
+			}
+
+			if (ImGui::TreeNode("Define new symbol action"))
+			{
+				ImGui::InputText("Symbol", &newSymbolInput_);
+				if (newSymbolInput_.size() > 1)
+				{
+					newSymbolInput_ = newSymbolInput_[0];
+				}
+
+				const bool disableAddButton =
+					newSymbolInput_.size() == 0 || 
+					meshGenerator_.HasDefinition(lsystem::ToSymbol(newSymbolInput_[0]));
+
+				if (disableAddButton)
+				{
+					ImGui::BeginDisabled();
+				}
+
+				if (ImGui::Button("Add"))
+				{
+					meshGenerator_.Define(lsystem::ToSymbol(newSymbolInput_[0]), nullptr);
+				}
+
+				if (disableAddButton)
+				{
+					ImGui::EndDisabled();
+				}
+				ImGui::TreePop();
 			}
 		}
 	}

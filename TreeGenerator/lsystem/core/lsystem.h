@@ -22,6 +22,8 @@ namespace tree_generator::lsystem
 
 	std::string ToString(Symbol symbol);
 	std::string ToString(const std::vector<Symbol>& symbols);
+
+	Symbol ToSymbol(char c);
 }
 
 #endif  // !TREE_GENERATOR_LSYSTEM_H_

@@ -29,6 +29,9 @@ namespace tree_generator::lsystem
 		// Otherwise does nothing.
 		void Remove(Symbol symbol);
 
+		// Returns whether an action is defined for this symbol.
+		bool HasDefinition(Symbol symbol);
+
 		std::vector<MeshGroup> Generate(const std::vector<Symbol>& symbols) const;
 		ActionMap& GetActionMap() { return actions_; }
 

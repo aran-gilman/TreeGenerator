@@ -47,4 +47,9 @@ namespace tree_generator::lsystem
 		}
 		return result;
 	}
+
+	Symbol ToSymbol(char c)
+	{
+		return static_cast<Symbol>(c);
+	}
 }

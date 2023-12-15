@@ -16,6 +16,11 @@ namespace tree_generator::lsystem
 	{
 		actions_.erase(symbol);
 	}
+	
+	bool MeshGenerator::HasDefinition(Symbol symbol)
+	{
+		return actions_.find(symbol) != actions_.end();
+	}
 
 	std::vector<MeshGroup> MeshGenerator::Generate(
 		const std::vector<Symbol>& symbols) const
@@ -28,7 +33,10 @@ namespace tree_generator::lsystem
 		{
 			if (auto iter = actions_.find(symbol); iter != actions_.end())
 			{
-				iter->second->PerformAction(symbol, &state);
+				if (iter->second != nullptr)
+				{
+					iter->second->PerformAction(symbol, &state);
+				}
 			}
 		}
 
