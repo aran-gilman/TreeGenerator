@@ -250,7 +250,7 @@ namespace tree_generator
 			if (doOutputToConsole_)
 			{
 				std::cout << "Generated tree: " <<
-					stringGenerator_.Generate(tree) << std::endl;
+					ToString(tree) << std::endl;
 			}
 			std::vector<lsystem::MeshGroup> meshGroups =
 				meshGenerator_.Generate(tree);

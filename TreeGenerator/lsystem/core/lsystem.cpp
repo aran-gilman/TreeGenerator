@@ -37,4 +37,14 @@ namespace tree_generator::lsystem
 		char c = static_cast<char>(symbol);
 		return std::string(1, c);
 	}
+
+	std::string ToString(const std::vector<Symbol>& symbols)
+	{
+		std::string result = "";
+		for (Symbol symbol : symbols)
+		{
+			result.append(1, static_cast<char>(symbol));
+		}
+		return result;
+	}
 }
