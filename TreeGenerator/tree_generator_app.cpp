@@ -147,20 +147,6 @@ namespace tree_generator
 				std::make_unique<lsystem::MoveAction>(0.15f));
 			return generator;
 		}
-
-		lsystem::StringGenerator CreateBinaryTreeStringGenerator(
-			const DisplaySymbols& symbols)
-		{
-			lsystem::StringGenerator generator;
-			generator.Define(symbols.trunk, "1");
-			generator.Define(symbols.leaf, "0");
-			generator.Define(symbols.push, "[");
-			generator.Define(symbols.pop, "]");
-			generator.Define(symbols.rotateRight, "R");
-			generator.Define(symbols.rotateLeft, "L");
-			generator.Define(symbols.advance, "A");
-			return generator;
-		}
 	}
 
 	TreeGeneratorApp::TreeGeneratorApp() :
@@ -175,7 +161,6 @@ namespace tree_generator
 		stringLSystem_(CreateTreeTypeB()),
 		lSystem_(ParseLSystem(stringLSystem_)),
 
-		stringGenerator_(CreateBinaryTreeStringGenerator(symbols_)),
 		meshGenerator_(
 			CreateDefaultMeshGenerator(symbols_, glm::vec3(0.0f, 0.0f, 22.5f))),
 

@@ -25,5 +25,4 @@ target_link_libraries(TreeGenerator
 		input		
 		lsystem_core
 		lsystem_mesh_generator
-		lsystem_string_generator
 )

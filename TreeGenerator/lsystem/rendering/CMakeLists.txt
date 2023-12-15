@@ -1,15 +1,3 @@
-add_library(lsystem_string_generator)
-target_sources(lsystem_string_generator
-	PUBLIC
-		string_generator.h
-	PRIVATE
-		string_generator.cpp
-)
-target_link_libraries(lsystem_string_generator
-	PUBLIC
-		lsystem_core
-)
-
 add_library(lsystem_mesh_generator)
 target_sources(lsystem_mesh_generator
 	PUBLIC
@@ -34,23 +22,6 @@ target_link_libraries(lsystem_mesh_generator
 
 enable_testing()
 include(GoogleTest)
-
-add_executable(lsystem_string_generator_test)
-target_sources(lsystem_string_generator_test
-	PRIVATE
-		string_generator.h
-		string_generator_test.cpp
-)
-target_link_libraries(lsystem_string_generator_test
-	PRIVATE
-		GTest::gtest
-		GTest::gmock
-		GTest::gtest_main
-		
-		lsystem_core
-		lsystem_string_generator
-)
-gtest_discover_tests(lsystem_string_generator_test)
 
 add_executable(lsystem_mesh_generator_test)
 target_sources(lsystem_mesh_generator_test

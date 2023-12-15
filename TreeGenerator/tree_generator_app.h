@@ -7,7 +7,6 @@
 #include "lsystem/core/lsystem.h"
 #include "lsystem/core/lsystem_parser.h"
 #include "lsystem/rendering/mesh_generator.h"
-#include "lsystem/rendering/string_generator.h"
 
 namespace tree_generator
 {
@@ -50,7 +49,6 @@ namespace tree_generator
 		lsystem::LSystem lSystem_;
 
 		lsystem::MeshGenerator meshGenerator_;
-		lsystem::StringGenerator stringGenerator_;
 
 		std::vector<std::unique_ptr<MeshRenderer>> meshes_;
 
