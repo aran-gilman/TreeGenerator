@@ -16,20 +16,6 @@ namespace tree_generator
 	class RenderContext;
 	class Window;
 
-	// TODO: Replace this with runtime-/user-configurable structure
-	struct DisplaySymbols
-	{
-		lsystem::Symbol trunk{ 'F' };
-		lsystem::Symbol leaf{ 'X' };
-
-		lsystem::Symbol push{ '[' };
-		lsystem::Symbol pop{ ']' };
-
-		lsystem::Symbol rotateRight{ '-' };
-		lsystem::Symbol rotateLeft{ '+' };
-		lsystem::Symbol advance{ 'A' };
-	};
-
 	class TreeGeneratorApp
 	{
 	public:
@@ -44,7 +30,6 @@ namespace tree_generator
 		std::unique_ptr<Camera> camera_;
 		std::unique_ptr<CameraController> cameraController_;
 
-		DisplaySymbols symbols_;
 		lsystem::StringLSystem stringLSystem_;
 		lsystem::LSystem lSystem_;
 

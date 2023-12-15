@@ -4,6 +4,7 @@
 #include <format>
 #include <iostream>
 #include <optional>
+#include <string_view>
 
 #include <glm/glm.hpp>
 #include <imgui.h>
@@ -114,37 +115,43 @@ namespace tree_generator
 		}
 
 		lsystem::MeshGenerator CreateDefaultMeshGenerator(
-			const DisplaySymbols& symbols,
 			glm::vec3 rotation)
 		{
-			lsystem::MeshGenerator generator;
+			lsystem::Symbol trunk{ 'F' };
+			lsystem::Symbol leaf{ 'X' };
+
+			lsystem::Symbol push{ '[' };
+			lsystem::Symbol pop{ ']' };
+
+			lsystem::Symbol rotateRight{ '-' };
+			lsystem::Symbol rotateLeft{ '+' };
+			lsystem::Symbol advance{ 'A' };
+
 			Material trunkMaterial = { {0.5f, 0.2f, 0.0f, 1.0f} };
 			Material leafMaterial = { {0.0f, 0.5f, 0.0f, 1.0f} };
+
+			lsystem::MeshGenerator generator;
 			generator.Define(
-				symbols.trunk,
+				trunk,
 				std::make_unique<lsystem::DrawAction>(
 					std::make_unique<lsystem::CylinderDefinition>(8, 0.15f, 0.1f),
 					trunkMaterial));
 			generator.Define(
-				symbols.leaf,
+				leaf,
 				std::make_unique<lsystem::DrawAction>(
 					std::make_unique<lsystem::QuadDefinition>(),
 					leafMaterial));
 			generator.Define(
-				symbols.push,
-				std::make_unique<lsystem::SaveAction>());
+				push, std::make_unique<lsystem::SaveAction>());
 			generator.Define(
-				symbols.pop,
-				std::make_unique<lsystem::RestoreAction>());
+				pop, std::make_unique<lsystem::RestoreAction>());
 			generator.Define(
-				symbols.rotateRight,
-				std::make_unique<lsystem::RotateAction>(-rotation));
+				rotateRight, std::make_unique<lsystem::RotateAction>(-rotation));
 			generator.Define(
-				symbols.rotateLeft,
-				std::make_unique<lsystem::RotateAction>(rotation));
+				rotateLeft,	std::make_unique<lsystem::RotateAction>(rotation));
 			generator.Define(
-				symbols.advance,
-				std::make_unique<lsystem::MoveAction>(0.15f));
+				advance, std::make_unique<lsystem::MoveAction>(0.15f));
+
 			return generator;
 		}
 	}
@@ -157,12 +164,11 @@ namespace tree_generator
 		camera_(renderer_->CreateCamera()),
 		cameraController_(std::make_unique<CameraController>(camera_.get())),
 
-		symbols_({}),
 		stringLSystem_(CreateTreeTypeB()),
 		lSystem_(ParseLSystem(stringLSystem_)),
 
 		meshGenerator_(
-			CreateDefaultMeshGenerator(symbols_, glm::vec3(0.0f, 0.0f, 22.5f))),
+			CreateDefaultMeshGenerator(glm::vec3(0.0f, 0.0f, 22.5f))),
 
 		showDemoWindow_(false),
 		iterations_(5),
@@ -293,8 +299,11 @@ namespace tree_generator
 		{
 			for (auto& [symbol, action] : meshGenerator_.GetActionMap())
 			{
+				const static std::string unsetActionName = "No action set";
+				std::string_view actionName = 
+					action == nullptr ? unsetActionName : action->Name();
 				std::string label = std::format(
-					"{0}: {1}", lsystem::ToString(symbol), action->Name());
+					"{0}: {1}", lsystem::ToString(symbol), actionName);
 				if (ImGui::TreeNode(label.c_str()))
 				{
 					action->ShowGUI();
