@@ -252,5 +252,27 @@ namespace tree_generator::lsystem
 
 			EXPECT_THAT(generator.Generate({ a }), IsEmpty());
 		}
+
+		TEST(LSystemMeshGeneratorTest, NullActionsAreAllowed)
+		{
+			Symbol a{ 'a' };
+
+			MeshGenerator generator;
+			generator.Define(a, nullptr);
+
+			EXPECT_THAT(generator.Generate({ a }), IsEmpty());
+		}
+
+		TEST(LSystemMeshGeneratorTest, HasDefinitionReturnsTrueIfSymbolPresent)
+		{
+			Symbol a{ 'a' };
+			Symbol b{ 'b' };
+
+			MeshGenerator generator;
+			generator.Define(a, nullptr);
+
+			EXPECT_TRUE(generator.HasDefinition(a));
+			EXPECT_FALSE(generator.HasDefinition(b));
+		}
 	}
 }
