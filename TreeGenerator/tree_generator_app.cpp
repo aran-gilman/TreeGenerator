@@ -101,28 +101,6 @@ namespace tree_generator
 			camera->GetCurrentMovement().remainingDistanceChange -= static_cast<float>(yOffset);
 		}
 
-		std::vector<lsystem::Symbol> CreateSimpleBinaryTree(
-			const DisplaySymbols& symbols,
-			int iterations)
-		{
-			lsystem::RuleMap rules = {
-				{ symbols.trunk, { symbols.trunk, symbols.advance, symbols.trunk }},
-				{ symbols.leaf, {
-					symbols.trunk,
-					symbols.push,
-					symbols.rotateRight, symbols.advance, symbols.leaf,
-					symbols.pop,
-					symbols.rotateLeft, symbols.advance, symbols.leaf
-			}} };
-
-			std::vector<lsystem::Symbol> output = { symbols.leaf };
-			for (int i = 0; i < iterations; i++)
-			{
-				output = Iterate(output, rules);
-			}
-			return output;
-		}
-
 		// See http://algorithmicbotany.org/papers/lsfp.pdf page 25
 		// The system in the book does not have an explicit advance, but we add it
 		// to keep a 1:1 relationship between symbols and actions.
