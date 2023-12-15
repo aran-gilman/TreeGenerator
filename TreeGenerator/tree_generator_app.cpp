@@ -113,7 +113,7 @@ namespace tree_generator
 			return lSystem;
 		}
 
-		lsystem::MeshGenerator CreateBinaryTreeMeshGenerator(
+		lsystem::MeshGenerator CreateDefaultMeshGenerator(
 			const DisplaySymbols& symbols,
 			glm::vec3 rotation)
 		{
@@ -177,7 +177,7 @@ namespace tree_generator
 
 		stringGenerator_(CreateBinaryTreeStringGenerator(symbols_)),
 		meshGenerator_(
-			CreateBinaryTreeMeshGenerator(symbols_, glm::vec3(0.0f, 0.0f, 22.5f))),
+			CreateDefaultMeshGenerator(symbols_, glm::vec3(0.0f, 0.0f, 22.5f))),
 
 		showDemoWindow_(false),
 		iterations_(5),
