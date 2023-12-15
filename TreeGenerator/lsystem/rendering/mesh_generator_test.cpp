@@ -239,5 +239,18 @@ namespace tree_generator::lsystem
 								Field(&Transform::position, Eq(glm::vec3(0)))
 							))));
 		}
+
+		TEST(LSystemMeshGeneratorTest, RemovedActionsAreNotPerformed)
+		{
+			Symbol a{ 'a' };
+
+			MeshGenerator generator;
+			generator.Define(a, std::make_unique<DrawAction>(
+				std::make_unique<QuadDefinition>(),
+				Material()));
+			generator.Remove(a);
+
+			EXPECT_THAT(generator.Generate({ a }), IsEmpty());
+		}
 	}
 }

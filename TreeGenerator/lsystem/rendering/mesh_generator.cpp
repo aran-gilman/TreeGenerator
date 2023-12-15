@@ -12,6 +12,11 @@ namespace tree_generator::lsystem
 		actions_[symbol] = std::move(action);
 	}
 
+	void MeshGenerator::Remove(Symbol symbol)
+	{
+		actions_.erase(symbol);
+	}
+
 	std::vector<MeshGroup> MeshGenerator::Generate(
 		const std::vector<Symbol>& symbols) const
 	{

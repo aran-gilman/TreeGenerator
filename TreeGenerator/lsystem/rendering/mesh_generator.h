@@ -21,7 +21,13 @@ namespace tree_generator::lsystem
 		using ActionMap = std::unordered_map<Symbol, std::unique_ptr<MeshGeneratorAction>>;
 
 		// Define an action for the given symbol.
+		// If there is already an action for this symbol, the previous action
+		// is overwritten.
 		void Define(const Symbol& symbol, std::unique_ptr<MeshGeneratorAction> action);
+
+		// Remove defined action for this symbol, if it exists.
+		// Otherwise does nothing.
+		void Remove(Symbol symbol);
 
 		std::vector<MeshGroup> Generate(const std::vector<Symbol>& symbols) const;
 		ActionMap& GetActionMap() { return actions_; }
