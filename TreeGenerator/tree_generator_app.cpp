@@ -297,6 +297,7 @@ namespace tree_generator
 	{
 		if (ImGui::CollapsingHeader("Mesh"))
 		{
+			std::optional<lsystem::Symbol> toRemove = std::nullopt;
 			for (auto& [symbol, action] : meshGenerator_.GetActionMap())
 			{
 				const static std::string unsetActionName = "No action set";
@@ -306,9 +307,21 @@ namespace tree_generator
 					"{0}: {1}", lsystem::ToString(symbol), actionName);
 				if (ImGui::TreeNode(label.c_str()))
 				{
-					action->ShowGUI();
+					if (action != nullptr)
+					{
+						action->ShowGUI();
+						if (ImGui::Button("Remove"))
+						{
+							toRemove = symbol;
+						}
+					}
 					ImGui::TreePop();
 				}
+			}
+
+			if (toRemove.has_value())
+			{
+				meshGenerator_.Remove(toRemove.value());
 			}
 		}
 	}
