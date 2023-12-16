@@ -58,7 +58,7 @@ namespace tree_generator::lsystem
 			ActionType::None,
 			ActionType::Restore>;
 
-		static std::string GetName(ActionType actionType);
+		static std::string GetActionTypeName(ActionType actionType);
 
 		virtual ~MeshGeneratorAction() {}
 		virtual void PerformAction(const Symbol& symbol, MeshGeneratorState* state) = 0;
