@@ -65,6 +65,7 @@ namespace tree_generator::lsystem
 
 		virtual void ShowGUI();
 		virtual const std::string_view Name() const = 0;
+		virtual ActionType GetActionType() const = 0;
 	};
 
 	// Render a mesh to the screen.
@@ -76,6 +77,7 @@ namespace tree_generator::lsystem
 
 		void ShowGUI() override;
 		const std::string_view Name() const override;
+		ActionType GetActionType() const override { return ActionType::Draw; }
 
 	private:
 		std::unique_ptr<MeshDefinition> meshDefinition_;
@@ -94,6 +96,7 @@ namespace tree_generator::lsystem
 
 		void ShowGUI() override;
 		const std::string_view Name() const override { return kName_; }
+		ActionType GetActionType() const override { return ActionType::Move; }
 
 	private:
 		inline static const std::string kName_ = "Move forward";
@@ -109,6 +112,7 @@ namespace tree_generator::lsystem
 
 		void ShowGUI() override;
 		const std::string_view Name() const override { return kName_; }
+		ActionType GetActionType() const override { return ActionType::Rotate; }
 
 	private:
 		inline static const std::string kName_ = "Rotate";
@@ -121,6 +125,7 @@ namespace tree_generator::lsystem
 	public:
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 		const std::string_view Name() const override { return kName_; }
+		ActionType GetActionType() const override { return ActionType::Save; }
 
 	private:
 		inline static const std::string kName_ = "Push state";
@@ -132,6 +137,7 @@ namespace tree_generator::lsystem
 	public:
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 		const std::string_view Name() const override { return kName_; }
+		ActionType GetActionType() const override { return ActionType::Restore; }
 
 	private:
 		inline static const std::string kName_ = "Pop state";
