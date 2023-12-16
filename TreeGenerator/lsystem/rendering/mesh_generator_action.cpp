@@ -22,6 +22,33 @@ namespace tree_generator::lsystem
 		}
 	}
 
+	// TODO: Consolidate the names with those in the child MeshGeneratorAction
+	// classes.
+	//
+	// One complication is that these need to be static for all actions of a
+	// given type, but the names of the MeshGeneratorAction objects can vary
+	// from object to object of the same class. (e.g. Draw's name changes based
+	// on the type of mesh being drawn).
+	std::string MeshGeneratorAction::GetName(MeshGeneratorAction::ActionType actionType)
+	{
+		switch (actionType)
+		{
+		case MeshGeneratorAction::ActionType::None:
+			return "None";
+		case MeshGeneratorAction::ActionType::Draw:
+			return "Draw mesh";
+		case MeshGeneratorAction::ActionType::Move:
+			return "Move forward";
+		case MeshGeneratorAction::ActionType::Rotate:
+			return "Rotate";
+		case MeshGeneratorAction::ActionType::Save:
+			return "Push state";
+		case MeshGeneratorAction::ActionType::Restore:
+			return "Pop state";
+		}
+		return "Unknown action";
+	}
+
 	void MeshGeneratorAction::ShowGUI()
 	{
 		ImGui::Text("<No options>");

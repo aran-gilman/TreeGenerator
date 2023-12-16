@@ -13,6 +13,7 @@
 #include "../../graphics/common/material.h"
 #include "../../graphics/common/mesh_data.h"
 #include "../../graphics/common/transform.h"
+#include "../../utility/enum_helper.h"
 
 namespace tree_generator::lsystem
 {
@@ -43,6 +44,22 @@ namespace tree_generator::lsystem
 	class MeshGeneratorAction
 	{
 	public:
+		enum class ActionType
+		{
+			None,
+			Draw,
+			Move,
+			Rotate,
+			Save,
+			Restore
+		};
+		using ActionTypeIterator = utility::EnumIteratorInclusive<
+			ActionType,
+			ActionType::None,
+			ActionType::Restore>;
+
+		static std::string GetName(ActionType actionType);
+
 		virtual ~MeshGeneratorAction() {}
 		virtual void PerformAction(const Symbol& symbol, MeshGeneratorState* state) = 0;
 
