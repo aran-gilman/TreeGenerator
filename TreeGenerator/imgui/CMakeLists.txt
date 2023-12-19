@@ -46,3 +46,14 @@ target_link_libraries(imgui_demo
 	PUBLIC
 		imgui
 )
+
+add_library(imgui_extensions INTERFACE)
+target_sources(imgui_extensions
+	INTERFACE
+		imgui_extensions.h
+)
+target_link_libraries(imgui_extensions
+	INTERFACE
+		imgui
+		tree_generator_utility
+)
