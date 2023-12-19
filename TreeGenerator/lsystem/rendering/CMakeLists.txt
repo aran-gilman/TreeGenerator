@@ -18,6 +18,9 @@ target_link_libraries(lsystem_mesh_generator
 		graphics_common
 		lsystem_core
 		tree_generator_utility
+
+	PRIVATE
+		imgui_extensions
 )
 
 enable_testing()

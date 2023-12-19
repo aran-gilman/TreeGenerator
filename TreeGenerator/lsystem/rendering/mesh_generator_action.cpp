@@ -7,6 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <imgui.h>
 
+#include "../../imgui/imgui_extensions.h"
 #include "mesh_definition.h"
 
 namespace tree_generator::lsystem
@@ -84,29 +85,21 @@ namespace tree_generator::lsystem
 	void DrawAction::ShowGUI()
 	{
 		MeshType currentMeshType = meshDefinition_->GetMeshType();
-		if (ImGui::BeginCombo("Mesh Type", GetName(currentMeshType).c_str()))
+		if (MeshType newMeshType = 
+			imgui::EnumCombo("Mesh Type", currentMeshType, MeshTypeIterator());
+			newMeshType != currentMeshType)
 		{
-			MeshTypeIterator meshTypes{};
-			for (auto iter = meshTypes.begin(); iter != meshTypes.end(); ++iter)
+			std::unique_ptr<MeshDefinition> newDefinition =
+				MeshDefinition::FromMeshType(newMeshType);
+			if (newDefinition == nullptr)
 			{
-				MeshType type = *iter;
-				const bool isSelected = (type == currentMeshType);
-				if (ImGui::Selectable(GetName(type).c_str(), isSelected))
-				{
-					std::unique_ptr<MeshDefinition> newDefinition =
-						MeshDefinition::FromMeshType(type);
-					if (newDefinition == nullptr)
-					{
-						std::cerr << "Invalid mesh type" << std::endl;
-					}
-					else
-					{
-						meshDefinition_ = std::move(newDefinition);
-						meshData_ = meshDefinition_->GenerateMesh();
-					}
-				}
+				std::cerr << "Invalid mesh type" << std::endl;
 			}
-			ImGui::EndCombo();
+			else
+			{
+				meshDefinition_ = std::move(newDefinition);
+				meshData_ = meshDefinition_->GenerateMesh();
+			}
 		}
 
 		// These strings should be known at compile time, so eventually we will

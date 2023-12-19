@@ -21,7 +21,7 @@ namespace tree_generator::imgui
 			for (TEnum value : iterator)
 			{
 				const bool isSelected = (value == currentValue);
-				if (ImGui::Selectable(GetName(type).c_str(), isSelected))
+				if (ImGui::Selectable(GetName(value).c_str(), isSelected))
 				{
 					newValue = value;
 				}
