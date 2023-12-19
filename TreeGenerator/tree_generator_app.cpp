@@ -19,15 +19,44 @@
 #include "graphics/common/window.h"
 #include "graphics/opengl/opengl_render_context.h"
 #include "graphics/opengl/opengl_window.h"
+#include "imgui/imgui_extensions.h"
 #include "input/camera_controller.h"
 #include "lsystem/core/lsystem.h"
 #include "lsystem/rendering/mesh_definition.h"
 #include "lsystem/rendering/mesh_generator_action.h"
 
+using ::tree_generator::lsystem::MeshGeneratorAction;
+using ::tree_generator::lsystem::MeshGeneratorActionType;
+using ::tree_generator::lsystem::MeshGeneratorActionTypeIterator;
+
 namespace tree_generator
 {
 	namespace
 	{
+		std::unique_ptr<MeshGeneratorAction> CreateDefaultActionforActionType(
+			MeshGeneratorActionType actionType)
+		{
+			Material mat = { {0.0f, 0.5f, 0.0f, 1.0f} };
+			switch (actionType)
+			{
+			case MeshGeneratorActionType::None:
+				return nullptr;
+			case MeshGeneratorActionType::Draw:
+				return std::make_unique<lsystem::DrawAction>(
+					std::make_unique<lsystem::QuadDefinition>(),
+					mat);
+			case MeshGeneratorActionType::Move:
+				return std::make_unique<lsystem::MoveAction>(0.15f);
+			case MeshGeneratorActionType::Rotate:
+				return std::make_unique<lsystem::RotateAction>(glm::vec3(0.0f, 0.0f, 22.5f));
+			case MeshGeneratorActionType::Save:
+				return std::make_unique<lsystem::SaveAction>();
+			case MeshGeneratorActionType::Restore:
+				return std::make_unique<lsystem::RestoreAction>();
+			}
+			return nullptr;
+		}
+		
 		void HandleCameraInput(CameraController* camera, KeyToken keyToken, KeyAction action)
 		{
 			CameraController::Movement& movement = camera->GetCurrentMovement();
@@ -307,6 +336,21 @@ namespace tree_generator
 					"{0}: {1}", lsystem::ToString(symbol), actionName);
 				if (ImGui::TreeNode(label.c_str()))
 				{
+					MeshGeneratorActionType currentActionType =
+						action == nullptr ?
+						MeshGeneratorActionType::None :
+						action->GetActionType();
+		
+					if (MeshGeneratorActionType newActionType =
+						imgui::EnumCombo(
+							"Action Type", currentActionType,
+							MeshGeneratorActionTypeIterator());
+						newActionType != currentActionType)
+					{
+						meshGenerator_.Define(
+							symbol, CreateDefaultActionforActionType(newActionType));
+					}
+
 					if (action != nullptr)
 					{
 						action->ShowGUI();
