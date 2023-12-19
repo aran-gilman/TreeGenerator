@@ -120,7 +120,7 @@ namespace tree_generator::lsystem
 	};
 
 	// Save the current state to the stack.
-	class SaveAction : public MeshGeneratorAction
+	class PushStateAction : public MeshGeneratorAction
 	{
 	public:
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
@@ -132,7 +132,7 @@ namespace tree_generator::lsystem
 	};
 
 	// Pop the current state from the stack, returning to the previous one.
-	class RestoreAction : public MeshGeneratorAction
+	class PopStateAction : public MeshGeneratorAction
 	{
 	public:
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;

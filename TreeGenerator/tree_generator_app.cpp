@@ -50,9 +50,9 @@ namespace tree_generator
 			case MeshGeneratorActionType::Rotate:
 				return std::make_unique<lsystem::RotateAction>(glm::vec3(0.0f, 0.0f, 22.5f));
 			case MeshGeneratorActionType::Save:
-				return std::make_unique<lsystem::SaveAction>();
+				return std::make_unique<lsystem::PushStateAction>();
 			case MeshGeneratorActionType::Restore:
-				return std::make_unique<lsystem::RestoreAction>();
+				return std::make_unique<lsystem::PopStateAction>();
 			}
 			return nullptr;
 		}
@@ -171,9 +171,9 @@ namespace tree_generator
 					std::make_unique<lsystem::QuadDefinition>(),
 					leafMaterial));
 			generator.Define(
-				push, std::make_unique<lsystem::SaveAction>());
+				push, std::make_unique<lsystem::PushStateAction>());
 			generator.Define(
-				pop, std::make_unique<lsystem::RestoreAction>());
+				pop, std::make_unique<lsystem::PopStateAction>());
 			generator.Define(
 				rotateRight, std::make_unique<lsystem::RotateAction>(-rotation));
 			generator.Define(

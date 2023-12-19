@@ -220,8 +220,8 @@ namespace tree_generator::lsystem
 			generator.Define(symbolRotate,
 				std::make_unique<RotateAction>(glm::vec3(0.0f, 0.0f, 30.0f)));
 			generator.Define(symbolMove, std::make_unique<MoveAction>());
-			generator.Define(symbolSave, std::make_unique<SaveAction>());
-			generator.Define(symbolRestore, std::make_unique<RestoreAction>());
+			generator.Define(symbolSave, std::make_unique<PushStateAction>());
+			generator.Define(symbolRestore, std::make_unique<PopStateAction>());
 
 			EXPECT_THAT(
 				generator.Generate({
