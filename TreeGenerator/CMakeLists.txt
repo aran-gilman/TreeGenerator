@@ -3,6 +3,7 @@ add_subdirectory(graphics)
 add_subdirectory(lsystem)
 add_subdirectory(imgui)
 add_subdirectory(input)
+add_subdirectory(json_utility)
 
 add_executable (TreeGenerator)
 
