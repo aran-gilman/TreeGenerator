@@ -40,8 +40,12 @@ FetchContent_Declare(
 	imgui
 	GIT_REPOSITORY https://github.com/ocornut/imgui.git
 )
+FetchContent_Declare(
+	json
+	URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+)
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(glad glfw glm googletest imgui)
+FetchContent_MakeAvailable(glad glfw glm googletest imgui json)
 
 # Set up testing.
 enable_testing()
