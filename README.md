@@ -15,7 +15,6 @@ Dependencies are downloaded automatically via CMake's FetchContent. An external 
 ## Planned Features
 
 * Web build via Emscripten.
-* User-specified mapping of symbols to actions.
 * Built-in L-system presets.
 * Saving and loading L-system and mesh settings.
 * Better meshing algorithm.
