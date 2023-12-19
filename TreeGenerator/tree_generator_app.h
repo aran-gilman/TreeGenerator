@@ -31,8 +31,6 @@ namespace tree_generator
 		std::unique_ptr<CameraController> cameraController_;
 
 		lsystem::StringLSystem stringLSystem_;
-		lsystem::LSystem lSystem_;
-
 		lsystem::MeshGenerator meshGenerator_;
 
 		std::vector<std::unique_ptr<MeshRenderer>> meshes_;

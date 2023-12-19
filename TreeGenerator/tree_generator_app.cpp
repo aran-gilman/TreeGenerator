@@ -194,8 +194,6 @@ namespace tree_generator
 		cameraController_(std::make_unique<CameraController>(camera_.get())),
 
 		stringLSystem_(CreateTreeTypeB()),
-		lSystem_(ParseLSystem(stringLSystem_)),
-
 		meshGenerator_(
 			CreateDefaultMeshGenerator(glm::vec3(0.0f, 0.0f, 22.5f))),
 
@@ -265,8 +263,8 @@ namespace tree_generator
 		if (ImGui::Button("Generate"))
 		{
 			meshes_.clear();
-			lSystem_ = ParseLSystem(stringLSystem_);
-			std::vector<lsystem::Symbol> tree = lsystem::Generate(lSystem_, iterations_);
+			lsystem::LSystem lSystem = ParseLSystem(stringLSystem_);
+			std::vector<lsystem::Symbol> tree = lsystem::Generate(lSystem, iterations_);
 			if (doOutputToConsole_)
 			{
 				std::cout << "Generated tree: " <<
