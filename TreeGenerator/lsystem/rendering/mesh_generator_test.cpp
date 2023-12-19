@@ -70,7 +70,7 @@ namespace tree_generator::lsystem
 
 	namespace
 	{
-		TEST(LSystemStringGeneratorTest, NoSymbolsGeneratesNoMeshes)
+		TEST(LSystemMeshGeneratorTest, NoSymbolsGeneratesNoMeshes)
 		{
 			MeshGenerator generator;
 			EXPECT_THAT(generator.Generate({}), IsEmpty());
