@@ -40,32 +40,32 @@ namespace tree_generator::lsystem
 		std::unordered_map<Symbol, MeshGroup> symbolMeshMap;
 	};
 
+	enum class MeshGeneratorActionType
+	{
+		None,
+		Draw,
+		Move,
+		Rotate,
+		Save,
+		Restore
+	};
+	using MeshGeneratorActionTypeIterator = utility::EnumIteratorInclusive<
+		MeshGeneratorActionType,
+		MeshGeneratorActionType::None,
+		MeshGeneratorActionType::Restore>;
+
+	std::string GetName(MeshGeneratorActionType actionType);
+
 	// Interface for mutating the generator state.
 	class MeshGeneratorAction
 	{
 	public:
-		enum class ActionType
-		{
-			None,
-			Draw,
-			Move,
-			Rotate,
-			Save,
-			Restore
-		};
-		using ActionTypeIterator = utility::EnumIteratorInclusive<
-			ActionType,
-			ActionType::None,
-			ActionType::Restore>;
-
-		static std::string GetActionTypeName(ActionType actionType);
-
 		virtual ~MeshGeneratorAction() {}
 		virtual void PerformAction(const Symbol& symbol, MeshGeneratorState* state) = 0;
 
 		virtual void ShowGUI();
 		virtual const std::string_view Name() const = 0;
-		virtual ActionType GetActionType() const = 0;
+		virtual MeshGeneratorActionType GetActionType() const = 0;
 	};
 
 	// Render a mesh to the screen.
@@ -77,7 +77,7 @@ namespace tree_generator::lsystem
 
 		void ShowGUI() override;
 		const std::string_view Name() const override;
-		ActionType GetActionType() const override { return ActionType::Draw; }
+		MeshGeneratorActionType GetActionType() const override { return MeshGeneratorActionType::Draw; }
 
 	private:
 		std::unique_ptr<MeshDefinition> meshDefinition_;
@@ -96,7 +96,7 @@ namespace tree_generator::lsystem
 
 		void ShowGUI() override;
 		const std::string_view Name() const override { return kName_; }
-		ActionType GetActionType() const override { return ActionType::Move; }
+		MeshGeneratorActionType GetActionType() const override { return MeshGeneratorActionType::Move; }
 
 	private:
 		inline static const std::string kName_ = "Move forward";
@@ -112,7 +112,7 @@ namespace tree_generator::lsystem
 
 		void ShowGUI() override;
 		const std::string_view Name() const override { return kName_; }
-		ActionType GetActionType() const override { return ActionType::Rotate; }
+		MeshGeneratorActionType GetActionType() const override { return MeshGeneratorActionType::Rotate; }
 
 	private:
 		inline static const std::string kName_ = "Rotate";
@@ -125,7 +125,7 @@ namespace tree_generator::lsystem
 	public:
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 		const std::string_view Name() const override { return kName_; }
-		ActionType GetActionType() const override { return ActionType::Save; }
+		MeshGeneratorActionType GetActionType() const override { return MeshGeneratorActionType::Save; }
 
 	private:
 		inline static const std::string kName_ = "Push state";
@@ -137,7 +137,7 @@ namespace tree_generator::lsystem
 	public:
 		void PerformAction(const Symbol& symbol, MeshGeneratorState* state) override;
 		const std::string_view Name() const override { return kName_; }
-		ActionType GetActionType() const override { return ActionType::Restore; }
+		MeshGeneratorActionType GetActionType() const override { return MeshGeneratorActionType::Restore; }
 
 	private:
 		inline static const std::string kName_ = "Pop state";

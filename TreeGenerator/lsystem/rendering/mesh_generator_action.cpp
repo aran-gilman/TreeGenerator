@@ -29,21 +29,21 @@ namespace tree_generator::lsystem
 	// given type, but the names of the MeshGeneratorAction objects can vary
 	// from object to object of the same class. (e.g. Draw's name changes based
 	// on the type of mesh being drawn).
-	std::string MeshGeneratorAction::GetActionTypeName(MeshGeneratorAction::ActionType actionType)
+	std::string GetName(MeshGeneratorActionType actionType)
 	{
 		switch (actionType)
 		{
-		case MeshGeneratorAction::ActionType::None:
+		case MeshGeneratorActionType::None:
 			return "None";
-		case MeshGeneratorAction::ActionType::Draw:
+		case MeshGeneratorActionType::Draw:
 			return "Draw mesh";
-		case MeshGeneratorAction::ActionType::Move:
+		case MeshGeneratorActionType::Move:
 			return "Move forward";
-		case MeshGeneratorAction::ActionType::Rotate:
+		case MeshGeneratorActionType::Rotate:
 			return "Rotate";
-		case MeshGeneratorAction::ActionType::Save:
+		case MeshGeneratorActionType::Save:
 			return "Push state";
-		case MeshGeneratorAction::ActionType::Restore:
+		case MeshGeneratorActionType::Restore:
 			return "Pop state";
 		}
 		return "Unknown action";
