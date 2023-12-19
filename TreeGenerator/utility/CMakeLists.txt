@@ -6,9 +6,6 @@ target_sources(tree_generator_utility
 		error_handling.h
 )
 
-enable_testing()
-include(GoogleTest)
-
 add_executable(tree_generator_utility_enum_helper_test)
 target_sources(tree_generator_utility_enum_helper_test
 	PRIVATE

@@ -23,9 +23,6 @@ target_link_libraries(lsystem_mesh_generator
 		imgui_extensions
 )
 
-enable_testing()
-include(GoogleTest)
-
 add_executable(lsystem_mesh_generator_test)
 target_sources(lsystem_mesh_generator_test
 	PRIVATE

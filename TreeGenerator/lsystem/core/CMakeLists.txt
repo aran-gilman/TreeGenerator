@@ -10,9 +10,6 @@ target_sources(lsystem_core
 		lsystem_parser.cpp
 )
 
-enable_testing()
-include(GoogleTest)
-
 add_executable(lsystem_test)
 target_sources(lsystem_test
 	PRIVATE
