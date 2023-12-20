@@ -26,7 +26,7 @@ namespace tree_generator::lsystem
 
 			nlohmann::json j = lSystem;
 
-			EXPECT_EQ(j.dump(), R"({"axiom":"a","rules":[{"a","ab"},{"b","a"}]})");
+			EXPECT_EQ(j.dump(), R"({"axiom":"a","rules":{"a":"ab","b":"a"}})");
 		}
 	}
 }
