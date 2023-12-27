@@ -15,4 +15,9 @@ namespace tree_generator::lsystem
 		}
 		j.emplace("rules", stringMap);
 	}
+
+	void from_json(const nlohmann::json& j, LSystem& lSystem)
+	{
+
+	}
 }

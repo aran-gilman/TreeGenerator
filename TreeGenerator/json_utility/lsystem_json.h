@@ -8,6 +8,7 @@
 namespace tree_generator::lsystem
 {
 	void to_json(nlohmann::json& j, const LSystem& lSystem);
+	void from_json(const nlohmann::json& j, LSystem& lSystem);
 }
 
 #endif  // !TREE_GENERATOR_JSON_UTILITY_LSYSTEM_JSON_H_
