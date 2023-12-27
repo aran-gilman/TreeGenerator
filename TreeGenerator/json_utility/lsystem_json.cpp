@@ -2,6 +2,8 @@
 
 #include <map>
 
+#include "../lsystem/core/lsystem_parser.h"
+
 namespace tree_generator::lsystem
 {
 	void to_json(nlohmann::json& j, const LSystem& lSystem)
@@ -18,6 +20,14 @@ namespace tree_generator::lsystem
 
 	void from_json(const nlohmann::json& j, LSystem& lSystem)
 	{
+		StringLSystem stringLSystem;
+		j.at("axiom").get_to(stringLSystem.axiom);
 
+		auto& rules = j.at("rules");
+		for (const auto& [symbol, action] : rules.items())
+		{
+			stringLSystem.rules.push_back(std::make_pair(symbol, action));
+		}
+		lSystem = ParseLSystem(stringLSystem);
 	}
 }

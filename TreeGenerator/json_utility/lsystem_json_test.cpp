@@ -30,7 +30,8 @@ namespace tree_generator::lsystem
 
 		TEST(LsystemJsonTest, JsonToLSystem)
 		{
-			nlohmann::json j = R"({"axiom":"a","rules":{"a":"ab","b":"a"}})";
+			nlohmann::json j = nlohmann::json::parse(
+				R"({"axiom":"a","rules":{"a":"ab","b":"a"}})");
 			LSystem lSystem = j.template get<LSystem>();
 
 			Symbol a{ 'a' };
