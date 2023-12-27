@@ -14,10 +14,7 @@ Dependencies are downloaded automatically via CMake's FetchContent. An external 
 
 ## Planned Features
 
-* Web build via Emscripten.
 * Built-in L-system presets.
 * Saving and loading L-system and mesh settings.
 * Better meshing algorithm.
 * Export to .obj file.
-* Parameterized symbols and non-deterministic rules.
-* Vulkan support.
